@@ -171,13 +171,13 @@ public class TreeLotCoordinator implements IView, IModel
 	 * create.
 	 */
 	//----------------------------------------------------------
-	/*public void doTransaction(String transactionType)
+	public void doTransaction(String transactionCategory, String transactionType)
 	{
 		try
 		{
-			Transaction trans = TransactionFactory.createTransaction(transactionType, myAccountHolder);
-
-			trans.subscribe("CancelTransaction", this);
+			Transaction trans = TransactionFactory.createTransaction(transactionCategory, transactionType);
+			//the below lines need work
+			trans.subscribe("EndTransaction", this);
 			trans.stateChangeRequest("DoYourJob", "");
 		}
 		catch (Exception ex)
@@ -187,7 +187,7 @@ public class TreeLotCoordinator implements IView, IModel
 					"Transaction Creation Failure: Unrecognized transaction " + ex.toString(),
 					Event.ERROR);
 		}
-	}*/
+	}
 
 	//------------------------------------------------------------
 	private void createAndShowTreeLotCoordinatorView()

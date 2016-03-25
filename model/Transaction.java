@@ -30,7 +30,6 @@ abstract public class Transaction implements IView, IModel
 	protected Stage myStage;
 	protected Hashtable<String, Scene> myViews;
 
-	protected AccountHolder myCust;
 
 	protected Vector myAccountIDs;
 	// GUI Components
@@ -43,12 +42,11 @@ abstract public class Transaction implements IView, IModel
 	 *
 	 */
 	//----------------------------------------------------------
-	protected Transaction(AccountHolder cust) throws Exception
+	protected Transaction() throws Exception
 	{
 
 		myStage = MainStageContainer.getInstance();
 		myViews = new Hashtable<String, Scene>();
-		myCust = cust;
 
 		myRegistry = new ModelRegistry("Transaction");
 		if(myRegistry == null)
@@ -73,24 +71,24 @@ abstract public class Transaction implements IView, IModel
 	//---------------------------------------------------------
 	protected void doYourJob()
 	{
-		AccountCatalog catalog = null;
-
-		try
-		{
-			
-			catalog = new AccountCatalog(myCust);
-			myAccountIDs = (Vector)catalog.getState("AccountNumberList");
-			
-			Scene newScene = createView();
-			
-			swapToView(newScene);
-
-		}
-		catch (Exception ex)
-		{
-				new Event(Event.getLeafLevelClassName(this), "Transaction",
-					"Could not find any accounts for " + myCust.getState("ID"), Event.ERROR);
-		}
+//		AccountCatalog catalog = null;
+//
+//		try
+//		{
+//			
+//			catalog = new AccountCatalog(myCust);
+//			myAccountIDs = (Vector)catalog.getState("AccountNumberList");
+//			
+//			Scene newScene = createView();
+//			
+//			swapToView(newScene);
+//
+//		}
+//		catch (Exception ex)
+//		{
+//				new Event(Event.getLeafLevelClassName(this), "Transaction",
+//					"Could not find any accounts for " + myCust.getState("ID"), Event.ERROR);
+//		}
 	}
 
 	// forward declarations
@@ -131,11 +129,11 @@ abstract public class Transaction implements IView, IModel
 	 * Create an account (based on account number passed to you from the view)
 	 */
 	//----------------------------------------------------------
-	protected Account createAccount(String accountNumber) throws
-		InvalidPrimaryKeyException
-	{
-		return new Account(accountNumber);
-	}
+//	protected Account createAccount(String accountNumber) throws
+//		InvalidPrimaryKeyException
+//	{
+//		return new Account(accountNumber);
+//	}
 
 	//----------------------------------------------------------
 	public Vector getAccountList()

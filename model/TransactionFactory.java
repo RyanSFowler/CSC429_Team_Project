@@ -7,7 +7,6 @@ import javax.swing.JFrame;
 
 // project imports
 
-/** The class containing the TransactionFactory for the ATM application */
 //==============================================================
 public class TransactionFactory
 {
@@ -16,37 +15,22 @@ public class TransactionFactory
 	 *
 	 */
 	//----------------------------------------------------------
-	public static Transaction createTransaction(String transType,
-		AccountHolder cust)
+	public static Transaction createTransaction(String transCategory, String transType)
 		throws Exception
 	{
 		Transaction retValue = null;
 
-		if (transType.equals("Deposit") == true)
-		{
-			retValue = new DepositTransaction(cust);
+		/*if(transCategory.equals("Scout")){
+			retValue = new Scout(transType);
 		}
-		else
-		if (transType.equals("Withdraw") == true)
-		{
-			retValue = new WithdrawTransaction(cust);
+		else if(transCategory.equals("Tree")){
+			retValue = new Tree(transType);
 		}
-		else
-		if (transType.equals("Transfer") == true)
-		{
-			retValue = new TransferTransaction(cust);
-		}
-		else
-		if (transType.equals("BalanceInquiry") == true)
-		{
-			retValue = new BalanceInquiryTransaction(cust);
-		}
-		else
-		if (transType.equals("ImposeServiceCharge") == true)
-		{
-			retValue = new ImposeServiceChargeTransaction(cust);
-		}
-
+		else if(transCategory.equals("TreeType")){
+			retValue = new TreeType(transType);
+		}*/
+		
+		
 		return retValue;
 	}
 }

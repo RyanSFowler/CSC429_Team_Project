@@ -29,7 +29,6 @@ import javafx.stage.Stage;
 import event.Event;
 import event.EventLog;
 import common.PropertyFile;
-import model.Teller;
 import model.TreeLotCoordinator;
 import userinterface.MainStageContainer;
 import userinterface.WindowPosition;

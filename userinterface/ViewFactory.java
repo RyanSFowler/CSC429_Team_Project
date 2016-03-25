@@ -58,11 +58,11 @@ public class ViewFactory {
 		else if(viewName.equals("RecordSaleView") == true)
 		{
 			return new RecordSaleView(model);
-		}*/
+		}
 		else if(viewName.equals("TransferReceipt") == true)
 		{
 			return new TransferReceipt(model);
-		}
+		}*/
 		else
 			return null;
 	}
