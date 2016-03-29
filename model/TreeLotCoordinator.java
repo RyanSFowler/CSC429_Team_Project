@@ -175,7 +175,7 @@ public class TreeLotCoordinator implements IView, IModel
 	{
 		try
 		{
-			Transaction trans = TransactionFactory.createTransaction(transactionCategory, transactionType);
+			Transaction trans = TransactionFactory.createTransaction(this, transactionCategory, transactionType);
 			//the below lines need work
 			trans.subscribe("EndTransaction", this);
 			trans.stateChangeRequest("DoYourJob", "");

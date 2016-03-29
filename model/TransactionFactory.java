@@ -15,7 +15,7 @@ public class TransactionFactory
 	 *
 	 */
 	//----------------------------------------------------------
-	public static Transaction createTransaction(String transCategory, String transType)
+	public static Transaction createTransaction(TreeLotCoordinator myTreeLotCoordinator, String transCategory, String transType)
 		throws Exception
 	{
 		Transaction retValue = null;
