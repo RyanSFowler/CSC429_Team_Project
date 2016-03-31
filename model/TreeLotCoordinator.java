@@ -245,6 +245,10 @@ public class TreeLotCoordinator implements IView, IModel
 		WindowPosition.placeCenter(myStage);
 
 	}
+	public void transactionDone()
+	{
+		createAndShowTreeLotCoordinatorView();
+	}
 
 }
 
