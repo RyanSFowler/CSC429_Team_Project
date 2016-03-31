@@ -12,6 +12,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -121,10 +122,10 @@ public class RemoveTreeView extends View {
             btnContainer.setAlignment(Pos.BOTTOM_RIGHT);
             btnContainer.getChildren().add(button);
             if (pos == 4) {
-                grid.add(btnContainer, 0, 2);
+                grid.add(btnContainer, 1, 2);
             }
             else {
-                grid.add(btnContainer, 1, 2);
+                grid.add(btnContainer, 0, 2);
             }
 	}
           public void processAction(Event evt)
@@ -137,10 +138,16 @@ public class RemoveTreeView extends View {
             }
             clearErrorMessage();
             String barcodeField = barcode.getText();
-            if ((barcodeField == null) || (barcodeField.length() == 0))
+            if (clickedBtn.getId().equals("4") == true)
             {
-                displayErrorMessage("Please enter a barcode!");
-                barcode.requestFocus();
+                if ((barcodeField == null) || (barcodeField.length() == 0))
+                {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Error");
+                    alert.setHeaderText("You have an entry error:");
+                    alert.setContentText("You need to provide a valid barcode to remove a tree.");
+                    alert.showAndWait();
+                }
             }
 	}
           

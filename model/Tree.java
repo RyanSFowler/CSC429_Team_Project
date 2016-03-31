@@ -49,6 +49,7 @@ public class Tree extends EntityBase implements IView, IModel {
             {
                 View newView = ViewFactory.createView("AddNewTreeView", this);
                 currentScene = new Scene(newView);
+                currentScene.getStylesheets().add("styleSheet.css");
                 myViews.put("AddNewTreeView", currentScene);
             }
             swapToView(currentScene);        
@@ -62,6 +63,7 @@ public class Tree extends EntityBase implements IView, IModel {
             {
                 View newView = ViewFactory.createView("RemoveTreeView", this);
                 currentScene = new Scene(newView);
+                currentScene.getStylesheets().add("styleSheet.css");
                 myViews.put("RemoveTreeView", currentScene);
             }
             swapToView(currentScene);        
@@ -74,6 +76,7 @@ public class Tree extends EntityBase implements IView, IModel {
             {
                 View newView = ViewFactory.createView("UpdateTreeView", this);
                 currentScene = new Scene(newView);
+                currentScene.getStylesheets().add("styleSheet.css");
                 myViews.put("UpdateTreeView", currentScene);
             }
             swapToView(currentScene);        
@@ -96,7 +99,7 @@ public class Tree extends EntityBase implements IView, IModel {
 	{
             if (key.equals("Done") == true)
             {
-               // myLibrarian.createAndShowLibrarianView();
+                myTreeLotCoordinator.createAndShowTreeLotCoordinatorView();
             }
             else if (key.equals("updateBook") == true)
             {

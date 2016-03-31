@@ -190,7 +190,7 @@ public class TreeLotCoordinator implements IView, IModel
 	}
 
 	//------------------------------------------------------------
-	private void createAndShowTreeLotCoordinatorView()
+	public void createAndShowTreeLotCoordinatorView()
 	{
 		Scene currentScene = (Scene)myViews.get("TreeLotCoordinatorView");
 
