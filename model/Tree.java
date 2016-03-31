@@ -100,6 +100,7 @@ public class Tree extends EntityBase implements IView, IModel {
             if (key.equals("Done") == true)
             {
                 myTreeLotCoordinator.createAndShowTreeLotCoordinatorView();
+
             }
             else if (key.equals("updateBook") == true)
             {

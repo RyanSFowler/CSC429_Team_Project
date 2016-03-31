@@ -28,11 +28,11 @@ public class ViewFactory {
 		{
 			return new AddNewTreeView(model);
 		}
-                /*
-		else if(viewName.equals("ModifyTreeView") == true)
+                
+		else if(viewName.equals("UpdateTreeView") == true)
 		{
-			return new ModifyTreeView(model);
-		}*/
+			return new UpdateTreeView(model);
+		}
 		else if(viewName.equals("RemoveTreeView") == true)
 		{
 			return new RemoveTreeView(model);

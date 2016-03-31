@@ -205,7 +205,7 @@ public class TreeLotCoordinatorView extends View
 
 	  		     @Override
 	  		     public void handle(ActionEvent e) {
-	  		    	transType = "Modify";
+	  		    	transType = "Update";
 	  		     	processAction(e);    
 	       	     }
  			});
