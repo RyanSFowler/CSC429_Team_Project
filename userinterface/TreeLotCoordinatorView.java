@@ -368,9 +368,8 @@ public class TreeLotCoordinatorView extends View
 		langContainer.setAlignment(Pos.CENTER_LEFT);
 		langContainer.getChildren().add(englishButton);
 		langContainer.getChildren().add(frenchButton);
-		grid.add(langContainer, 0, 4);
-		
-		
+		grid.add(langContainer, 3, 0);
+		grid.setPadding(new Insets(10, 10, 10, 10));
 		return grid;
 	}
 

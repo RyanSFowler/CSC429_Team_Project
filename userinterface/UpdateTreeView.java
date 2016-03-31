@@ -61,7 +61,7 @@ public class UpdateTreeView extends View {
     {
         HBox container = new HBox();
         container.setAlignment(Pos.CENTER);
-        Text titleText = new Text("Update TREE'S INFORMATIONS");
+        Text titleText = new Text("UPDATE TREE'S INFORMATIONS");
         titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         titleText.setWrappingWidth(300);
         titleText.setTextAlignment(TextAlignment.CENTER);
