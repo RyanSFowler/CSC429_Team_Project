@@ -30,12 +30,12 @@ public class ViewFactory {
 		else if(viewName.equals("ModifyTreeView") == true)
 		{
 			return new ModifyTreeView(model);
-		}
+		}*/
 		else if(viewName.equals("RemoveTreeView") == true)
 		{
 			return new RemoveTreeView(model);
 		}
-		else if(viewName.equals("AddTreeTypeView") == true)
+		/*else if(viewName.equals("AddTreeTypeView") == true)
 		{
 			return new AddTreeTypeView(model);
 		}

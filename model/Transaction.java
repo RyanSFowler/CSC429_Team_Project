@@ -2,6 +2,7 @@
 package model;
 
 // system imports
+import database.Persistable;
 import java.util.Hashtable;
 import java.util.Properties;
 import java.util.Vector;
@@ -20,7 +21,7 @@ import userinterface.WindowPosition;
 
 /** The class containing the Transaction for the ATM application */
 //==============================================================
-abstract public class Transaction implements IView, IModel
+abstract public class Transaction extends Persistable implements IView, IModel
 {
 
 	// For Impresario
@@ -30,8 +31,16 @@ abstract public class Transaction implements IView, IModel
 	protected Stage myStage;
 	protected Hashtable<String, Scene> myViews;
 
-
+        
+	private int referenceCount;		// the number of others using us
+	protected boolean dirty;		// true if the data has changed
+	protected Properties persistentState;	// the field names and values from the database
+	private String myTableName;				// the name of our database table
+        
+        protected Properties mySchema;
 	protected Vector myAccountIDs;
+        
+        protected abstract void initializeSchema(String tableName);
 	// GUI Components
 
 	/**
@@ -42,12 +51,18 @@ abstract public class Transaction implements IView, IModel
 	 *
 	 */
 	//----------------------------------------------------------
-	protected Transaction() throws Exception
+	protected Transaction(String tablename) throws Exception
 	{
 
 		myStage = MainStageContainer.getInstance();
 		myViews = new Hashtable<String, Scene>();
 
+                myTableName = tablename;
+                System.out.print("Je rentre Transaction3");
+                initializeSchema(myTableName);
+                System.out.print("Je rentre Transaction4");
+                persistentState = new Properties();
+                
 		myRegistry = new ModelRegistry("Transaction");
 		if(myRegistry == null)
 		{
@@ -55,9 +70,40 @@ abstract public class Transaction implements IView, IModel
 				"Could not instantiate Registry", Event.ERROR);
 		}
 		setDependencies();
+                
+                referenceCount = 0;
+                dirty = false;
 
 	}
 
+        
+	//protected abstract void initializeSchema(String tableName);
+        
+         protected void Transaction2(String tablename)
+	{
+                System.out.print("Je rentre Transaction1");
+		myStage = MainStageContainer.getInstance();
+		myViews = new Hashtable<String, Scene>();
+                 System.out.print("Je rentre Transaction2");
+		// save our table name for later
+		myTableName = tablename;
+                 System.out.print("Je rentre Transaction3");
+		// extract the schema from the database, calls methods in subclasses
+		initializeSchema(myTableName);
+                 System.out.print("Je rentre Transaction4");
+		// create a place to hold our state from the database
+		persistentState = new Properties();
+                 System.out.print("Je rentre Transaction5");
+		// create a registry for subscribers
+		myRegistry = new ModelRegistry("EntityBase." + tablename);	// for now
+                 System.out.print("Je rentre Transaction6");
+		// initialize the reference count
+		referenceCount = 0;
+                 System.out.print("Je rentre Transaction7");
+		// indicate the data in persistentState matches the database contents
+		dirty = false;
+                 System.out.print("Je rentre Transaction8");
+    }
 	//----------------------------------------------------------
 	protected abstract void setDependencies();
 
@@ -125,6 +171,14 @@ abstract public class Transaction implements IView, IModel
 		myRegistry.unSubscribe(key, subscriber);
 	}
 
+//         protected void initializeSchema(String tableName)
+//	{
+//		if (mySchema == null)
+//		{
+//			mySchema = getSchemaInfo(tableName);
+//		}
+//	}
+         
 	/**
 	 * Create an account (based on account number passed to you from the view)
 	 */
