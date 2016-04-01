@@ -6,7 +6,9 @@ package userinterface;
 import java.io.File;
 import java.nio.channels.SelectableChannel;
 import java.text.NumberFormat;
+import java.util.Locale;
 import java.util.Properties;
+import java.util.ResourceBundle;
 
 import model.TreeLotCoordinator;
 import javafx.event.Event;
@@ -57,6 +59,9 @@ public class TreeLotCoordinatorView extends View
 	private Button englishButton, frenchButton;
 	private String transCategory;
 	private String transType;
+	private Locale locale = new Locale("en", "US");
+
+	private ResourceBundle buttons;
 
 	// For showing error message
 	private MessageView statusLog;
@@ -67,6 +72,8 @@ public class TreeLotCoordinatorView extends View
 	{
 		super(treeLotCoordinator, "TreeLotCoordinatorView");
 
+
+		buttons = ResourceBundle.getBundle("ButtonsBundle", locale);
 		myTLC = (TreeLotCoordinator) treeLotCoordinator;
 		// create a container for showing the contents
 		VBox container = new VBox(10);
@@ -205,7 +212,7 @@ public class TreeLotCoordinatorView extends View
 
 	  		     @Override
 	  		     public void handle(ActionEvent e) {
-	  		    	transType = "Update";
+	  		    	transType = "Modify";
 	  		     	processAction(e);    
 	       	     }
  			});
@@ -337,14 +344,16 @@ public class TreeLotCoordinatorView extends View
         englishButton.setGraphic(new ImageView(engIcon));
         englishButton.setPadding(Insets.EMPTY);
         englishButton.setStyle("-fx-background-color: transparent");
-		englishButton.setOpacity(1.0);
+        englishButton.setOpacity(1.0);
 		englishButton.setOnAction(new EventHandler<ActionEvent>() {
 
 	  		     @Override
 	  		     public void handle(ActionEvent e) {
+	  		    	locale = new Locale("en", "US");
 	  		    	englishButton.setOpacity(1.0);
 	  		    	frenchButton.setOpacity(0.3);
-	  		    	//make language change
+	  		    	buttons = ResourceBundle.getBundle("ButtonsBundle", locale);
+	  		    	refreshFormContents();
 	       	     }
  			});
  		
@@ -358,9 +367,11 @@ public class TreeLotCoordinatorView extends View
 
 	  		     @Override
 	  		     public void handle(ActionEvent e) {
+	  		    	locale = new Locale("fr", "CA");
 	  		    	frenchButton.setOpacity(1.0);
 	  		    	englishButton.setOpacity(0.3);
-	  		    	//make language change
+	  		    	buttons = ResourceBundle.getBundle("ButtonsBundle", locale);
+	  		    	refreshFormContents();
 	       	     }
  			});
 		
@@ -368,9 +379,22 @@ public class TreeLotCoordinatorView extends View
 		langContainer.setAlignment(Pos.CENTER_LEFT);
 		langContainer.getChildren().add(englishButton);
 		langContainer.getChildren().add(frenchButton);
-		grid.add(langContainer, 3, 0);
-		grid.setPadding(new Insets(10, 10, 10, 10));
+		grid.add(langContainer, 0, 4);
+		
+		
 		return grid;
+	}
+	
+	private void refreshFormContents(){
+		addScoutButton.setText(buttons.getString("mainButton1"));
+		modifyScoutButton.setText(buttons.getString("mainButton2"));
+		removeScoutButton.setText(buttons.getString("mainButton3"));
+		addTreeButton.setText(buttons.getString("mainButton4"));
+		modifyTreeButton.setText(buttons.getString("mainButton5"));
+		removeTreeButton.setText(buttons.getString("mainButton6"));
+		addTreeTypeButton.setText(buttons.getString("mainButton7"));
+		modifyTreeTypeButton.setText(buttons.getString("mainButton8"));
+		removeTreeTypeButton.setText(buttons.getString("mainButton9"));
 	}
 
 	
