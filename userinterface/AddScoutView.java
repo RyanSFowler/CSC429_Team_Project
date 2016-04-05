@@ -12,6 +12,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -82,7 +83,7 @@ public class AddScoutView extends View {
 	{
             HBox container = new HBox();
             container.setAlignment(Pos.CENTER);
-            Text titleText = new Text(" Add Scout ");
+            Text titleText = new Text(" ADD A NEW SCOUT ");
             titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
             titleText.setWrappingWidth(300);
             titleText.setTextAlignment(TextAlignment.CENTER);
@@ -106,8 +107,8 @@ public class AddScoutView extends View {
             dobField = createInput(grid, dobField, "Date of Birth:", 3);
             phoneNumField = createInput(grid, phoneNumField, "Phone Number:", 4);
             emailField = createInput(grid, emailField, "Email:", 5);
-            createButton(grid, submitButton, "Add Scout", 6);
-            createButton(grid, doneButton, "CANCEL", 7);
+            createButton(grid, submitButton, "Submit", 7);
+            createButton(grid, doneButton, "Cancel", 6);
             return grid;
 	}
 
@@ -124,7 +125,7 @@ public class AddScoutView extends View {
 	{
             button = new Button(nameButton);
             button.setId(Integer.toString(pos));
-            if(nameButton=="CANCEL")
+            if(nameButton=="Cancel")
             {
               button.setOnAction(new EventHandler<ActionEvent>() {
               @Override
@@ -160,18 +161,24 @@ public class AddScoutView extends View {
             {
             	myModel.stateChangeRequest("Done", null);
             }
-            clearErrorMessage();
             String firstName = firstNameField.getText();
-            if ((firstName == null) || (firstName.length() == 0))
+            String lastName = lastNameField.getText();
+            String middle = middleInitialField.getText();
+            String dob = dobField.getText();
+            String phone = phoneNumField.getText();
+            String email = emailField.getText();
+            if ((firstName.length() == 0) || (lastName.length() == 0) || (middle.length() == 0) || (dob.length() == 0) || (phone.length() == 0) || (email.length() == 0))
             {
-                displayErrorMessage("Please enter a scout!");
-                firstNameField.requestFocus();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Error");
+                alert.setHeaderText("You have an entry error:");
+                alert.setContentText("You need to provide the scout informations.");
+                alert.showAndWait();
             }
-	}
-
-          public void displayMessage(String message)
-	{
-            statusLog.displayMessage(message);
+            else
+            {
+                // ADD SCOUT 
+            }
 	}
 
         public void displayErrorMessage(String message)

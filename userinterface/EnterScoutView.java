@@ -12,6 +12,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -75,7 +76,7 @@ public class EnterScoutView extends View {
 	{
             HBox container = new HBox();
             container.setAlignment(Pos.CENTER);
-            Text titleText = new Text(" Search Scouts ");
+            Text titleText = new Text(" MODIFY A SCOUT ");
             titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
             titleText.setWrappingWidth(300);
             titleText.setTextAlignment(TextAlignment.CENTER);
@@ -95,8 +96,8 @@ public class EnterScoutView extends View {
             grid.setPadding(new Insets(25, 25, 25, 25));
             firstNameField = createInput(grid, firstNameField, "First Name:", 0);
             lastNameField = createInput(grid, lastNameField, "Last Name:", 1);
-            createButton(grid, submitButton, "Submit", 3);
-            createButton(grid, doneButton, "CANCEL", 4);
+            createButton(grid, submitButton, "Submit", 4);
+            createButton(grid, doneButton, "Cancel", 3);
             return grid;
 	}
 
@@ -113,7 +114,7 @@ public class EnterScoutView extends View {
 	{
             button = new Button(nameButton);
             button.setId(Integer.toString(pos));
-            if(nameButton=="CANCEL")
+            if(nameButton=="Cancel")
             {
               button.setOnAction(new EventHandler<ActionEvent>() {
               @Override
@@ -149,12 +150,20 @@ public class EnterScoutView extends View {
             {
             	myModel.stateChangeRequest("Done", null);
             }
-            clearErrorMessage();
+            //clearErrorMessage();
             String firstName = firstNameField.getText();
-            if ((firstName == null) || (firstName.length() == 0))
+            String lastName = lastNameField.getText();
+            if ((firstName.length() == 0) || (lastName.length() == 0))
             {
-                displayErrorMessage("Please enter a scout!");
-                firstNameField.requestFocus();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Error");
+                alert.setHeaderText("You have an entry error:");
+                alert.setContentText("You need to provide the scout informations.");
+                alert.showAndWait();
+            }
+            else
+            {
+                // SEARCH AND MODIFY SCOUT
             }
 	}
 

@@ -46,6 +46,7 @@ public class Scout extends EntityBase implements IView, IModel {
             {
                 View newView = ViewFactory.createView("AddScoutView", this);
                 currentScene = new Scene(newView);
+                currentScene.getStylesheets().add("styleSheet.css");
                 myViews.put("AddScoutView", currentScene);
             }
             swapToView(currentScene);
@@ -58,6 +59,7 @@ public class Scout extends EntityBase implements IView, IModel {
             {
                 View newView = ViewFactory.createView("EnterScoutView", this);
                 currentScene = new Scene(newView);
+                currentScene.getStylesheets().add("styleSheet.css");
                 myViews.put("EnterScoutView", currentScene);
             }
             swapToView(currentScene);
@@ -70,6 +72,7 @@ public class Scout extends EntityBase implements IView, IModel {
             {
                 View newView = ViewFactory.createView("ModifyScoutView", this);
                 currentScene = new Scene(newView);
+                currentScene.getStylesheets().add("styleSheet.css");
                 myViews.put("ModifyScoutView", currentScene);
             }
             swapToView(currentScene);
@@ -81,6 +84,7 @@ public class Scout extends EntityBase implements IView, IModel {
              {
                    View newView = ViewFactory.createView("RemoveScoutView", this);
                    currentScene = new Scene(newView);
+                   currentScene.getStylesheets().add("styleSheet.css");
                    myViews.put("RemoveScoutView", currentScene);
              }
              swapToView(currentScene);
@@ -93,6 +97,7 @@ public class Scout extends EntityBase implements IView, IModel {
               {
                   View newView = ViewFactory.createView("ScoutCollectionView", this);
                   currentScene = new Scene(newView);
+                  currentScene.getStylesheets().add("styleSheet.css");
                   myViews.put("ScoutCollectionView", currentScene);
               }
               swapToView(currentScene);
