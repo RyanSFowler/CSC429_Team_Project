@@ -6,6 +6,7 @@
 package userinterface;
 
 import impresario.IModel;
+import java.util.Properties;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -147,6 +148,18 @@ public class RemoveTreeView extends View {
                     alert.setHeaderText("You have an entry error:");
                     alert.setContentText("You need to provide a valid barcode to remove a tree.");
                     alert.showAndWait();
+                }
+                Properties props = new Properties();
+                props.setProperty("Barcode", barcode.getText());
+                try
+                {
+                    myModel.stateChangeRequest("RemoveTree", props);
+                    System.out.print("Remove Tree");
+                    populateFields();
+                }
+                catch (Exception ex)
+                {
+                    System.out.print("Error Remove Tree");
                 }
             }
 	}

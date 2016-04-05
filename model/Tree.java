@@ -120,12 +120,50 @@ public class Tree extends EntityBase implements IView, IModel {
                 {
                     persistentState = (Properties) value;
                     insert();
-                    //AddNewTreeInDatabase();
                 }
             }
-            //myRegistry.updateSubscribers(key, this);
-	}
+            else if (key.equals("RemoveTree") == true)
+            {
+                if (value != null)
+                {
+                    persistentState = (Properties) value;
+                    RemoveTree();
+                }
+            }
             
+	}
+        
+        public void RemoveTree() {
+            try
+            {
+                if (persistentState.getProperty("Barcode") != null)
+                {
+                String query = "SELECT * FROM " + myTableName + " WHERE Barcode = '" + persistentState.getProperty("Barcode") + "' ;";
+                System.out.print("Query:" + query);
+                Vector<Properties> allDataRetrieved = getSelectQueryResult(query);
+                if (allDataRetrieved != null && allDataRetrieved.size() == 1) {
+                Properties whereClause = new Properties();
+		whereClause.setProperty("Barcode", persistentState.getProperty("Barcode"));
+		deletePersistentState(mySchema, whereClause);
+		updateStatusMessage = "Remove Tree  : " + persistentState.getProperty("Barcode") + " Remove successfully in database!";
+		System.out.println(updateStatusMessage);
+             }
+                else {
+                    // Return an error (no barcode match)
+                }
+            }
+            else
+            {
+                // Return an error (barcode empty)
+            }
+        }
+        catch (SQLException ex)
+	{
+            // Return a SQL Error
+            //updateStatusMessage = "Error in installing account data in database!";
+        }
+        }
+     
         public void insert() {
             //System.out.print("Insert Add Tree");
             dependencies = new Properties();
@@ -157,19 +195,18 @@ public class Tree extends EntityBase implements IView, IModel {
 		System.out.println(updateStatusMessage);
              }
                 else {
-                    insert();
+                    // Return an error (no barcode match)
                 }
             }
             else
             {
-                System.out.print("Je ne dois pas rentrer");
-		
-                System.out.println(updateStatusMessage);
+                // Return an error (barcode empty)
             }
         }
         catch (SQLException ex)
 	{
-            updateStatusMessage = "Error in installing account data in database!";
+            // Return a SQL Error
+            //updateStatusMessage = "Error in installing account data in database!";
         }
      }
      
