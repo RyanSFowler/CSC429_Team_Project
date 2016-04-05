@@ -41,7 +41,10 @@ import javafx.stage.Stage;
 
 // project imports
 import impresario.IModel;
+import java.util.prefs.Preferences;
 import javafx.geometry.VPos;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.Priority;
 
 //==============================================================
 public class TreeLotCoordinatorView extends View
@@ -68,7 +71,14 @@ public class TreeLotCoordinatorView extends View
 
 	// For showing error message
 	private MessageView statusLog;
+        
+        private Preferences prefs;
 
+        private String optionOne;
+        private String optionTwo;
+        private String optionThree;
+        private String optionFour;
+        
 	// constructor for this class -- takes a model object
 	//----------------------------------------------------------
 	public TreeLotCoordinatorView( IModel treeLotCoordinator)
@@ -78,6 +88,9 @@ public class TreeLotCoordinatorView extends View
 
 		buttons = ResourceBundle.getBundle("ButtonsBundle", locale);
                 titles = ResourceBundle.getBundle("TitlesBundle", locale);
+                
+                prefs = Preferences.userNodeForPackage(TreeLotCoordinatorView.class);
+                prefs.put("langage", "en");
 		myTLC = (TreeLotCoordinator) treeLotCoordinator;
 		// create a container for showing the contents
 		VBox container = new VBox(10);
@@ -134,6 +147,10 @@ public class TreeLotCoordinatorView extends View
         
         Line line = new Line(0,0,400,0);
         GridPane.setHalignment(line, HPos.CENTER);
+        ColumnConstraints columnConstraints = new ColumnConstraints();
+        columnConstraints.setFillWidth(true);
+        columnConstraints.setHgrow(Priority.ALWAYS);
+        grid.getColumnConstraints().add(columnConstraints);
         grid.add(line, 0, 1, 4, 1);
         	
  		scoutButton = new RadioButton("Scout Options");
@@ -358,6 +375,8 @@ public class TreeLotCoordinatorView extends View
 	  		    	frenchButton.setOpacity(0.3);
 	  		    	buttons = ResourceBundle.getBundle("ButtonsBundle", locale);
                                 titles = ResourceBundle.getBundle("TitlesBundle", locale);
+                                prefs = Preferences.userNodeForPackage(TreeLotCoordinatorView.class);
+                                prefs.put("langage", "en");
 	  		    	refreshFormContents();
 	       	     }
  			});
@@ -377,12 +396,14 @@ public class TreeLotCoordinatorView extends View
 	  		    	englishButton.setOpacity(0.3);
 	  		    	buttons = ResourceBundle.getBundle("ButtonsBundle", locale);
                                 titles = ResourceBundle.getBundle("TitlesBundle", locale);
+                                prefs = Preferences.userNodeForPackage(TreeLotCoordinatorView.class);
+                                prefs.put("langage", "fr");
 	  		    	refreshFormContents();
 	       	     }
  			});
 		
 		HBox langContainer = new HBox(-30);
-		//langContainer.setAlignment(Pos.CENTER_LEFT);
+		langContainer.setAlignment(Pos.CENTER_RIGHT);
 		langContainer.getChildren().add(englishButton);
 		langContainer.getChildren().add(frenchButton);
 		//grid.add(langContainer, 0, 4);
@@ -401,9 +422,13 @@ public class TreeLotCoordinatorView extends View
 		removeTreeButton.setText(buttons.getString("mainButton6"));
 		addTreeTypeButton.setText(buttons.getString("mainButton7"));
 		modifyTreeTypeButton.setText(buttons.getString("mainButton8"));
-		//removeTreeTypeButton.setText(buttons.getString("mainButton9"));
                 
                 infoText.setText(titles.getString("mainTitleFirstPage"));
+                
+                scoutButton.setText(buttons.getString("optionOne"));
+                treeButton.setText(buttons.getString("optionTwo"));
+                treeTypeButton.setText(buttons.getString("optionThree"));
+                salesButton.setText(buttons.getString("optionFour"));
 	}
 
 	

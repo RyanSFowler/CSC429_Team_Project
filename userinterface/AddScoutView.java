@@ -6,6 +6,9 @@
 package userinterface;
 
 import impresario.IModel;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import java.util.prefs.Preferences;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -31,7 +34,6 @@ public class AddScoutView extends View {
 
         protected Button cancelButton;
         protected Button submitButton;
-	      private Button doneButton;
         protected MessageView statusLog;
         private TextField firstNameField;
       	private TextField lastNameField;
@@ -39,11 +41,49 @@ public class AddScoutView extends View {
       	private TextField dobField;
       	private TextField phoneNumField;
       	private TextField emailField;
+        
         private Scout myScout;
+        
+        private Locale locale = new Locale("en", "CA");
+        private ResourceBundle buttons;
+        private ResourceBundle titles;
+        private ResourceBundle labels;
+        private ResourceBundle alerts;
+        
+        private String cancel;
+        private String submit;
+        private Button doneButton;
+        private String firstName;
+        private String lastName;
+        private String middle;
+        private String dob;
+        private String phone;
+        private String email;
+        
+        private String title;
+        private String alertTitle;
+        private String alertSubTitle;
+        private String alertBody;
 
         public AddScoutView(IModel scout)
     {
         super(scout, "AddScoutView");
+        Preferences prefs = Preferences.userNodeForPackage(AddScoutView.class);
+        String langage = prefs.get("langage", null);
+        if (langage.toString().equals("en") == true)
+        {
+            locale = new Locale("en", "US");
+        }
+        else if (langage.toString().equals("fr") == true)
+        {
+            locale = new Locale("fr", "CA");
+        }
+        buttons = ResourceBundle.getBundle("ButtonsBundle", locale);
+        titles = ResourceBundle.getBundle("TitlesBundle", locale);
+        labels = ResourceBundle.getBundle("LabelsBundle", locale);
+        alerts = ResourceBundle.getBundle("AlertsBundle", locale);
+        refreshFormContents();
+        
         myScout=(Scout)scout;
         // create a container for showing the contents
         VBox container = new VBox(10);
@@ -51,7 +91,7 @@ public class AddScoutView extends View {
         container.setPadding(new Insets(15, 5, 5, 5));
 
         // create our GUI components, add them to this panel
-	container.getChildren().add(createTitle());
+        container.getChildren().add(createTitle());
 	container.getChildren().add(createFormContent());
 
 	// Error message area
@@ -83,7 +123,7 @@ public class AddScoutView extends View {
 	{
             HBox container = new HBox();
             container.setAlignment(Pos.CENTER);
-            Text titleText = new Text(" ADD A NEW SCOUT ");
+            Text titleText = new Text(title);
             titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
             titleText.setWrappingWidth(300);
             titleText.setTextAlignment(TextAlignment.CENTER);
@@ -101,14 +141,14 @@ public class AddScoutView extends View {
             grid.setHgap(10);
             grid.setVgap(10);
             grid.setPadding(new Insets(50, 50, 50, 50));
-            firstNameField = createInput(grid, firstNameField, "First Name:", 0);
-            lastNameField = createInput(grid, lastNameField, "Last Name:", 1);
-            middleInitialField = createInput(grid, middleInitialField, "Middle Initial:", 2);
-            dobField = createInput(grid, dobField, "Date of Birth:", 3);
-            phoneNumField = createInput(grid, phoneNumField, "Phone Number:", 4);
-            emailField = createInput(grid, emailField, "Email:", 5);
-            createButton(grid, submitButton, "Submit", 7);
-            createButton(grid, doneButton, "Cancel", 6);
+            firstNameField = createInput(grid, firstNameField, firstName, 0);
+            lastNameField = createInput(grid, lastNameField, lastName, 1);
+            middleInitialField = createInput(grid, middleInitialField, middle, 2);
+            dobField = createInput(grid, dobField, dob, 3);
+            phoneNumField = createInput(grid, phoneNumField, phone, 4);
+            emailField = createInput(grid, emailField, email, 5);
+            createButton(grid, submitButton, submit, 7);
+            createButton(grid, doneButton, cancel, 6);
             return grid;
 	}
 
@@ -125,7 +165,7 @@ public class AddScoutView extends View {
 	{
             button = new Button(nameButton);
             button.setId(Integer.toString(pos));
-            if(nameButton=="Cancel")
+            if(nameButton==cancel)
             {
               button.setOnAction(new EventHandler<ActionEvent>() {
               @Override
@@ -170,15 +210,34 @@ public class AddScoutView extends View {
             if ((firstName.length() == 0) || (lastName.length() == 0) || (middle.length() == 0) || (dob.length() == 0) || (phone.length() == 0) || (email.length() == 0))
             {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Error");
-                alert.setHeaderText("You have an entry error:");
-                alert.setContentText("You need to provide the scout informations.");
+                alert.setTitle(alertTitle);
+                alert.setHeaderText(alertSubTitle);
+                alert.setContentText(alertBody);
                 alert.showAndWait();
             }
             else
             {
                 // ADD SCOUT 
             }
+	}
+          
+        private void refreshFormContents()
+        {
+            firstName = labels.getString("firstName");
+            lastName = labels.getString("lastName");
+            middle = labels.getString("middle");
+            dob = labels.getString("dateOfBirth");
+            phone = labels.getString("phone");
+            email = labels.getString("email");
+            
+            submit = buttons.getString("submitAddScout");
+            cancel = buttons.getString("cancelAddScout");
+            
+            title = titles.getString("mainTitleScout");
+            
+            alertTitle = alerts.getString("AddScoutTitle");
+            alertSubTitle = alerts.getString("AddScoutSubTitle");
+            alertBody = alerts.getString("AddScoutBody");
 	}
 
         public void displayErrorMessage(String message)
