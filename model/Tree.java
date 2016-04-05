@@ -7,7 +7,11 @@ package model;
 
 import impresario.IModel;
 import impresario.IView;
+import java.sql.SQLException;
 import java.util.Properties;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import userinterface.View;
@@ -22,7 +26,7 @@ public class Tree extends EntityBase implements IView, IModel {
      protected Stage myStage;
      protected TreeLotCoordinator myTreeLotCoordinator;
      protected Properties dependencies;
-     private static final String myTableName = "Tree";
+     private static final String myTableName = "TREE";
      private String updateStatusMessage = "";
     
      
@@ -102,17 +106,110 @@ public class Tree extends EntityBase implements IView, IModel {
                 myTreeLotCoordinator.createAndShowTreeLotCoordinatorView();
 
             }
-            else if (key.equals("updateBook") == true)
+            else if (key.equals("UpdateTree") == true)
+            {
+                if (value != null)
+                {
+                   persistentState = (Properties) value;
+                   UpdateTreeInDatabase();
+                }
+            }
+            else if (key.equals("AddNewTree") == true)
             {
                 if (value != null)
                 {
                     persistentState = (Properties) value;
-                 //   updateStateInDatabase();
+                    insert();
                 }
             }
-            //myRegistry.updateSubscribers(key, this);
+            else if (key.equals("RemoveTree") == true)
+            {
+                if (value != null)
+                {
+                    persistentState = (Properties) value;
+                    RemoveTree();
+                }
+            }
+            
 	}
-
+        
+        public void RemoveTree() {
+            try
+            {
+                if (persistentState.getProperty("Barcode") != null)
+                {
+                String query = "SELECT * FROM " + myTableName + " WHERE Barcode = '" + persistentState.getProperty("Barcode") + "' ;";
+                System.out.print("Query:" + query);
+                Vector<Properties> allDataRetrieved = getSelectQueryResult(query);
+                if (allDataRetrieved != null && allDataRetrieved.size() == 1) {
+                Properties whereClause = new Properties();
+		whereClause.setProperty("Barcode", persistentState.getProperty("Barcode"));
+		deletePersistentState(mySchema, whereClause);
+		updateStatusMessage = "Remove Tree  : " + persistentState.getProperty("Barcode") + " Remove successfully in database!";
+		System.out.println(updateStatusMessage);
+             }
+                else {
+                    // Return an error (no barcode match)
+                }
+            }
+            else
+            {
+                // Return an error (barcode empty)
+            }
+        }
+        catch (SQLException ex)
+	{
+            // Return a SQL Error
+            //updateStatusMessage = "Error in installing account data in database!";
+        }
+        }
+     
+        public void insert() {
+            //System.out.print("Insert Add Tree");
+            dependencies = new Properties();
+            dependencies.put("Barcode", persistentState.getProperty("Barcode"));
+            dependencies.put("Notes", persistentState.getProperty("Notes"));
+            //System.out.print("dependencies:" + dependencies);
+            try {
+                int i = insertAutoIncrementalPersistentState(this.mySchema, dependencies);
+            } catch (SQLException ex) {
+                //System.out.print("Error:" + ex);
+                Logger.getLogger(Tree.class.getName()).log(Level.SEVERE, null, ex);
+            }
+	}
+     
+     private void UpdateTreeInDatabase()
+     {
+         try
+	{
+            if (persistentState.getProperty("Barcode") != null)
+            {
+                String query = "SELECT * FROM " + myTableName + " WHERE Barcode = '" + persistentState.getProperty("Barcode") + "' ;";
+                System.out.print("Query:" + query);
+                Vector<Properties> allDataRetrieved = getSelectQueryResult(query);
+                if (allDataRetrieved != null && allDataRetrieved.size() == 1) {
+                Properties whereClause = new Properties();
+		whereClause.setProperty("Barcode", persistentState.getProperty("Barcode"));
+		updatePersistentState(mySchema, persistentState, whereClause);
+		updateStatusMessage = "Add New Tree  : " + persistentState.getProperty("Barcode") + " Add successfully in database!";
+		System.out.println(updateStatusMessage);
+             }
+                else {
+                    // Return an error (no barcode match)
+                }
+            }
+            else
+            {
+                // Return an error (barcode empty)
+            }
+        }
+        catch (SQLException ex)
+	{
+            // Return a SQL Error
+            //updateStatusMessage = "Error in installing account data in database!";
+        }
+     }
+     
    protected void initializeSchema(String tableName)
 	{
             if (mySchema == null)
