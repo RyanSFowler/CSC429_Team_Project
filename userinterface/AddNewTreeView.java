@@ -6,6 +6,7 @@
 package userinterface;
 
 import impresario.IModel;
+import java.util.Properties;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -137,6 +138,19 @@ public class AddNewTreeView extends View {
             }
             else
             {
+                Properties props = new Properties();
+                props.setProperty("Barcode", barcode.getText());
+                props.setProperty("Notes", notes.getText());
+                try
+                {
+                    myModel.stateChangeRequest("AddNewTree", props);
+                    System.out.print("New Tree Add");
+                    populateFields();
+                }
+                catch (Exception ex)
+                {
+                    System.out.print("Error New Tree Add");
+                }
                 // SUBMIT
             }
         }
@@ -145,6 +159,7 @@ public class AddNewTreeView extends View {
             myModel.stateChangeRequest("Done", null);
         }
     }
+    
     
     protected void populateFields()
     {

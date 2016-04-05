@@ -7,7 +7,11 @@ package model;
 
 import impresario.IModel;
 import impresario.IView;
+import java.sql.SQLException;
 import java.util.Properties;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import userinterface.View;
@@ -22,7 +26,7 @@ public class Tree extends EntityBase implements IView, IModel {
      protected Stage myStage;
      protected TreeLotCoordinator myTreeLotCoordinator;
      protected Properties dependencies;
-     private static final String myTableName = "Tree";
+     private static final String myTableName = "TREE";
      private String updateStatusMessage = "";
     
      
@@ -102,17 +106,73 @@ public class Tree extends EntityBase implements IView, IModel {
                 myTreeLotCoordinator.createAndShowTreeLotCoordinatorView();
 
             }
-            else if (key.equals("updateBook") == true)
+            else if (key.equals("UpdateTree") == true)
+            {
+                if (value != null)
+                {
+                   persistentState = (Properties) value;
+                   UpdateTreeInDatabase();
+                }
+            }
+            else if (key.equals("AddNewTree") == true)
             {
                 if (value != null)
                 {
                     persistentState = (Properties) value;
-                 //   updateStateInDatabase();
+                    insert();
+                    //AddNewTreeInDatabase();
                 }
             }
             //myRegistry.updateSubscribers(key, this);
 	}
-
+            
+        public void insert() {
+            //System.out.print("Insert Add Tree");
+            dependencies = new Properties();
+            dependencies.put("Barcode", persistentState.getProperty("Barcode"));
+            dependencies.put("Notes", persistentState.getProperty("Notes"));
+            //System.out.print("dependencies:" + dependencies);
+            try {
+                int i = insertAutoIncrementalPersistentState(this.mySchema, dependencies);
+            } catch (SQLException ex) {
+                //System.out.print("Error:" + ex);
+                Logger.getLogger(Tree.class.getName()).log(Level.SEVERE, null, ex);
+            }
+	}
+     
+     private void UpdateTreeInDatabase()
+     {
+         try
+	{
+            if (persistentState.getProperty("Barcode") != null)
+            {
+                String query = "SELECT * FROM " + myTableName + " WHERE Barcode = '" + persistentState.getProperty("Barcode") + "' ;";
+                System.out.print("Query:" + query);
+                Vector<Properties> allDataRetrieved = getSelectQueryResult(query);
+                if (allDataRetrieved != null && allDataRetrieved.size() == 1) {
+                Properties whereClause = new Properties();
+		whereClause.setProperty("Barcode", persistentState.getProperty("Barcode"));
+		updatePersistentState(mySchema, persistentState, whereClause);
+		updateStatusMessage = "Add New Tree  : " + persistentState.getProperty("Barcode") + " Add successfully in database!";
+		System.out.println(updateStatusMessage);
+             }
+                else {
+                    insert();
+                }
+            }
+            else
+            {
+                System.out.print("Je ne dois pas rentrer");
+		
+                System.out.println(updateStatusMessage);
+            }
+        }
+        catch (SQLException ex)
+	{
+            updateStatusMessage = "Error in installing account data in database!";
+        }
+     }
+     
    protected void initializeSchema(String tableName)
 	{
             if (mySchema == null)
