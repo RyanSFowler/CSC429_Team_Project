@@ -127,11 +127,11 @@ public class TreeLotCoordinatorView extends View
         Label infoText = new Label("Select a category then an option.");
         infoText.setFont(Font.font("Arial", FontWeight.BOLD, 16));
         GridPane.setHalignment(infoText, HPos.CENTER);
-        grid.add(infoText, 0, 1, 4, 1);
+        grid.add(infoText, 0, 0, 4, 1);
         
         Line line = new Line(0,0,400,0);
         GridPane.setHalignment(line, HPos.CENTER);
-        grid.add(line, 0, 2, 4, 1);
+        grid.add(line, 0, 1, 4, 1);
         	
  		scoutButton = new RadioButton("Scout Options");
  		scoutButton.setToggleGroup(group);
