@@ -39,6 +39,7 @@ import javafx.stage.Stage;
 
 // project imports
 import impresario.IModel;
+import javafx.geometry.VPos;
 
 //==============================================================
 public class TreeLotCoordinatorView extends View
@@ -364,8 +365,8 @@ public class TreeLotCoordinatorView extends View
 	       	     }
  			});
 		
-		HBox langContainer = new HBox(0);
-		langContainer.setAlignment(Pos.CENTER_LEFT);
+		HBox langContainer = new HBox(-30);
+		//langContainer.setAlignment(Pos.CENTER_LEFT);
 		langContainer.getChildren().add(englishButton);
 		langContainer.getChildren().add(frenchButton);
 		grid.add(langContainer, 3, 0);
