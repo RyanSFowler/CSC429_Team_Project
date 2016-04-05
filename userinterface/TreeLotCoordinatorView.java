@@ -60,9 +60,11 @@ public class TreeLotCoordinatorView extends View
 	private Button englishButton, frenchButton;
 	private String transCategory;
 	private String transType;
+        private Label infoText;
 	private Locale locale = new Locale("en", "US");
 
 	private ResourceBundle buttons;
+        private ResourceBundle titles;
 
 	// For showing error message
 	private MessageView statusLog;
@@ -75,6 +77,7 @@ public class TreeLotCoordinatorView extends View
 
 
 		buttons = ResourceBundle.getBundle("ButtonsBundle", locale);
+                titles = ResourceBundle.getBundle("TitlesBundle", locale);
 		myTLC = (TreeLotCoordinator) treeLotCoordinator;
 		// create a container for showing the contents
 		VBox container = new VBox(10);
@@ -124,7 +127,7 @@ public class TreeLotCoordinatorView extends View
         	grid.setPadding(new Insets(25, 25, 25, 25));
         	
      	
-        Label infoText = new Label("Select a category then an option.");
+        infoText = new Label("Select a category then an option.");
         infoText.setFont(Font.font("Arial", FontWeight.BOLD, 16));
         GridPane.setHalignment(infoText, HPos.CENTER);
         grid.add(infoText, 0, 0, 4, 1);
@@ -354,6 +357,7 @@ public class TreeLotCoordinatorView extends View
 	  		    	englishButton.setOpacity(1.0);
 	  		    	frenchButton.setOpacity(0.3);
 	  		    	buttons = ResourceBundle.getBundle("ButtonsBundle", locale);
+                                titles = ResourceBundle.getBundle("TitlesBundle", locale);
 	  		    	refreshFormContents();
 	       	     }
  			});
@@ -372,6 +376,7 @@ public class TreeLotCoordinatorView extends View
 	  		    	frenchButton.setOpacity(1.0);
 	  		    	englishButton.setOpacity(0.3);
 	  		    	buttons = ResourceBundle.getBundle("ButtonsBundle", locale);
+                                titles = ResourceBundle.getBundle("TitlesBundle", locale);
 	  		    	refreshFormContents();
 	       	     }
  			});
@@ -397,6 +402,8 @@ public class TreeLotCoordinatorView extends View
 		addTreeTypeButton.setText(buttons.getString("mainButton7"));
 		modifyTreeTypeButton.setText(buttons.getString("mainButton8"));
 		//removeTreeTypeButton.setText(buttons.getString("mainButton9"));
+                
+                infoText.setText(titles.getString("mainTitleFirstPage"));
 	}
 
 	
