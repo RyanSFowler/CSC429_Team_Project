@@ -6,7 +6,9 @@ package userinterface;
 import java.io.File;
 import java.nio.channels.SelectableChannel;
 import java.text.NumberFormat;
+import java.util.Locale;
 import java.util.Properties;
+import java.util.ResourceBundle;
 
 import model.TreeLotCoordinator;
 import javafx.event.Event;
@@ -53,11 +55,14 @@ public class TreeLotCoordinatorView extends View
 	final ToggleGroup group = new ToggleGroup();
 	private Button addScoutButton, modifyScoutButton, removeScoutButton;
 	private Button addTreeButton, modifyTreeButton, removeTreeButton;
-	private Button addTreeTypeButton, modifyTreeTypeButton, removeTreeTypeButton;
+	private Button addTreeTypeButton, modifyTreeTypeButton;
 	private Button openShiftButton, closeShiftButton, recordSaleButton;
 	private Button englishButton, frenchButton;
 	private String transCategory;
 	private String transType;
+	private Locale locale = new Locale("en", "US");
+
+	private ResourceBundle buttons;
 
 	// For showing error message
 	private MessageView statusLog;
@@ -68,6 +73,8 @@ public class TreeLotCoordinatorView extends View
 	{
 		super(treeLotCoordinator, "TreeLotCoordinatorView");
 
+
+		buttons = ResourceBundle.getBundle("ButtonsBundle", locale);
 		myTLC = (TreeLotCoordinator) treeLotCoordinator;
 		// create a container for showing the contents
 		VBox container = new VBox(10);
@@ -117,14 +124,14 @@ public class TreeLotCoordinatorView extends View
         	grid.setPadding(new Insets(25, 25, 25, 25));
         	
      	
-        Label infoText = new Label("Select a category then select an option.");
+        Label infoText = new Label("Select a category then an option.");
         infoText.setFont(Font.font("Arial", FontWeight.BOLD, 16));
         GridPane.setHalignment(infoText, HPos.CENTER);
-        grid.add(infoText, 0, 0, 4, 1);
+        grid.add(infoText, 0, 1, 4, 1);
         
         Line line = new Line(0,0,400,0);
         GridPane.setHalignment(line, HPos.CENTER);
-        grid.add(line, 0, 1, 4, 1);
+        grid.add(line, 0, 2, 4, 1);
         	
  		scoutButton = new RadioButton("Scout Options");
  		scoutButton.setToggleGroup(group);
@@ -171,7 +178,7 @@ public class TreeLotCoordinatorView extends View
  			});
  		
  		VBox scoutContainer = new VBox(10);
- 		scoutContainer.setAlignment(Pos.CENTER);
+ 		scoutContainer.setAlignment(Pos.TOP_CENTER);
  		scoutContainer.getChildren().add(scoutButton);
  		scoutContainer.getChildren().add(addScoutButton);
  		scoutContainer.getChildren().add(modifyScoutButton);
@@ -206,7 +213,7 @@ public class TreeLotCoordinatorView extends View
 
 	  		     @Override
 	  		     public void handle(ActionEvent e) {
-	  		    	transType = "Update";
+	  		    	transType = "Modify";
 	  		     	processAction(e);    
 	       	     }
  			});
@@ -223,7 +230,7 @@ public class TreeLotCoordinatorView extends View
  			});
  		
  		VBox treeContainer = new VBox(10);
- 		treeContainer.setAlignment(Pos.CENTER);
+ 		treeContainer.setAlignment(Pos.TOP_CENTER);
  		treeContainer.getChildren().add(treeButton);
  		treeContainer.getChildren().add(addTreeButton);
  		treeContainer.getChildren().add(modifyTreeButton);
@@ -263,7 +270,7 @@ public class TreeLotCoordinatorView extends View
 	       	     }
  			});
  		
- 		removeTreeTypeButton = new Button("Remove Tree Type");
+ 		/*removeTreeTypeButton = new Button("Remove Tree Type");
  		removeTreeTypeButton.setMaxWidth(Double.MAX_VALUE);
  		removeTreeTypeButton.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -272,14 +279,14 @@ public class TreeLotCoordinatorView extends View
 	  		    	transType = "Remove";
 	  		     	processAction(e);    
 	       	     }
- 			});
+ 			});*/
  		
  		VBox treeTypeContainer = new VBox(10);
- 		treeTypeContainer.setAlignment(Pos.CENTER);
+ 		treeTypeContainer.setAlignment(Pos.TOP_CENTER);
  		treeTypeContainer.getChildren().add(treeTypeButton);
  		treeTypeContainer.getChildren().add(addTreeTypeButton);
  		treeTypeContainer.getChildren().add(modifyTreeTypeButton);
- 		treeTypeContainer.getChildren().add(removeTreeTypeButton);
+ 		//treeTypeContainer.getChildren().add(removeTreeTypeButton);
 		grid.add(treeTypeContainer, 2, 3);
 		
 		salesButton = new RadioButton("Sales Options");
@@ -324,7 +331,7 @@ public class TreeLotCoordinatorView extends View
  			});
  		
  		VBox salesContainer = new VBox(10);
- 		salesContainer.setAlignment(Pos.CENTER);
+ 		salesContainer.setAlignment(Pos.TOP_CENTER);
  		salesContainer.getChildren().add(salesButton);
  		salesContainer.getChildren().add(openShiftButton);
  		salesContainer.getChildren().add(closeShiftButton);
@@ -338,14 +345,16 @@ public class TreeLotCoordinatorView extends View
         englishButton.setGraphic(new ImageView(engIcon));
         englishButton.setPadding(Insets.EMPTY);
         englishButton.setStyle("-fx-background-color: transparent");
-		englishButton.setOpacity(1.0);
+        englishButton.setOpacity(1.0);
 		englishButton.setOnAction(new EventHandler<ActionEvent>() {
 
 	  		     @Override
 	  		     public void handle(ActionEvent e) {
+	  		    	locale = new Locale("en", "US");
 	  		    	englishButton.setOpacity(1.0);
 	  		    	frenchButton.setOpacity(0.3);
-	  		    	//make language change
+	  		    	buttons = ResourceBundle.getBundle("ButtonsBundle", locale);
+	  		    	refreshFormContents();
 	       	     }
  			});
  		
@@ -359,9 +368,11 @@ public class TreeLotCoordinatorView extends View
 
 	  		     @Override
 	  		     public void handle(ActionEvent e) {
+	  		    	locale = new Locale("fr", "CA");
 	  		    	frenchButton.setOpacity(1.0);
 	  		    	englishButton.setOpacity(0.3);
-	  		    	//make language change
+	  		    	buttons = ResourceBundle.getBundle("ButtonsBundle", locale);
+	  		    	refreshFormContents();
 	       	     }
  			});
 		
@@ -369,9 +380,23 @@ public class TreeLotCoordinatorView extends View
 		//langContainer.setAlignment(Pos.CENTER_LEFT);
 		langContainer.getChildren().add(englishButton);
 		langContainer.getChildren().add(frenchButton);
+		//grid.add(langContainer, 0, 4);
 		grid.add(langContainer, 3, 0);
 		grid.setPadding(new Insets(10, 10, 10, 10));
+		
 		return grid;
+	}
+	
+	private void refreshFormContents(){
+		addScoutButton.setText(buttons.getString("mainButton1"));
+		modifyScoutButton.setText(buttons.getString("mainButton2"));
+		removeScoutButton.setText(buttons.getString("mainButton3"));
+		addTreeButton.setText(buttons.getString("mainButton4"));
+		modifyTreeButton.setText(buttons.getString("mainButton5"));
+		removeTreeButton.setText(buttons.getString("mainButton6"));
+		addTreeTypeButton.setText(buttons.getString("mainButton7"));
+		modifyTreeTypeButton.setText(buttons.getString("mainButton8"));
+		//removeTreeTypeButton.setText(buttons.getString("mainButton9"));
 	}
 
 	
@@ -426,7 +451,7 @@ public class TreeLotCoordinatorView extends View
 		else if(buttonSet.equals("treeType")){
 			addTreeTypeButton.setVisible(vis);
 			modifyTreeTypeButton.setVisible(vis);
-			removeTreeTypeButton.setVisible(vis);
+			//removeTreeTypeButton.setVisible(vis);
 		}
 		else if(buttonSet.equals("sales")){
 			openShiftButton.setVisible(vis);
