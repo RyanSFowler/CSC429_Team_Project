@@ -60,7 +60,7 @@ public class EnterScoutView extends View {
     {
         super(scout, "EnterScoutView");
         
-        Preferences prefs = Preferences.userNodeForPackage(AddScoutView.class);
+        Preferences prefs = Preferences.userNodeForPackage(EnterScoutView.class);
         String langage = prefs.get("langage", null);
         if (langage.toString().equals("en") == true)
         {

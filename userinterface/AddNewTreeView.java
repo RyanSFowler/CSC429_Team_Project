@@ -6,7 +6,10 @@
 package userinterface;
 
 import impresario.IModel;
+import java.util.Locale;
 import java.util.Properties;
+import java.util.ResourceBundle;
+import java.util.prefs.Preferences;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -38,8 +41,36 @@ public class AddNewTreeView extends View {
     protected Button cancel;
     protected Button submit;
     
+    private Locale locale = new Locale("en", "CA");
+    private ResourceBundle buttons;
+    private ResourceBundle titles;
+    private ResourceBundle labels;
+    private ResourceBundle alerts;
+    private String cancelTitle;
+    private String submitTitle;
+    private String barcodeTitle;
+    private String title;
+    private String alertTitle;
+    private String alertSubTitle;
+    private String alertBody;
+    
     public AddNewTreeView(IModel model) {
         super(model, "AddNewTreeView");
+        Preferences prefs = Preferences.userNodeForPackage(AddNewTreeView.class);
+        String langage = prefs.get("langage", null);
+        if (langage.toString().equals("en") == true)
+        {
+            locale = new Locale("en", "US");
+        }
+        else if (langage.toString().equals("fr") == true)
+        {
+            locale = new Locale("fr", "CA");
+        }
+        buttons = ResourceBundle.getBundle("ButtonsBundle", locale);
+        titles = ResourceBundle.getBundle("TitlesBundle", locale);
+        labels = ResourceBundle.getBundle("LabelsBundle", locale);
+        alerts = ResourceBundle.getBundle("AlertsBundle", locale);
+        refreshFormContents();
         displayWindow();
         
     }
@@ -62,7 +93,7 @@ public class AddNewTreeView extends View {
     {
         HBox container = new HBox();
         container.setAlignment(Pos.CENTER);
-        Text titleText = new Text("ENTER A NEW TREE'S INFORMATIONS");
+        Text titleText = new Text(title);
         titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         titleText.setWrappingWidth(300);
         titleText.setTextAlignment(TextAlignment.CENTER);
@@ -78,14 +109,14 @@ public class AddNewTreeView extends View {
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
-        barcode = createInput(grid, barcode, "Barcode:", 0);
+        barcode = createInput(grid, barcode, barcodeTitle, 0);
         notes = new TextArea();
         notes.setDisable(false);
         notes.setWrapText(true);
         notes.setPrefSize(300, 100);
         grid.add(notes, 1, 2);
-        createButton(grid, submit, "Submit", 1, 4, 1);
-        createButton(grid, cancel, "Cancel", 0, 4, 2);
+        createButton(grid, submit, submitTitle, 1, 4, 1);
+        createButton(grid, cancel, cancelTitle, 0, 4, 2);
         return grid;
     }
     
@@ -123,17 +154,17 @@ public class AddNewTreeView extends View {
             if (barcode.getText().isEmpty() == true)
             {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Error");
-                alert.setHeaderText("You have an entry error:");
-                alert.setContentText("You need to provide a barcode to create a new tree's information.");
+                alert.setTitle(alertTitle);
+                alert.setHeaderText(alertSubTitle);
+                alert.setContentText(alertBody);
                 alert.showAndWait();
             }
             else if (notes.getText().isEmpty() == true)
             {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Error");
-                alert.setHeaderText("You have an entry error:");
-                alert.setContentText("You need to provide notes about the tree to create a new tree's information.");
+                alert.setTitle(alertTitle);
+                alert.setHeaderText(alertSubTitle);
+                alert.setContentText(alertBody);
                 alert.showAndWait();
             }
             else
@@ -158,6 +189,17 @@ public class AddNewTreeView extends View {
         {
             myModel.stateChangeRequest("Done", null);
         }
+    }
+    
+    private void refreshFormContents()
+    {
+        submitTitle = buttons.getString("submitTree");
+        cancelTitle = buttons.getString("cancelTree");
+        barcodeTitle = labels.getString("barcodeTree");
+        title = titles.getString("mainTitleAddTree");
+        alertTitle = alerts.getString("AddTreeTitle");
+        alertSubTitle = alerts.getString("AddTreeSubTitle");
+        alertBody = alerts.getString("AddTreeBody");
     }
     
     
