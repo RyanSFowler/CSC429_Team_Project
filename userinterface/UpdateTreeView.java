@@ -13,6 +13,7 @@ import java.util.prefs.Preferences;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -125,6 +126,7 @@ public class UpdateTreeView extends View {
     private TextField createInput(GridPane grid, TextField textfield, String label, Integer pos)
     {
         Label Author = new Label(label);
+        GridPane.setHalignment(Author, HPos.RIGHT);
         grid.add(Author, 0, pos);
         textfield = new TextField();
         grid.add(textfield, 1, pos);
@@ -134,6 +136,7 @@ public class UpdateTreeView extends View {
     private TextArea createInputTextArea(GridPane grid, TextArea textarea, String label, Integer pos)
     {
         Label Author = new Label(label);
+        GridPane.setHalignment(Author, HPos.RIGHT);
         grid.add(Author, 0, pos);
         textarea = new TextArea();
         textarea.setDisable(false);
