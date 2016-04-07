@@ -53,6 +53,7 @@ public class AddNewTreeView extends View {
     private String alertTitle;
     private String alertSubTitle;
     private String alertBody;
+    private String description;
     
     public AddNewTreeView(IModel model) {
         super(model, "AddNewTreeView");
@@ -111,10 +112,7 @@ public class AddNewTreeView extends View {
         grid.setPadding(new Insets(25, 25, 25, 25));
         barcode = createInput(grid, barcode, barcodeTitle, 0);
         notes = new TextArea();
-        notes.setDisable(false);
-        notes.setWrapText(true);
-        notes.setPrefSize(300, 100);
-        grid.add(notes, 1, 2);
+        notes = createInputTextArea(grid, notes, description, 1);
         createButton(grid, submit, submitTitle, 1, 4, 1);
         createButton(grid, cancel, cancelTitle, 0, 4, 2);
         return grid;
@@ -127,6 +125,18 @@ public class AddNewTreeView extends View {
         textfield = new TextField();
         grid.add(textfield, 1, pos);
         return textfield;
+    }
+    
+    private TextArea createInputTextArea(GridPane grid, TextArea textarea, String label, Integer pos)
+    {
+        Label Author = new Label(label);
+        grid.add(Author, 0, pos);
+        textarea = new TextArea();
+        textarea.setDisable(false);
+        textarea.setWrapText(true);
+        textarea.setPrefSize(300, 100);
+        grid.add(textarea, 1, pos);
+        return textarea;
     }
     
     private void createButton(GridPane grid, Button button, String nameButton, Integer pos1, Integer pos2, Integer id)
@@ -196,6 +206,7 @@ public class AddNewTreeView extends View {
         submitTitle = buttons.getString("submitTree");
         cancelTitle = buttons.getString("cancelTree");
         barcodeTitle = labels.getString("barcodeTree");
+        description = labels.getString("notes");
         title = titles.getString("mainTitleAddTree");
         alertTitle = alerts.getString("AddTreeTitle");
         alertSubTitle = alerts.getString("AddTreeSubTitle");
