@@ -55,6 +55,10 @@ public class UpdateTreeView extends View {
     private String alertBody;
     private String description;
     
+    private String alertTitleSucceeded;
+    private String alertSubTitleSucceeded;
+    private String alertBodySucceeded;
+    
     public UpdateTreeView(IModel model) {
         super(model, "UpdateTreeView");
         Preferences prefs = Preferences.userNodeForPackage(AddNewTreeView.class);
@@ -185,14 +189,17 @@ public class UpdateTreeView extends View {
                 try
                 {
                     myModel.stateChangeRequest("UpdateTree", props);
-                    System.out.print("UpdateTree");
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle(alertTitleSucceeded);
+                    alert.setHeaderText(alertSubTitleSucceeded);
+                    alert.setContentText(alertBodySucceeded);
+                    alert.showAndWait();
                     populateFields();
                 }
                 catch (Exception ex)
                 {
                     System.out.print("Error UpdateTree");
                 }
-                // SUBMIT
             }
         }
         else if (clickedBtn.getId().equals("2") == true)
@@ -203,7 +210,7 @@ public class UpdateTreeView extends View {
     
     private void refreshFormContents()
     {
-        submitTitle = buttons.getString("submitTree");
+        submitTitle = buttons.getString("submitModifyTree");
         cancelTitle = buttons.getString("cancelTree");
         barcodeTitle = labels.getString("barcodeTree");
         description = labels.getString("notes");
@@ -211,6 +218,9 @@ public class UpdateTreeView extends View {
         alertTitle = alerts.getString("AddTreeTitle");
         alertSubTitle = alerts.getString("AddTreeSubTitle");
         alertBody = alerts.getString("ModifyTreeBody");
+        alertTitleSucceeded = alerts.getString("AddTreeTitleSucceeded");
+        alertSubTitleSucceeded = alerts.getString("AddTreeSubTitleSucceeded");
+        alertBodySucceeded = alerts.getString("UpdateTreeBodySucceeded");
     }
     
     protected void populateFields()
