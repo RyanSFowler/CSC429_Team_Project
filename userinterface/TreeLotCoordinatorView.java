@@ -429,6 +429,10 @@ public class TreeLotCoordinatorView extends View
                 treeButton.setText(buttons.getString("optionTwo"));
                 treeTypeButton.setText(buttons.getString("optionThree"));
                 salesButton.setText(buttons.getString("optionFour"));
+                
+                openShiftButton.setText(buttons.getString("openShift"));
+                closeShiftButton.setText(buttons.getString("closeShift"));
+                recordSaleButton.setText(buttons.getString("recordSale"));
 	}
 
 	
