@@ -6,9 +6,12 @@
 package userinterface;
 
 import impresario.IModel;
+
 import java.util.Locale;
+import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
+
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -219,7 +222,27 @@ public class AddScoutView extends View {
             }
             else
             {
-                // ADD SCOUT 
+            	Properties props = new Properties();
+                props.setProperty("FirstName", firstNameField.getText());
+                props.setProperty("LastName", lastNameField.getText());
+                props.setProperty("MiddleInitial", middleInitialField.getText());
+                props.setProperty("DateOfBirth", dobField.getText());
+                props.setProperty("Phone", phoneNumField.getText());
+                props.setProperty("Email", emailField.getText());
+                try
+                {
+                    myModel.stateChangeRequest("AddNewScout", props);
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle(alerts.getString("AddScoutTitle"));
+                    alert.setHeaderText(alerts.getString("AddScoutSubTitle"));
+                    alert.setContentText(alerts.getString("AddScoutBody"));
+                    alert.showAndWait();
+                    populateFields();
+                }
+                catch (Exception ex)
+                {
+                    System.out.print("Error New Scout Add");
+                }
             }
 	}
           
