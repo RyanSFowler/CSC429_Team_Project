@@ -111,7 +111,7 @@ public class TreeType extends EntityBase implements IView, IModel {
             dependencies = new Properties();
             dependencies.put("BarcodePrefix", persistentState.getProperty("BarcodePrefix"));
             dependencies.put("TypeDescription", persistentState.getProperty("TypeDescription"));
-            dependencies.put("Cost", persistentState.getProperty("cost"));
+            dependencies.put("Cost", persistentState.getProperty("Cost"));
             //System.out.print("dependencies:" + dependencies);
             try {
                 int i = insertAutoIncrementalPersistentState(this.mySchema, dependencies);
