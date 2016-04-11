@@ -35,11 +35,11 @@ public class ViewFactory {
 		{
 			return new AddNewTreeTypeView(model);
 		}
-	/*	else if(viewName.equals("ModifyTreeTypeView") == true)
+		else if(viewName.equals("UpdateTreeTypeView") == true)
 		{
-			return new ModifyTreeTypeView(model);
+			return new UpdateTreeTypeView(model);
 		}
-
+/*
 		else if(viewName.equals("OpenShiftView") == true)
 		{
 			return new OpenShiftView(model);

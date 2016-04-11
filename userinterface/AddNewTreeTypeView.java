@@ -92,8 +92,10 @@ public class AddNewTreeTypeView extends View {
         VBox container = new VBox(10);
         container.setAlignment(Pos.CENTER);
         container.setPadding(new Insets(15, 5, 5, 5));
+
         container.getChildren().add(createTitle());
 	container.getChildren().add(createFormContent());
+
         //container.getChildren().add(createStatusLog("                                            "));
 	getChildren().add(container);
         populateFields();

@@ -35,7 +35,7 @@ public class TreeType extends EntityBase implements IView, IModel {
             if (type == "Add") {
                 createAddTreeTypeView();
             }
-            else if (type == "Update") {
+            else if (type == "Modify") {
                 createUpdateTreeTypeView();
             }
 

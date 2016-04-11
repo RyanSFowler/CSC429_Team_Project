@@ -54,14 +54,13 @@ public class UpdateTreeTypeView extends View {
     private String alertTitle;
     private String alertSubTitle;
     private String alertBody;
-    private String description;
 
     private String alertTitleSucceeded;
     private String alertSubTitleSucceeded;
     private String alertBodySucceeded;
 
     public UpdateTreeTypeView(IModel model) {
-        super(model, "UpdateTreeView");
+        super(model, "UpdateTreeTypeView");
         Preferences prefs = Preferences.userNodeForPackage(AddNewTreeTypeView.class);
         String langage = prefs.get("langage", null);
         if (langage.toString().equals("en") == true)
@@ -115,9 +114,9 @@ public class UpdateTreeTypeView extends View {
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
-        barcode = createInput(grid, barcode, barcodePrefixTitle, 0);
-        notes = new TextArea();
-        notes = createInputTextArea(grid, notes, description, 1);
+        barcodePrefix = createInput(grid, barcodePrefix, barcodePrefixTitle, 0);
+        typeDescription = createInput(grid, typeDescription, typeDescriptionTitle, 1);
+        cost = createInput(grid, cost, costTitle, 2);
         createButton(grid, submit, submitTitle, 1, 4, 1);
         createButton(grid, cancel, cancelTitle, 0, 4, 2);
         return grid;
@@ -223,21 +222,23 @@ public class UpdateTreeTypeView extends View {
 
     private void refreshFormContents()
     {
-        submitTitle = buttons.getString("submitModifyTreeType");
+        submitTitle = buttons.getString("submitTreeType");
         cancelTitle = buttons.getString("cancelTreeType");
-        barcodePrefixTitle = labels.getString("barcodePrefixTreeType");
+        barcodePrefixTitle = labels.getString("barcodePrefix");
+        costTitle = labels.getString("cost");
+        typeDescriptionTitle = labels.getString("typeDescription");
         title = titles.getString("mainTitleModifyTreeType");
-        alertTitle = alerts.getString("AddTreeTypeTitle");
-        alertSubTitle = alerts.getString("AddTreeTypeSubTitle");
-        alertBody = alerts.getString("ModifyTreeTypeBody");
-        alertTitleSucceeded = alerts.getString("AddTreeTypeTitleSucceeded");
-        alertSubTitleSucceeded = alerts.getString("AddTreeTypeSubTitleSucceeded");
+        alertTitle = alerts.getString("UpdateTreeTypeTitle");
+        alertSubTitle = alerts.getString("UpdateTreeTypeSubTitle");
+        alertBody = alerts.getString("UpdateTreeTypeBody");
+        alertTitleSucceeded = alerts.getString("UpdateTreeTypeTitleSucceeded");
+        alertSubTitleSucceeded = alerts.getString("UpdateTreeTypeSubTitleSucceeded");
         alertBodySucceeded = alerts.getString("UpdateTreeTypeBodySucceeded");
     }
 
     protected void populateFields()
     {
-        barcode.setText("");
+        barcodePrefix.setText("");
         cost.setText("");
         typeDescription.setText("");
     }
