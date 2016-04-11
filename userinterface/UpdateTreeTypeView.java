@@ -115,8 +115,8 @@ public class UpdateTreeTypeView extends View {
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
         barcodePrefix = createInput(grid, barcodePrefix, barcodePrefixTitle, 0);
-        typeDescription = createInput(grid, typeDescription, typeDescriptionTitle, 1);
-        cost = createInput(grid, cost, costTitle, 2);
+        cost = createInput(grid, cost, costTitle, 1);
+        typeDescription = createInput(grid, typeDescription, typeDescriptionTitle, 2);
         createButton(grid, submit, submitTitle, 1, 4, 1);
         createButton(grid, cancel, cancelTitle, 0, 4, 2);
         return grid;

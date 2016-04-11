@@ -32,10 +32,10 @@ public class Scout extends EntityBase implements IView, IModel {
                 createAddScoutView();
             }
             else if (type == "Modify") {
-                createEnterScoutView();
+                createEnterModifyScoutView();
             }
             else if (type == "Remove") {
-                createEnterScoutView();
+                createEnterRemoveScoutView();
             }
         }
 
@@ -52,18 +52,30 @@ public class Scout extends EntityBase implements IView, IModel {
             swapToView(currentScene);
         }
 
-     public void createEnterScoutView() {
-            Scene currentScene = (Scene)myViews.get("EnterScoutView");
+     public void createEnterModifyScoutView() {
+            Scene currentScene = (Scene)myViews.get("EnterModifyScoutView");
 
             if (currentScene == null)
             {
-                View newView = ViewFactory.createView("EnterScoutView", this);
+                View newView = ViewFactory.createView("EnterModifyScoutView", this);
                 currentScene = new Scene(newView);
                 currentScene.getStylesheets().add("styleSheet.css");
-                myViews.put("EnterScoutView", currentScene);
+                myViews.put("EnterModifyScoutView", currentScene);
             }
             swapToView(currentScene);
         }
+        public void createEnterRemoveScoutView() {
+               Scene currentScene = (Scene)myViews.get("EnterRemoveScoutView");
+
+               if (currentScene == null)
+               {
+                   View newView = ViewFactory.createView("EnterRemoveScoutView", this);
+                   currentScene = new Scene(newView);
+                   currentScene.getStylesheets().add("styleSheet.css");
+                   myViews.put("EnterRemoveScoutView", currentScene);
+               }
+               swapToView(currentScene);
+           }
 
      public void createModifyScoutView() {
             Scene currentScene = (Scene)myViews.get("ModifyScoutView");
