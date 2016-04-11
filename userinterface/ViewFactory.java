@@ -22,7 +22,7 @@ public class ViewFactory {
 		else if(viewName.equals("AddNewTreeView") == true)
 		{
 			return new AddNewTreeView(model);
-		}         
+		}
 		else if(viewName.equals("UpdateTreeView") == true)
 		{
 			return new UpdateTreeView(model);
@@ -31,18 +31,15 @@ public class ViewFactory {
 		{
 			return new RemoveTreeView(model);
 		}
-		/*else if(viewName.equals("AddTreeTypeView") == true)
+		else if(viewName.equals("AddNewTreeTypeView") == true)
 		{
-			return new AddTreeTypeView(model);
+			return new AddNewTreeTypeView(model);
 		}
-		else if(viewName.equals("ModifyTreeTypeView") == true)
+	/*	else if(viewName.equals("ModifyTreeTypeView") == true)
 		{
 			return new ModifyTreeTypeView(model);
 		}
-		else if(viewName.equals("RemoveTreeTypeView") == true)
-		{
-			return new RemoveTreeTypeView(model);
-		}
+
 		else if(viewName.equals("OpenShiftView") == true)
 		{
 			return new OpenShiftView(model);
