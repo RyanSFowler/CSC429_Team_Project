@@ -1,3 +1,4 @@
+
 package userinterface;
 
 import java.util.Vector;
@@ -9,15 +10,23 @@ public class ScoutTableModel
 {
 	private final SimpleStringProperty scoutId;
 	private final SimpleStringProperty firstName;
+	private final SimpleStringProperty middleInitial;
 	private final SimpleStringProperty lastName;
+	private final SimpleStringProperty dob;
+  private final SimpleStringProperty phoneNumber;
+  private final SimpleStringProperty email;
 
 
 	//----------------------------------------------------------------------------
-	public ScoutTableModel(Vector<String> bookData)
+	public ScoutTableModel(Vector<String> scoutData)
 	{
-		scoutId =  new SimpleStringProperty(bookData.elementAt(0));
-		firstName =  new SimpleStringProperty(bookData.elementAt(1));
-		lastName =  new SimpleStringProperty(bookData.elementAt(2));
+		scoutId =  new SimpleStringProperty(scoutData.elementAt(0));
+		firstName =  new SimpleStringProperty(scoutData.elementAt(1));
+		middleInitial =  new SimpleStringProperty(scoutData.elementAt(2));
+		lastName =  new SimpleStringProperty(scoutData.elementAt(3));
+		dob =  new SimpleStringProperty(scoutData.elementAt(4));
+    phoneNumber =  new SimpleStringProperty(scoutData.elementAt(5));
+    email =  new SimpleStringProperty(scoutData.elementAt(6));
 	}
 
 	//----------------------------------------------------------------------------
@@ -26,8 +35,8 @@ public class ScoutTableModel
     }
 
 	//----------------------------------------------------------------------------
-    public void setScoutId(String id) {
-    	scoutId.set(id);
+    public void setScoutID(String number) {
+        scoutId.set(number);
     }
 
     //----------------------------------------------------------------------------
@@ -36,8 +45,18 @@ public class ScoutTableModel
     }
 
     //----------------------------------------------------------------------------
-    public void setFirstName(String firstNameIn) {
-    	firstName.set(firstNameIn);
+    public void setFirstName(String aType) {
+        firstName.set(aType);
+    }
+
+    //----------------------------------------------------------------------------
+    public String getMiddleInitial() {
+        return middleInitial.get();
+    }
+
+    //----------------------------------------------------------------------------
+    public void setMiddleInitial(String aTitle) {
+        middleInitial.set(aTitle);
     }
 
     //----------------------------------------------------------------------------
@@ -46,7 +65,36 @@ public class ScoutTableModel
     }
 
     //----------------------------------------------------------------------------
-    public void setLastName(String lastNameIn) {
-    	lastName.set(lastNameIn);
+    public void setLastName(String year)
+    {
+    	lastName.set(year);
     }
+    //----------------------------------------------------------------------------
+    public String getDob(){
+    	return dob.get();
+
+    }
+    //----------------------------------------------------------------------------
+    public void setDob(String aStatus){
+    	dob.set(aStatus);
+    }
+    //----------------------------------------------------------------------------
+    public String getPhoneNumber(){
+    	return phoneNumber.get();
+
+    }
+    //----------------------------------------------------------------------------
+    public void setPhoneNumber(String aStatus){
+    	phoneNumber.set(aStatus);
+    }
+    //----------------------------------------------------------------------------
+    public String getEmail(){
+    	return email.get();
+
+    }
+    //----------------------------------------------------------------------------
+    public void setEmail(String aStatus){
+    	email.set(aStatus);
+    }
+
 }

@@ -25,6 +25,8 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import model.Scout;
+import model.TreeLotCoordinator;
+import model.ScoutCollection;
 
 
 public class EnterModifyScoutView extends View {
@@ -195,9 +197,15 @@ public class EnterModifyScoutView extends View {
             }
             else
             {
-                // SEARCH AND MODIFY SCOUT
+                searchScouts(firstName,lastName);
             }
 	}
+        public void searchScouts(String f,String l)
+        {
+          ScoutCollection sc = new ScoutCollection();
+          sc.findScoutsWithNameLike(f,l);
+          sc.createAndShowScoutCollectionView();
+        }
 
           private void refreshFormContents()
         {

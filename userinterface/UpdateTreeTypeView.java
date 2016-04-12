@@ -222,7 +222,7 @@ public class UpdateTreeTypeView extends View {
 
     private void refreshFormContents()
     {
-        submitTitle = buttons.getString("submitModifyTreeType");
+        submitTitle = buttons.getString("submitTreeType");
         cancelTitle = buttons.getString("cancelTreeType");
         barcodePrefixTitle = labels.getString("barcodePrefix");
         costTitle = labels.getString("cost");

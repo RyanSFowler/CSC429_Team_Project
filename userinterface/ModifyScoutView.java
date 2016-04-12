@@ -35,13 +35,17 @@ import javafx.scene.text.TextAlignment;
  *
  * @author florianjousselin
  */
-public class AddNewTreeView extends View {
+public class ModifyScoutView extends View {
 
-    private TextField barcode;
-    private TextArea notes;
+    private TextField firstNameField;
+    private TextField lastNameField;
+    private TextField middleInitialField;
+    private TextField dobField;
+    private TextField phoneNumField;
+    private TextField emailField;
     protected Button cancel;
     protected Button submit;
-    
+
     private Locale locale = new Locale("en", "CA");
     private ResourceBundle buttons;
     private ResourceBundle titles;
@@ -49,22 +53,29 @@ public class AddNewTreeView extends View {
     private ResourceBundle alerts;
     private String cancelTitle;
     private String submitTitle;
-    private String barcodeTitle;
+
+    private String firstNameTitle;
+    private String lastNameTitle;
+    private String middleTitle;
+    private String dobTitle;
+    private String phoneTitle;
+    private String emailTitle;
+
     private String title;
     private String alertTitle;
     private String alertSubTitle;
     private String alertBody;
-    
+
     private String alertTitleSucceeded;
     private String alertSubTitleSucceeded;
     private String alertBodySucceeded;
-    
+
     private String description;
-    
-    
-    public AddNewTreeView(IModel model) {
-        super(model, "AddNewTreeView");
-        Preferences prefs = Preferences.userNodeForPackage(AddNewTreeView.class);
+
+
+    public ModifyScoutView(IModel model) {
+        super(model, "ModifyScoutView");
+        Preferences prefs = Preferences.userNodeForPackage(ModifyScoutView.class);
         String langage = prefs.get("langage", null);
         if (langage.toString().equals("en") == true)
         {
@@ -80,23 +91,26 @@ public class AddNewTreeView extends View {
         alerts = ResourceBundle.getBundle("AlertsBundle", locale);
         refreshFormContents();
         displayWindow();
-        
+
     }
-    
-    
+
+
+
     public void displayWindow()
     {
         VBox container = new VBox(10);
-        container.setAlignment(Pos.CENTER);	
+        container.setAlignment(Pos.CENTER);
         container.setPadding(new Insets(15, 5, 5, 5));
+
         container.getChildren().add(createTitle());
 	container.getChildren().add(createFormContent());
+
         //container.getChildren().add(createStatusLog("                                            "));
 	getChildren().add(container);
         populateFields();
         myModel.subscribe("LoginError", this);
     }
-    
+
     public Node createTitle()
     {
         HBox container = new HBox();
@@ -109,7 +123,7 @@ public class AddNewTreeView extends View {
         container.getChildren().add(titleText);
         return container;
     }
-    
+
     private GridPane createFormContent()
     {
         GridPane grid = new GridPane();
@@ -117,14 +131,18 @@ public class AddNewTreeView extends View {
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
-        barcode = createInput(grid, barcode, barcodeTitle, 0);
-        notes = new TextArea();
-        notes = createInputTextArea(grid, notes, description, 1);
-        createButton(grid, submit, submitTitle, 1, 4, 1);
-        createButton(grid, cancel, cancelTitle, 0, 4, 2);
+
+        firstNameField = createInput(grid, firstNameField, firstNameTitle, 0);
+        middleInitialField = createInput(grid, middleInitialField, middleTitle, 1);
+        lastNameField = createInput(grid, lastNameField, lastNameTitle, 2);
+        dobField = createInput(grid, dobField, dobTitle, 3);
+        phoneNumField = createInput(grid, phoneNumField, phoneTitle, 4);
+        emailField = createInput(grid, emailField, emailTitle, 5);
+        createButton(grid, submit, submitTitle, 1, 6, 1);
+        createButton(grid, cancel, cancelTitle, 0, 6, 2);
         return grid;
     }
-    
+
     private TextField createInput(GridPane grid, TextField textfield, String label, Integer pos)
     {
         Label Author = new Label(label);
@@ -134,7 +152,7 @@ public class AddNewTreeView extends View {
         grid.add(textfield, 1, pos);
         return textfield;
     }
-    
+
     private TextArea createInputTextArea(GridPane grid, TextArea textarea, String label, Integer pos)
     {
         Label Author = new Label(label);
@@ -147,7 +165,7 @@ public class AddNewTreeView extends View {
         grid.add(textarea, 1, pos);
         return textarea;
     }
-    
+
     private void createButton(GridPane grid, Button button, String nameButton, Integer pos1, Integer pos2, Integer id)
     {
         button = new Button(nameButton);
@@ -163,22 +181,24 @@ public class AddNewTreeView extends View {
         btnContainer.getChildren().add(button);
         grid.add(btnContainer, pos1, pos2);
     }
-    
+
     public void processAction(Event evt)
     {
+        String mI;
         Object source = evt.getSource();
         Button clickedBtn = (Button) source;
         if (clickedBtn.getId().equals("1") == true)
         {
-            if (barcode.getText().isEmpty() == true)
+            if(middleInitialField.getText().isEmpty() == true)
             {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle(alertTitle);
-                alert.setHeaderText(alertSubTitle);
-                alert.setContentText(alertBody);
-                alert.showAndWait();
+              mI="";
             }
-            else if (notes.getText().isEmpty() == true)
+            else
+            {
+              mI = middleInitialField.getText();
+            }
+            if ((firstNameField.getText().isEmpty() == true) || (lastNameField.getText().isEmpty() == true)
+                 || (dobField.getText().isEmpty() == true) || (phoneNumField.getText().isEmpty() == true) || (emailField.getText().isEmpty() == true))
             {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle(alertTitle);
@@ -189,11 +209,16 @@ public class AddNewTreeView extends View {
             else
             {
                 Properties props = new Properties();
-                props.setProperty("Barcode", barcode.getText());
-                props.setProperty("Notes", notes.getText());
+                props.setProperty("FirstName", firstNameField.getText());
+                props.setProperty("MiddleInitial", mI);
+                props.setProperty("LastName", lastNameField.getText());
+                props.setProperty("DateOfBirth", dobField.getText());
+                props.setProperty("PhoneNumber", phoneNumField.getText());
+                props.setProperty("Email", emailField.getText());
+                props.setProperty("Status", "Active");
                 try
                 {
-                    myModel.stateChangeRequest("AddNewTree", props);
+                    myModel.stateChangeRequest("ModifyScout", props);
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle(alertTitleSucceeded);
                     alert.setHeaderText(alertSubTitleSucceeded);
@@ -203,7 +228,7 @@ public class AddNewTreeView extends View {
                 }
                 catch (Exception ex)
                 {
-                    System.out.print("Error New Tree Add");
+                    System.out.print("Error New Scout Modify");
                 }
             }
         }
@@ -212,33 +237,42 @@ public class AddNewTreeView extends View {
             myModel.stateChangeRequest("Done", null);
         }
     }
-    
+
     private void refreshFormContents()
     {
-        submitTitle = buttons.getString("submitTree");
-        cancelTitle = buttons.getString("cancelTree");
-        barcodeTitle = labels.getString("barcodeTree");
-        description = labels.getString("notes");
-        title = titles.getString("mainTitleAddTree");
-        alertTitle = alerts.getString("AddTreeTitle");
-        alertSubTitle = alerts.getString("AddTreeSubTitle");
-        alertBody = alerts.getString("AddTreeBody");
-        alertTitleSucceeded = alerts.getString("AddTreeTitleSucceeded");
-        alertSubTitleSucceeded = alerts.getString("AddTreeSubTitleSucceeded");
-        alertBodySucceeded = alerts.getString("AddTreeBodySucceeded");
+        submitTitle = buttons.getString("submitModifyScout");
+        cancelTitle = buttons.getString("cancelAddScout");
+        firstNameTitle = labels.getString("firstName");
+        lastNameTitle = labels.getString("lastName");
+        middleTitle = labels.getString("middle");
+        dobTitle = labels.getString("dateOfBirth");
+        phoneTitle = labels.getString("phone");
+        emailTitle = labels.getString("email");
+        title = titles.getString("mainTitleModifyScout");
+        alertTitle = alerts.getString("ModifyScoutTitle");
+        alertSubTitle = alerts.getString("ModifyScoutSubTitle");
+        alertBody = alerts.getString("ModifyScoutBody");
+        alertTitleSucceeded = alerts.getString("ModifyScoutTitleSucceeded");
+        alertSubTitleSucceeded = alerts.getString("ModifyScoutSubTitleSucceeded");
+        alertBodySucceeded = alerts.getString("ModifyScoutBodySucceeded");
     }
-    
-    
+
+
     protected void populateFields()
     {
-        barcode.setText("");
-        notes.setText("");
+        firstNameField.setText("");
+        lastNameField.setText("");
+        middleInitialField.setText("");
+        dobField.setText("");
+        phoneNumField.setText("");
+        emailField.setText("");
+
     }
-    
+
     @Override
     public void updateState(String key, Object value) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
+
+
 }
