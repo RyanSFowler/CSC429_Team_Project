@@ -30,6 +30,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javax.swing.SwingConstants;
 
 /**
  *
@@ -130,6 +131,7 @@ public class AddNewTreeView extends View {
         Label Author = new Label(label);
         GridPane.setHalignment(Author, HPos.RIGHT);
         grid.add(Author, 0, pos);
+        Author.setAlignment(Pos.CENTER_RIGHT);
         textfield = new TextField();
         grid.add(textfield, 1, pos);
         return textfield;
@@ -140,6 +142,7 @@ public class AddNewTreeView extends View {
         Label Author = new Label(label);
         GridPane.setHalignment(Author, HPos.RIGHT);
         grid.add(Author, 0, pos);
+        Author.setAlignment(Pos.CENTER_RIGHT);
         textarea = new TextArea();
         textarea.setDisable(false);
         textarea.setWrapText(true);
