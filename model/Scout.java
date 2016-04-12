@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package model;
-
+import java.util.Enumeration;
 import impresario.IModel;
 import impresario.IView;
 import java.sql.SQLException;
@@ -16,6 +16,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import userinterface.View;
 import userinterface.ViewFactory;
+import model.ScoutCollection;
 
 
 public class Scout extends EntityBase implements IView, IModel {
@@ -42,6 +43,29 @@ public class Scout extends EntityBase implements IView, IModel {
                 createEnterRemoveScoutView();
             }
         }
+        public Scout(Properties props)
+	      {
+		        super(myTableName);
+
+		        setDependencies();
+		        setData(props);
+	      }
+        //-----------------------------------------------------------------------------------
+	      public void setData(Properties props)
+	      {
+		        persistentState = new Properties();
+		        Enumeration allKeys = props.propertyNames();
+		        while (allKeys.hasMoreElements() == true)
+		        {
+			           String nextKey = (String)allKeys.nextElement();
+			           String nextValue = props.getProperty(nextKey);
+
+			          if (nextValue != null)
+			          {
+				              persistentState.setProperty(nextKey, nextValue);
+			          }
+		        }
+	      }
         public void createEnterModifyScoutView() {
                Scene currentScene = (Scene)myViews.get("EnterModifyScoutView");
 
@@ -109,6 +133,13 @@ public class Scout extends EntityBase implements IView, IModel {
             dependencies = new Properties();
             myRegistry.setDependencies(dependencies);
 	}
+  public static int compare(Scout a, Scout b)
+  {
+    String aNum = (String)a.getState("scoutId");//this or title
+    String bNum = (String)b.getState("scoutId");
+
+    return aNum.compareTo(bNum);
+  }
 
      public Object getState(String key)
 	{
@@ -180,7 +211,21 @@ public class Scout extends EntityBase implements IView, IModel {
             //updateStatusMessage = "Error in installing account data in database!";
         }
         }
+        public Vector<String> getEntryListView()
+        {
+        		Vector<String> v = new Vector<String>();
+            v.addElement(persistentState.getProperty("ScoutId"));
+        		v.addElement(persistentState.getProperty("FirstName"));
+        		v.addElement(persistentState.getProperty("MiddleInitial"));
+        		v.addElement(persistentState.getProperty("LastName"));
+        		v.addElement(persistentState.getProperty("DateOfBirth"));
+        		v.addElement(persistentState.getProperty("PhoneNumber"));
+            v.addElement(persistentState.getProperty("Email"));
+            v.addElement(persistentState.getProperty("Status"));
+            v.addElement(persistentState.getProperty("DateStatusUpdated"));
 
+        		return v;
+        }
         public void insert() {
             //System.out.print("Insert Add Tree");
             dependencies = new Properties();
@@ -244,6 +289,10 @@ public class Scout extends EntityBase implements IView, IModel {
 	{
             stateChangeRequest(key, value);
 	}
+  public void modifyScoutDone()
+  {
+    createEnterModifyScoutView();
+  }
   public void done()
   {
     myTreeLotCoordinator.transactionDone();
