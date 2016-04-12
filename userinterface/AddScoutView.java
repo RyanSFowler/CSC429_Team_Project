@@ -95,6 +95,7 @@ public class AddScoutView extends View {
     }
 
 
+
     public void displayWindow()
     {
         VBox container = new VBox(10);
@@ -257,7 +258,7 @@ public class AddScoutView extends View {
         dobField.setText("");
         phoneNumField.setText("");
         emailField.setText("");
-        
+
     }
 
     @Override
