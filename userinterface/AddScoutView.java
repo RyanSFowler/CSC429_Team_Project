@@ -184,13 +184,21 @@ public class AddScoutView extends View {
 
     public void processAction(Event evt)
     {
+        String mI;
         Object source = evt.getSource();
         Button clickedBtn = (Button) source;
         if (clickedBtn.getId().equals("1") == true)
         {
+            if(middleInitialField.getText().isEmpty() == true)
+            {
+              mI="";
+            }
+            else
+            {
+              mI = middleInitialField.getText();
+            }
             if ((firstNameField.getText().isEmpty() == true) || (lastNameField.getText().isEmpty() == true)
-                  || (middleInitialField.getText().isEmpty() == true) || (dobField.getText().isEmpty() == true)
-                  || (phoneNumField.getText().isEmpty() == true) || (emailField.getText().isEmpty() == true))
+                  || (dobField.getText().isEmpty() == true) || (phoneNumField.getText().isEmpty() == true) || (emailField.getText().isEmpty() == true))
             {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle(alertTitle);
@@ -202,7 +210,7 @@ public class AddScoutView extends View {
             {
                 Properties props = new Properties();
                 props.setProperty("FirstName", firstNameField.getText());
-                props.setProperty("MiddleInitial", middleInitialField.getText());
+                props.setProperty("MiddleInitial", mI);
                 props.setProperty("LastName", lastNameField.getText());
                 props.setProperty("DateOfBirth", dobField.getText());
                 props.setProperty("PhoneNumber", phoneNumField.getText());
