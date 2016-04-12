@@ -85,7 +85,6 @@ public class TreeLotCoordinatorView extends View
 	{
 		super(treeLotCoordinator, "TreeLotCoordinatorView");
 
-
 		buttons = ResourceBundle.getBundle("ButtonsBundle", locale);
                 titles = ResourceBundle.getBundle("TitlesBundle", locale);
 
@@ -109,6 +108,7 @@ public class TreeLotCoordinatorView extends View
 		setVisibility("tree", false);
 		setVisibility("treeType", false);
 		setVisibility("sales", false);
+                automaticInternationalization();
 
 		//populateFields();
 
@@ -116,6 +116,32 @@ public class TreeLotCoordinatorView extends View
 		myModel.subscribe("LoginError", this);
 	}
 
+        private void automaticInternationalization()
+        {
+            if (System.getProperty("user.country").equals("FR") == true)
+                {
+                    locale = new Locale("fr", "CA");
+                    frenchButton.setOpacity(1.0);
+                    englishButton.setOpacity(0.3);
+                    buttons = ResourceBundle.getBundle("ButtonsBundle", locale);
+                    titles = ResourceBundle.getBundle("TitlesBundle", locale);
+                    prefs = Preferences.userNodeForPackage(TreeLotCoordinatorView.class);
+                    prefs.put("langage", "fr");
+                    refreshFormContents();
+                }
+                else
+                {
+                    locale = new Locale("en", "US");
+                    englishButton.setOpacity(1.0);
+                    frenchButton.setOpacity(0.3);
+                    buttons = ResourceBundle.getBundle("ButtonsBundle", locale);
+                    titles = ResourceBundle.getBundle("TitlesBundle", locale);
+                    prefs = Preferences.userNodeForPackage(TreeLotCoordinatorView.class);
+                    prefs.put("langage", "en");
+                    refreshFormContents();
+                }
+        }
+        
 	// Create the label (Text) for the title of the screen
 	//-------------------------------------------------------------
 	private Node createTitle()

@@ -188,21 +188,24 @@ public class RemoveTreeView extends View {
                     alert.setContentText(alertBody);
                     alert.showAndWait();
                 }
-                Properties props = new Properties();
-                props.setProperty("Barcode", barcode.getText());
-                try
+                else
                 {
-                    myModel.stateChangeRequest("RemoveTree", props);
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle(alertTitleSucceeded);
-                    alert.setHeaderText(alertSubTitleSucceeded);
-                    alert.setContentText(alertBodySucceeded);
-                    alert.showAndWait();
-                    populateFields();
-                }
-                catch (Exception ex)
-                {
-                    System.out.print("Error Remove Tree");
+                    Properties props = new Properties();
+                    props.setProperty("Barcode", barcode.getText());
+                    try
+                    {
+                        myModel.stateChangeRequest("RemoveTree", props);
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle(alertTitleSucceeded);
+                        alert.setHeaderText(alertSubTitleSucceeded);
+                        alert.setContentText(alertBodySucceeded);
+                        alert.showAndWait();
+                        populateFields();
+                    }
+                    catch (Exception ex)
+                    {
+                        System.out.print("Error Remove Tree");
+                    }
                 }
             }
 	}

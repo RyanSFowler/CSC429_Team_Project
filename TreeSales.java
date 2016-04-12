@@ -51,7 +51,14 @@ public class TreeSales extends Application
 	{
 
            // Create the top-level container (main frame) and add contents to it.
-	   MainStageContainer.setStage(primaryStage, "Boy Scout Christmas Tree Sales");
+           if (System.getProperty("user.country").equals("FR") == true)
+           {
+               MainStageContainer.setStage(primaryStage, "Vente D'arbres de Nöel Des Boy Scouts");
+           }
+           else
+           {
+               MainStageContainer.setStage(primaryStage, "Boy Scout Christmas Tree Sales");
+           }
 	   mainStage = MainStageContainer.getInstance();
 
 	   // Finish setting up the stage (ENABLE THE GUI TO BE CLOSED USING THE TOP RIGHT
