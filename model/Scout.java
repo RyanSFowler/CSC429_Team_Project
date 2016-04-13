@@ -268,8 +268,7 @@ public class Scout extends EntityBase implements IView, IModel {
              if (allDataRetrieved != null ) {//&& allDataRetrieved.size() == 1
              Properties whereClause = new Properties();
              whereClause.setProperty("LastName", persistentState.getProperty("LastName"));
-             deletePersistentState(mySchema, whereClause);
-             //updatePersistentState(mySchema, persistentState, whereClause);
+             updatePersistentState(mySchema, persistentState, whereClause);
              updateStatusMessage = "Remove scout : " + persistentState.getProperty("LastName") + " removed successfully in database!";
              System.out.println(updateStatusMessage);
           }
