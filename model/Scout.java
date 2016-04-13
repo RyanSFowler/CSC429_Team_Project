@@ -233,7 +233,7 @@ public class Scout extends EntityBase implements IView, IModel {
              System.out.println(allDataRetrieved);
              if (allDataRetrieved != null ) {//&& allDataRetrieved.size() == 1
              Properties whereClause = new Properties();
-             whereClause.setProperty("FirstName", persistentState.getProperty("FirstName"));
+             whereClause.setProperty("LastName", persistentState.getProperty("LastName"));
              updatePersistentState(mySchema, persistentState, whereClause);
              updateStatusMessage = "update scout : " + persistentState.getProperty("FirstName") + " Added successfully in database!";
              System.out.println(updateStatusMessage);
@@ -269,7 +269,7 @@ public class Scout extends EntityBase implements IView, IModel {
              Properties whereClause = new Properties();
              whereClause.setProperty("LastName", persistentState.getProperty("LastName"));
              updatePersistentState(mySchema, persistentState, whereClause);
-             updateStatusMessage = "remove scout : " + persistentState.getProperty("FirstName") + " removed successfully in database!";
+             updateStatusMessage = "Remove scout : " + persistentState.getProperty("LastName") + " removed successfully in database!";
              System.out.println(updateStatusMessage);
           }
              else {
