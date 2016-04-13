@@ -31,11 +31,8 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
-/**
- *
- * @author florianjousselin
- */
-public class ModifyScoutView extends View {
+
+public class UpdateScoutView extends View {
 
     private TextField firstNameField;
     private TextField lastNameField;
@@ -53,7 +50,6 @@ public class ModifyScoutView extends View {
     private ResourceBundle alerts;
     private String cancelTitle;
     private String submitTitle;
-
     private String firstNameTitle;
     private String lastNameTitle;
     private String middleTitle;
@@ -70,12 +66,9 @@ public class ModifyScoutView extends View {
     private String alertSubTitleSucceeded;
     private String alertBodySucceeded;
 
-    private String description;
-
-
-    public ModifyScoutView(IModel model) {
-        super(model, "ModifyScoutView");
-        Preferences prefs = Preferences.userNodeForPackage(ModifyScoutView.class);
+    public UpdateScoutView(IModel model) {
+        super(model, "UpdateScoutView");
+        Preferences prefs = Preferences.userNodeForPackage(UpdateScoutView.class);
         String langage = prefs.get("langage", null);
         if (langage.toString().equals("en") == true)
         {
@@ -95,20 +88,17 @@ public class ModifyScoutView extends View {
     }
 
 
-
     public void displayWindow()
     {
         VBox container = new VBox(10);
         container.setAlignment(Pos.CENTER);
         container.setPadding(new Insets(15, 5, 5, 5));
-
         container.getChildren().add(createTitle());
 	container.getChildren().add(createFormContent());
-
         //container.getChildren().add(createStatusLog("                                            "));
 	getChildren().add(container);
         populateFields();
-        myModel.subscribe("LoginError", this);
+        myModel.subscribe("UpdateScoutError", this);
     }
 
     public Node createTitle()
@@ -198,7 +188,7 @@ public class ModifyScoutView extends View {
               mI = middleInitialField.getText();
             }
             if ((firstNameField.getText().isEmpty() == true) || (lastNameField.getText().isEmpty() == true)
-                 || (dobField.getText().isEmpty() == true) || (phoneNumField.getText().isEmpty() == true) || (emailField.getText().isEmpty() == true))
+                  || (dobField.getText().isEmpty() == true) || (phoneNumField.getText().isEmpty() == true) || (emailField.getText().isEmpty() == true))
             {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle(alertTitle);
@@ -218,7 +208,7 @@ public class ModifyScoutView extends View {
                 props.setProperty("Status", "Active");
                 try
                 {
-                    myModel.stateChangeRequest("ModifyScout", props);
+                    myModel.stateChangeRequest("UpdateScout", props);
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle(alertTitleSucceeded);
                     alert.setHeaderText(alertSubTitleSucceeded);
@@ -228,7 +218,7 @@ public class ModifyScoutView extends View {
                 }
                 catch (Exception ex)
                 {
-                    System.out.print("Error New Scout Modify");
+                    System.out.print("Error UpdateScout");
                 }
             }
         }
@@ -240,7 +230,7 @@ public class ModifyScoutView extends View {
 
     private void refreshFormContents()
     {
-        submitTitle = buttons.getString("submitModifyScout");
+        submitTitle = buttons.getString("submitModifyTree");
         cancelTitle = buttons.getString("cancelAddScout");
         firstNameTitle = labels.getString("firstName");
         lastNameTitle = labels.getString("lastName");
@@ -257,16 +247,14 @@ public class ModifyScoutView extends View {
         alertBodySucceeded = alerts.getString("ModifyScoutBodySucceeded");
     }
 
-
     protected void populateFields()
     {
-        firstNameField.setText("");
-        lastNameField.setText("");
-        middleInitialField.setText("");
-        dobField.setText("");
-        phoneNumField.setText("");
-        emailField.setText("");
-
+      firstNameField.setText("");
+      lastNameField.setText("");
+      middleInitialField.setText("");
+      dobField.setText("");
+      phoneNumField.setText("");
+      emailField.setText("");
     }
 
     @Override

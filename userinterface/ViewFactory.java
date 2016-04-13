@@ -15,13 +15,13 @@ public class ViewFactory {
 		{
 			return new AddScoutView(model);
 		}
-		else if(viewName.equals("EnterRemoveScoutView") == true)
+		else if(viewName.equals("UpdateScoutView") == true)
 		{
-			return new EnterRemoveScoutView(model);
+			return new UpdateScoutView(model);
 		}
-		else if(viewName.equals("EnterModifyScoutView") == true)
+		else if(viewName.equals("RemoveScoutView") == true)
 		{
-			return new EnterModifyScoutView(model);
+			return new RemoveScoutView(model);
 		}
 		else if(viewName.equals("AddNewTreeView") == true)
 		{
