@@ -219,7 +219,7 @@ public class Scout extends EntityBase implements IView, IModel {
             }
 	}
 
-  private void UpdateScoutInDatabase()
+private void UpdateScoutInDatabase()
   {
     String first = persistentState.getProperty("FirstName");
     String last =  persistentState.getProperty("LastName");
@@ -253,6 +253,7 @@ public class Scout extends EntityBase implements IView, IModel {
          //updateStatusMessage = "Error in installing account data in database!";
      }
   }
+
   private void RemoveScoutInDatabase()
   {
     String first = persistentState.getProperty("FirstName");

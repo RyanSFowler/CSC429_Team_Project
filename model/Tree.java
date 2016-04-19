@@ -28,7 +28,7 @@ public class Tree extends EntityBase implements IView, IModel {
      protected Properties dependencies;
      private static final String myTableName = "TREE";
      private String updateStatusMessage = "";
-    
+     public String ErrorUpdate = "";
      
      public Tree(TreeLotCoordinator l, String type) throws Exception {
             super(myTableName);
@@ -148,6 +148,7 @@ public class Tree extends EntityBase implements IView, IModel {
 		System.out.println(updateStatusMessage);
              }
                 else {
+                      System.out.print("No match with :" + persistentState.getProperty("Barcode"));
                     // Return an error (no barcode match)
                 }
             }
@@ -194,6 +195,8 @@ public class Tree extends EntityBase implements IView, IModel {
 		System.out.println(updateStatusMessage);
              }
                 else {
+                    System.out.print("No match with :" + persistentState.getProperty("Barcode"));
+                   // ErrorUpdate = "Error";
                     // Return an error (no barcode match)
                 }
             }
@@ -207,6 +210,10 @@ public class Tree extends EntityBase implements IView, IModel {
             // Return a SQL Error
             //updateStatusMessage = "Error in installing account data in database!";
         }
+     }
+     
+     public String getErrorUpdate() {
+         return (ErrorUpdate);
      }
      
    protected void initializeSchema(String tableName)
