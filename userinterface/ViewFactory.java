@@ -43,14 +43,14 @@ public class ViewFactory {
 		{
 			return new UpdateTreeTypeView(model);
 		}
-/*
-		else if(viewName.equals("OpenShiftView") == true)
+
+		else if(viewName.equals("OpenSessionView") == true)
 		{
-			return new OpenShiftView(model);
+			return new OpenSessionView(model);
 		}
-		else if(viewName.equals("CloseShiftView") == true)
+/*		else if(viewName.equals("CloseShiftView") == true)
 		{
-			return new CloseShiftView(model);
+			return new CloseSessionView(model);
 		}
 		else if(viewName.equals("RecordSaleView") == true)
 		{

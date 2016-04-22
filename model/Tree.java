@@ -189,10 +189,10 @@ public class Tree extends EntityBase implements IView, IModel {
                 Vector<Properties> allDataRetrieved = getSelectQueryResult(query);
                 if (allDataRetrieved != null && allDataRetrieved.size() == 1) {
                 Properties whereClause = new Properties();
-		whereClause.setProperty("Barcode", persistentState.getProperty("Barcode"));
-		updatePersistentState(mySchema, persistentState, whereClause);
-		updateStatusMessage = "Add New Tree  : " + persistentState.getProperty("Barcode") + " Add successfully in database!";
-		System.out.println(updateStatusMessage);
+			whereClause.setProperty("Barcode", persistentState.getProperty("Barcode"));
+			updatePersistentState(mySchema, persistentState, whereClause);
+			updateStatusMessage = "Add New Tree  : " + persistentState.getProperty("Barcode") + " Add successfully in database!";
+			System.out.println(updateStatusMessage);
              }
                 else {
                     System.out.print("No match with :" + persistentState.getProperty("Barcode"));

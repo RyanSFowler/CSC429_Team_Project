@@ -292,7 +292,7 @@ public class TreeLotCoordinatorView extends View
        		     public void handle(ActionEvent e) {
        		    	transCategory = "TreeType";
        		     	processOptionAction(e);
-            	     }
+            	 }
         	});
 
  		addTreeTypeButton = new Button("Add Tree Type");
@@ -334,25 +334,27 @@ public class TreeLotCoordinatorView extends View
        		     public void handle(ActionEvent e) {
        		    	transCategory = "Sales";
        		     	processOptionAction(e);
-            	     }
+            	 }
         	});
 
- 		openShiftButton = new Button("Open Shift");
+ 		openShiftButton = new Button("Open Session");
  		openShiftButton.setMaxWidth(Double.MAX_VALUE);
  		openShiftButton.setOnAction(new EventHandler<ActionEvent>() {
 
 	  		     @Override
 	  		     public void handle(ActionEvent e) {
+	  		    	transType = "Open";
 	  		     	processAction(e);
 	       	     }
  			});
 
- 		closeShiftButton = new Button("Close Shift");
+ 		closeShiftButton = new Button("Close Session");
  		closeShiftButton.setMaxWidth(Double.MAX_VALUE);
  		closeShiftButton.setOnAction(new EventHandler<ActionEvent>() {
 
 	  		     @Override
 	  		     public void handle(ActionEvent e) {
+	  		    	transType = "Close";
 	  		     	processAction(e);
 	       	     }
  			});
