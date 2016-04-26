@@ -14,8 +14,6 @@ import java.util.prefs.Preferences;
 
 import model.Session;
 
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
-
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
