@@ -71,6 +71,12 @@ public class OpenSessionView extends View {
     private String alertBodySucceeded;
     
     private String description;
+    private String sessionDate;
+    private String startingTime;
+    private String endingTime;
+    private String startingCash;
+    private String companion;
+    private String selectScout;
     
     
     public OpenSessionView(IModel model) {
@@ -127,24 +133,24 @@ public class OpenSessionView extends View {
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
-        date = createInput(grid, date, "Date:", 0);
-        startTime = createInput(grid, startTime, "Start Time:", 1);
-        endTime = createInput(grid, startTime, "End Time:", 2);
-        startCash = createInput(grid, startCash, "Starting Cash: ($)", 3);
+        date = createInput(grid, date, sessionDate, 0);
+        startTime = createInput(grid, startTime, startingTime, 1);
+        endTime = createInput(grid, startTime, endingTime, 2);
+        startCash = createInput(grid, startCash, startingCash, 3);
         notes = new TextArea();
         notes = createInputTextArea(grid, notes, description, 4);
         scout1 = new ComboBox((ObservableList)(((Session) myModel).findAllScouts()));
-        scout1.setPromptText("Select a Scout");
+        scout1.setPromptText(selectScout);
         grid.add(scout1, 0, 5);
-        scout1Companion = createInput(grid, scout1Companion, "This Scout's Companion", 2, 5);
+        scout1Companion = createInput(grid, scout1Companion, companion, 2, 5);
         scout2 = new ComboBox((ObservableList)(((Session) myModel).findAllScouts()));
-        scout2.setPromptText("Select a Scout");
+        scout2.setPromptText(selectScout);
         grid.add(scout2, 0, 6);
-        scout2Companion = createInput(grid, scout2Companion, "This Scout's Companion", 2, 6);
+        scout2Companion = createInput(grid, scout2Companion, companion, 2, 6);
         scout3 = new ComboBox((ObservableList)(((Session) myModel).findAllScouts()));
-        scout3.setPromptText("Select a Scout");
+        scout3.setPromptText(selectScout);
         grid.add(scout3, 0, 7);
-        scout3Companion = createInput(grid, scout3Companion, "This Scout's Companion", 2, 7);
+        scout3Companion = createInput(grid, scout3Companion, companion, 2, 7);
         createButton(grid, submit, submitTitle, 1, 9, 1);
         createButton(grid, cancel, cancelTitle, 0, 9, 2);
         return grid;
@@ -256,11 +262,11 @@ public class OpenSessionView extends View {
                 props.setProperty("EndTime", endTime.getText());
                 props.setProperty("StartCash", startCash.getText());
                 props.setProperty("Notes", notes.getText());
-                props.setProperty("Scout1", scoutData1.substring(0, scoutData1.indexOf(" ")));
+                props.setProperty("Scout1", scoutData1.substring(0, scoutData1.indexOf(",")));
                 props.setProperty("Scout1Companion", scout1Companion.getText());
-                props.setProperty("Scout2", scoutData2.substring(0, scoutData2.indexOf(" ")));
+                props.setProperty("Scout2", scoutData2.substring(0, scoutData2.indexOf(",")));
                 props.setProperty("Scout2Companion", scout2Companion.getText());
-                props.setProperty("Scout3", scoutData3.substring(0, scoutData3.indexOf(" ")));
+                props.setProperty("Scout3", scoutData3.substring(0, scoutData3.indexOf(",")));
                 props.setProperty("Scout3Companion", scout3Companion.getText());
                 System.out.println(props);
                 try
@@ -287,16 +293,22 @@ public class OpenSessionView extends View {
     
     private void refreshFormContents()
     {
-        submitTitle = buttons.getString("submitTree");
-        cancelTitle = buttons.getString("cancelTree");
+        submitTitle = buttons.getString("submitSession");
+        cancelTitle = buttons.getString("cancelSession");
         description = labels.getString("notes");
+        sessionDate = labels.getString("date");
+        startingTime = labels.getString("startTime");
+        endingTime = labels.getString("endTime");
+        startingCash = labels.getString("startingCash");
+        companion = labels.getString("companion");
+        selectScout = labels.getString("selectScout");
         title = titles.getString("mainTitleOpenSession");
-        alertTitle = alerts.getString("AddTreeTitle");
-        alertSubTitle = alerts.getString("AddTreeSubTitle");
-        alertBody = alerts.getString("AddTreeBody");
-        alertTitleSucceeded = alerts.getString("AddTreeTitleSucceeded");
-        alertSubTitleSucceeded = alerts.getString("AddTreeSubTitleSucceeded");
-        alertBodySucceeded = alerts.getString("AddTreeBodySucceeded");
+        alertTitle = alerts.getString("OpenSessionTitle");
+        alertSubTitle = alerts.getString("OpenSessionSubTitle");
+        alertBody = alerts.getString("OpenSessionBody");
+        alertTitleSucceeded = alerts.getString("OpenSessionTitleSucceeded");
+        alertSubTitleSucceeded = alerts.getString("OpenSessionSubTitleSucceeded");
+        alertBodySucceeded = alerts.getString("OpenSessionBodySucceeded");
     }
     
     
