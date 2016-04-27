@@ -71,7 +71,10 @@ public class CloseSessionView extends View {
     private String alertBodySucceeded;
 
     private String description;
-
+    private String calculated;
+    private String counted;
+    private String checkcalculated;
+    private String checkcounted;
 
     public CloseSessionView(IModel model) {
         super(model, "CloseSessionView");
@@ -128,12 +131,12 @@ public class CloseSessionView extends View {
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
 
-        Label s=  createLabel(grid,"Total Cash Calculated:",0,0);
+        Label s=  createLabel(grid,calculated,0,0);
         Label s2=  createLabel(grid,cashAmount,0,1);
-        cashCount = createInput(grid, cashCount, "Total Cash Counted:", 1);
-        Label c=  createLabel(grid,"Total Check Calculated:",2,0);
+        cashCount = createInput(grid, cashCount, counted, 1);
+        Label c=  createLabel(grid,checkcalculated,2,0);
         Label c2=  createLabel(grid,checkAmount,2,1);
-        checkCount = createInput(grid, checkCount, "Total Checks Counted:", 3);
+        checkCount = createInput(grid, checkCount, checkcounted, 3);
         notes = createInputTextArea(grid, notes, notesTitle, 4);
         createButton(grid, submit, submitTitle, 1, 5, 1);
         createButton(grid, cancel, cancelTitle, 0, 5, 2);
@@ -295,7 +298,10 @@ public class CloseSessionView extends View {
         alertTitleSucceeded = alerts.getString("AddTreeTitleSucceeded");
         alertSubTitleSucceeded = alerts.getString("AddTreeSubTitleSucceeded");
         alertBodySucceeded = alerts.getString("AddTreeBodySucceeded");
-
+        calculated = labels.getString("Calculated");
+        counted = labels.getString("Counted");
+        checkcalculated = labels.getString("CheckCalculated");
+        checkcounted = labels.getString("CheckCounted");
     }
 
 
