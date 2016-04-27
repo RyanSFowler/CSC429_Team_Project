@@ -24,8 +24,12 @@ public class EntityBaseFactory {
             if(transCategory.equals("TreeType")){
                 retValue = new TreeType(myTreeLotCoordinator, transType);
             }
-            if(transCategory.equals("Sales")){
+            if(transCategory.equals("Sales")&& !transType.equals("Add")){
                 retValue = new Session(myTreeLotCoordinator, transType);
+            }
+            else if(transCategory.equals("Sales")&& transType.equals("Add"))
+            {
+                retValue = new Transaction(myTreeLotCoordinator, transType);
             }
 
 
