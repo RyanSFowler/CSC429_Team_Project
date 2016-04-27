@@ -52,10 +52,10 @@ public class ViewFactory {
 		{
 			return new TransactionView(model);
 		}
-/*		else if(viewName.equals("CloseShiftView") == true)
+		else if(viewName.equals("CloseSessionView") == true)
 		{
 			return new CloseSessionView(model);
-		}
+		}/*
 		else if(viewName.equals("RecordSaleView") == true)
 		{
 			return new RecordSaleView(model);
