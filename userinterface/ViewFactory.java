@@ -48,6 +48,10 @@ public class ViewFactory {
 		{
 			return new OpenSessionView(model);
 		}
+		else if(viewName.equals("TransactionView") == true)
+		{
+			return new TransactionView(model);
+		}
 /*		else if(viewName.equals("CloseShiftView") == true)
 		{
 			return new CloseSessionView(model);
