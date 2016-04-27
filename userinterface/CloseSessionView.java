@@ -59,8 +59,8 @@ public class CloseSessionView extends View {
     private String checkTitle;
     private String submitTitle;
     private String cancelTitle;
-    private String checkAmount ="0";
-    private String cashAmount="0";
+    private int checkAmount = 0;
+    private int cashAmount= 0;
     private String title;
     private String alertTitle;
     private String alertSubTitle;
@@ -128,12 +128,12 @@ public class CloseSessionView extends View {
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
 
-        Label s=  createLabel(grid,"Total Cash Calculated:",0,0);
-        Label s2=  createLabel(grid,cashAmount,0,1);
-        cashCount = createInput(grid, cashCount, "Total Cash Counted:", 1);
-        Label c=  createLabel(grid,"Total Check Calculated:",2,0);
-        Label c2=  createLabel(grid,checkAmount,2,1);
-        checkCount = createInput(grid, checkCount, "Total Checks Counted:", 3);
+        Label s=  createLabel(grid,cashTitle,0,0);
+        Label s2=  createLabel(grid,(""+cashAmount),0,1);
+        cashCount = createInput(grid, cashCount, cashCountTitle, 1);
+        Label c=  createLabel(grid,checkTitle,2,0);
+        Label c2=  createLabel(grid,(""+checkAmount),2,1);
+        checkCount = createInput(grid, checkCount, checkCountTitle, 3);
         notes = createInputTextArea(grid, notes, notesTitle, 4);
         createButton(grid, submit, submitTitle, 1, 5, 1);
         createButton(grid, cancel, cancelTitle, 0, 5, 2);
@@ -287,8 +287,12 @@ public class CloseSessionView extends View {
         submitTitle = buttons.getString("submitTree");
         cancelTitle = buttons.getString("cancelTree");
         notesTitle = labels.getString("notes");
-        title = titles.getString("mainTitleOpenSession");
-
+        title = titles.getString("mainTitleCloseSession");
+        cashCountTitle = labels.getString("cashCount");
+        checkCountTitle= labels.getString("checkCount");
+        cashTitle= labels.getString("cash");
+        checkTitle= labels.getString("check");
+        //NEED TO FIX ALERTS
         alertTitle = alerts.getString("AddTreeTitle");
         alertSubTitle = alerts.getString("AddTreeSubTitle");
         alertBody = alerts.getString("AddTreeBody");
