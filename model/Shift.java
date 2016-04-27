@@ -18,10 +18,7 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-<<<<<<< HEAD
 //import com.oracle.webservices.internal.api.message.PropertySet.Property;
-=======
->>>>>>> 14004da6432487ce22e289551460c9a37e2f204a
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
