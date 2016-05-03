@@ -6,10 +6,14 @@
 package userinterface;
 
 import impresario.IModel;
+import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.ResourceBundle;
+import java.util.Vector;
 import java.util.prefs.Preferences;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -20,8 +24,12 @@ import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -30,6 +38,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import model.Tree;
+import model.TreeVector;
+import model.ModifyTree;
 
 /**
  *
@@ -41,6 +52,8 @@ public class UpdateTreeView extends View {
     private TextArea notes;
     protected Button cancel;
     protected Button submit;
+    private Button searchButton;
+    private Button doneButton;
     
     private Locale locale = new Locale("en", "CA");
     private ResourceBundle buttons;
@@ -55,6 +68,8 @@ public class UpdateTreeView extends View {
     private String alertSubTitle;
     private String alertBody;
     private String description;
+    
+    private TableView<TreeVector> tableOfTree;
     
     private String alertTitleSucceeded;
     private String alertSubTitleSucceeded;
@@ -89,10 +104,7 @@ public class UpdateTreeView extends View {
         container.setPadding(new Insets(15, 5, 5, 5));
         container.getChildren().add(createTitle());
 	container.getChildren().add(createFormContent());
-        //container.getChildren().add(createStatusLog("                                            "));
 	getChildren().add(container);
-        populateFields();
-        myModel.subscribe("UpdateTreeError", this);
     }
     
     public Node createTitle()
@@ -109,18 +121,45 @@ public class UpdateTreeView extends View {
     }
     
     private GridPane createFormContent()
-    {
+    {        
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
-        grid.setHgap(10);
+	grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
-        barcode = createInput(grid, barcode, barcodeTitle, 0);
-        notes = new TextArea();
-        notes = createInputTextArea(grid, notes, description, 1);
-        createButton(grid, submit, submitTitle, 1, 4, 1);
-        createButton(grid, cancel, cancelTitle, 0, 4, 2);
-        return grid;
+
+	createInput2(grid, 0);
+
+	tableOfTree = new TableView<TreeVector>();
+	TableColumn barcodeColumn = new TableColumn("Barcode");
+	barcodeColumn.setMinWidth(100);
+	barcodeColumn.setCellValueFactory(new PropertyValueFactory<Tree, String>("barcode"));
+	TableColumn NotesColumn = new TableColumn("Notes");
+	NotesColumn.setMinWidth(100);
+	NotesColumn.setCellValueFactory(new PropertyValueFactory<Tree, String>("notes"));
+	
+	tableOfTree.getColumns().addAll(barcodeColumn, NotesColumn);
+	ScrollPane scrollPane = new ScrollPane();
+	scrollPane.setPrefSize(520, 150);
+	scrollPane.setContent(tableOfTree);
+
+	grid.add(scrollPane, 1, 1);
+
+	createButton(grid, submit, submitTitle, 1, 4, 1);
+	createButton(grid, cancel, cancelTitle, 0, 4, 2);
+
+	return grid;
+        
+    }
+    
+    private void createInput2(GridPane grid, Integer pos)
+    {
+	HBox hb = new HBox(10);
+	hb.setAlignment(Pos.CENTER);
+	hb.getChildren().add(new Label("Barcode:"));
+	barcode = new TextField();
+	hb.getChildren().add(barcode);
+	grid.add(hb, 1, pos);
     }
     
     private TextField createInput(GridPane grid, TextField textfield, String label, Integer pos)
@@ -176,34 +215,36 @@ public class UpdateTreeView extends View {
                 alert.setContentText(alertBody);
                 alert.showAndWait();
             }
-            else if (notes.getText().isEmpty() == true)
-            {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle(alertTitle);
-                alert.setHeaderText(alertSubTitle);
-                alert.setContentText(alertBody);
-                alert.showAndWait();
-            }
+//            else if (notes.getText().isEmpty() == true)
+//            {
+//                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+//                alert.setTitle(alertTitle);
+//                alert.setHeaderText(alertSubTitle);
+//                alert.setContentText(alertBody);
+//                alert.showAndWait();
+//            }
             else
             {
                 Properties props = new Properties();
                 props.setProperty("Barcode", barcode.getText());
-                props.setProperty("Notes", notes.getText());
+                System.out.println("Props:" + props);
+                System.out.println("Barcode:" + barcode.getText());
+                //props.setProperty("Notes", notes.getText());
                 try
                 {
-                    myModel.stateChangeRequest("UpdateTree", props);
-                    
+                    //myModel.stateChangeRequest("UpdateTree", props);
+                    myModel.stateChangeRequest("ModifyTree", props);
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle(alertTitleSucceeded);
                     alert.setHeaderText(alertSubTitleSucceeded);
                     alert.setContentText(alertBodySucceeded);
                     alert.showAndWait();
-                    populateFields();
+                   // populateFields();
                     
                 }
                 catch (Exception ex)
                 {
-                    System.out.print("Error UpdateTree");
+                    System.out.print("Error UpdateTree2");
                 }
             }
         }
@@ -228,10 +269,33 @@ public class UpdateTreeView extends View {
         alertBodySucceeded = alerts.getString("UpdateTreeBodySucceeded");
     }
     
+    protected void getEntryTableModelValues()
+    {
+	ObservableList<TreeVector> tableData = FXCollections.observableArrayList();
+	try
+	    {
+		Tree tree = (Tree)myModel.getState("Tree");
+		Vector entryList = (Vector)tree.getState("ModifyTree");
+		Enumeration entries = entryList.elements();
+
+		while (entries.hasMoreElements() == true)
+		    {
+			ModifyTree nextTree = (ModifyTree)entries.nextElement();
+			Vector<String> view = nextTree.getVector();
+			TreeVector nextTableRowData = new TreeVector(view);
+			tableData.add(nextTableRowData);
+		    }
+		tableOfTree.setItems(tableData);
+	    }
+	catch (Exception e) {
+	}
+    }
+    
     protected void populateFields()
     {
         barcode.setText("");
-        notes.setText("");
+        //notes.setText("");
+        getEntryTableModelValues();
     }
     
     @Override

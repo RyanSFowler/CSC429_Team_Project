@@ -5,6 +5,7 @@
  */
 package model;
 
+import exception.InvalidPrimaryKeyException;
 import impresario.IModel;
 import impresario.IView;
 import java.sql.SQLException;
@@ -26,6 +27,7 @@ public class Tree extends EntityBase implements IView, IModel {
      protected Stage myStage;
      protected TreeLotCoordinator myTreeLotCoordinator;
      protected Properties dependencies;
+     public Vector<ModifyTree > ModifyTree;
      private static final String myTableName = "TREE";
      private String updateStatusMessage = "";
      public String ErrorUpdate = "";
@@ -96,7 +98,42 @@ public class Tree extends EntityBase implements IView, IModel {
 	{
             if (key.equals("Tree"))
 		return this;
+            else if (key.equals("ModifyTree")) {
+                return ModifyTree;
+            }
             return null;
+	}
+     
+     public void FindTreeInDatabase(String title)
+	{
+            System.out.println("Je rentre title:" + title);
+            //ModifyTree.clear();
+            System.out.println("je passe");
+	    String query = "SELECT * FROM " + myTableName + " WHERE Barcode = " + title + ";";
+            System.out.println("Query:" + query);
+	    Vector<Properties> allDataRetrieved = getSelectQueryResult(query);
+            System.out.println("Vector:" + allDataRetrieved);
+	    try {
+		if (allDataRetrieved != null)
+		    {
+			for (Properties p : allDataRetrieved)
+			    {
+                                System.out.println("FOR 1");
+				ModifyTree b = new ModifyTree(p);
+                                System.out.println("Avant");
+				ModifyTree.add(b);
+                                System.out.println("ModifyTreeTab1:" + ModifyTree);
+			    }
+                        System.out.println("ModifyTreeTab2:" + ModifyTree);
+		    }
+		else
+		    {
+			throw new InvalidPrimaryKeyException("No Book matching for title "
+							     + title + ".");
+		    }
+	    }catch (InvalidPrimaryKeyException e) {
+		System.err.println(e);
+	    }
 	}
      
      public void stateChangeRequest(String key, Object value)
@@ -112,6 +149,15 @@ public class Tree extends EntityBase implements IView, IModel {
                 {
                    persistentState = (Properties) value;
                    UpdateTreeInDatabase();
+                }
+            }
+            else if (key.equals("ModifyTree") == true)
+            {
+                if (value != null)
+                {
+                   persistentState = (Properties) value;
+                   System.out.print("ModifyTree:" + persistentState.getProperty("Barcode"));
+                   FindTreeInDatabase(persistentState.getProperty("Barcode"));
                 }
             }
             else if (key.equals("AddNewTree") == true)
