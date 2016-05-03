@@ -88,6 +88,8 @@ public class TransactionView extends View {
     private String alertBodySucceeded;
 
     private String description;
+    private String selectPayment;
+    private String selectType;
 
 
     public TransactionView(IModel model) {
@@ -156,7 +158,7 @@ public class TransactionView extends View {
         transTypeField.getItems().addAll(
           transactionTypeString
         );
-        transTypeField.setPromptText("Select Transaction Type");
+        transTypeField.setPromptText(selectType);
         Label b = new Label(transTypeTitle);
         GridPane.setHalignment(b, HPos.RIGHT);
         grid.add(b,0,0);
@@ -168,7 +170,7 @@ public class TransactionView extends View {
           cashString,
           checkString
         );
-        paymentField.setPromptText("Select Payment Method");
+        paymentField.setPromptText(selectPayment);
         Label a = new Label(paymentTitle);
         GridPane.setHalignment(a, HPos.RIGHT);
         grid.add(a,0,3);
@@ -303,12 +305,15 @@ public class TransactionView extends View {
 
         title = titles.getString("mainTitleTransaction");
 
-        alertTitle = alerts.getString("AddScoutTitle");
-        alertSubTitle = alerts.getString("AddScoutSubTitle");
-        alertBody = alerts.getString("AddScoutBody");
-        alertTitleSucceeded = alerts.getString("AddScoutTitleSucceeded");
-        alertSubTitleSucceeded = alerts.getString("AddScoutSubTitleSucceeded");
-        alertBodySucceeded = alerts.getString("AddScoutBodySucceeded");
+        alertTitle = alerts.getString("AddTransactionTitle");
+        alertSubTitle = alerts.getString("AddTransactionSubTitle");
+        alertBody = alerts.getString("AddTransactionBody");
+        alertTitleSucceeded = alerts.getString("AddTransactionTitleSuccess");
+        alertSubTitleSucceeded = alerts.getString("AddTransactionSubTitleSucceeded");
+        alertBodySucceeded = alerts.getString("AddTransactionBodySucceeded");
+        
+        selectPayment = buttons.getString("SelectPayment");
+        selectType = buttons.getString("SelectType");
     }
 
 

@@ -365,7 +365,11 @@ public class TreeLotCoordinatorView extends View
 
 	  		     @Override
 	  		     public void handle(ActionEvent e) {
+<<<<<<< HEAD
 							 transType = "Add";
+=======
+	  		    	transType = "Sell";
+>>>>>>> origin/master
 	  		     	processAction(e);
 	       	     }
  			});
