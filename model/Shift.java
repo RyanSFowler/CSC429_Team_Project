@@ -30,15 +30,15 @@ import userinterface.View;
 import userinterface.ViewFactory;
 
 public class Shift extends EntityBase implements IView, IModel {
-    
+
      protected Stage myStage;
      //protected TreeLotCoordinator myTreeLotCoordinator;
      protected Properties dependencies;
      private static final String myTableName = "SHIFT";
      private String updateStatusMessage = "";
      private int sessionId;
-    
-     
+
+
      public Shift(int id) throws Exception {
             super(myTableName);
             sessionId = id;
@@ -46,38 +46,45 @@ public class Shift extends EntityBase implements IView, IModel {
             persistentState = new Properties();
             setDependencies();
         }
-     
+
      public void setDependencies()
      {
             dependencies = new Properties();
             myRegistry.setDependencies(dependencies);
      }
-     
+
      public Object getState(String key)
 	{
             if (key.equals("Shift"))
             	return this;
             return null;
 	}
-     
+
     public void stateChangeRequest(String key, Object value)
 	{
             if (key.equals("OpenShift")){
             	if (value != null)
                 {
                     persistentState = (Properties) value;
-                    createShifts();
+                    //createShifts();
+                }
+            }
+            else if (key.equals("CloseShift")){
+            	if (value != null)
+                {
+                    persistentState = (Properties) value;
+                  //  closeShifts();
                 }
             }
 	}
-        
-        public void createShifts(){
+
+  /*      public void createShifts(String[] scoutArray,	String[] companionArray){
         	System.out.println("creating shifts");
-        	String[] scoutArray = {persistentState.getProperty("Scout1"), 
-        							persistentState.getProperty("Scout2"), 
+        	String[] scoutArray = {persistentState.getProperty("Scout1"),
+        							persistentState.getProperty("Scout2"),
         							persistentState.getProperty("Scout3")};
-        	String[] companionArray = {persistentState.getProperty("Scout1Companion"), 
-										persistentState.getProperty("Scout2Companion"), 
+        	String[] companionArray = {persistentState.getProperty("Scout1Companion"),
+										persistentState.getProperty("Scout2Companion"),
 										persistentState.getProperty("Scout3Companion")};
         	for (int r = 0; r < scoutArray.length; r++) {
         		System.out.println("for loop iteration");
@@ -87,13 +94,13 @@ public class Shift extends EntityBase implements IView, IModel {
 					dependencies.put("ScoutId", Integer.parseInt(scoutArray[r]));
 					dependencies.put("CompanionName", companionArray[r]);
 					dependencies.put("StartTime", persistentState.getProperty("StartTime"));
-					dependencies.put("EndTime", persistentState.getProperty("EndTime"));
-					dependencies.put("CompanionHours", 
+					dependencies.put("EndTime", null);
+					dependencies.put("CompanionHours",
 							getShiftLength(persistentState.getProperty("StartTime"),
-											persistentState.getProperty("EndTime")));
+											null));
 					System.out.println(dependencies);
         		}
-        		
+
         		try {
                     int i = insertAutoIncrementalPersistentState(this.mySchema, dependencies);
                 } catch (SQLException ex) {
@@ -101,9 +108,9 @@ public class Shift extends EntityBase implements IView, IModel {
                     Logger.getLogger(Shift.class.getName()).log(Level.SEVERE, null, ex);
                 }
 			}
-        	
+
         }
-     
+*/
    protected void initializeSchema(String tableName)
 	{
             if (mySchema == null)
@@ -116,7 +123,7 @@ public class Shift extends EntityBase implements IView, IModel {
 	{
             stateChangeRequest(key, value);
 	}
-   
+
    	private int getShiftLength(String startTime, String endTime){
    		int startHour = Integer.parseInt(startTime.substring(0, startTime.indexOf(":")));
    		int endHour = Integer.parseInt(endTime.substring(0, endTime.indexOf(":")));
@@ -124,5 +131,5 @@ public class Shift extends EntityBase implements IView, IModel {
    			endHour += 12;
    		}
    		return endHour - startHour;
-   	}  
+   	}
 }

@@ -37,6 +37,7 @@ public class Session extends EntityBase implements IView, IModel {
      private String updateStatusMessage = "";
      private ObservableList allScouts;
      private Properties shiftDependencies;
+     private String sessionIdString="";
 
 
      public Session(TreeLotCoordinator l, String type) throws Exception {
@@ -104,6 +105,7 @@ public class Session extends EntityBase implements IView, IModel {
                 {
                 	persistentState = (Properties) value;
                 	if(checkForOpenShift()){
+                    System.out.println("Before insert");
                 		insert();
                 	}
                 }
@@ -116,12 +118,33 @@ public class Session extends EntityBase implements IView, IModel {
                     UpdateSessionInDatabase();
                 }
             }
+            else if (key.equals("OpenShift") == true)
+            {
+                if (value != null)
+                {
+                  persistentState = (Properties) value;
+                  if(checkForOpenShift()){
+                    System.out.println("Before insert");
+                    insertShifts();
+                  }
+                }
+            }
+            else if (key.equals("CloseShift") == true)
+            {
+                if (value != null)
+                {
+                    persistentState = (Properties) value;
+                    //UpdateShiftInDatabase();
+                }
+            }
 	}
 
 
 
         public void insert() {
             //System.out.print("Insert Add Tree");
+
+            System.out.println("Here");
             dependencies = new Properties();
             dependencies.put("Date", persistentState.getProperty("Date"));
             dependencies.put("StartTime", persistentState.getProperty("StartTime"));
@@ -131,6 +154,7 @@ public class Session extends EntityBase implements IView, IModel {
             //System.out.print("dependencies:" + dependencies);
             try {
                 int i = insertAutoIncrementalPersistentState(this.mySchema, dependencies);
+                sessionIdString= (""+i);
                 //<--------------------------------need to get the below line to work to add in shifts when opening session
                 //createShifts(i);
             } catch (SQLException ex) {
@@ -139,7 +163,7 @@ public class Session extends EntityBase implements IView, IModel {
             }
         }
 
-        public void createShifts(int id){
+        public void insertShifts(){
         	Properties schema = getSchemaInfo("SHIFT");
         	String[] scoutArray = {persistentState.getProperty("Scout1"),
         							persistentState.getProperty("Scout2"),
@@ -150,14 +174,15 @@ public class Session extends EntityBase implements IView, IModel {
         	for (int r = 0; r < scoutArray.length; r++) {
         		if(scoutArray[r] != null){
 					shiftDependencies = new Properties();
-					shiftDependencies.put("SessionId", id);
+          System.out.println("SessionId:"+ sessionIdString);
+					shiftDependencies.put("SessionId",sessionIdString);
 					shiftDependencies.put("ScoutId", scoutArray[r]);
 					shiftDependencies.put("CompanionName", companionArray[r]);
 					shiftDependencies.put("StartTime", persistentState.getProperty("StartTime"));
 					shiftDependencies.put("EndTime", persistentState.getProperty("EndTime"));
-					shiftDependencies.put("CompanionHours",
+					shiftDependencies.put("CompanionHours",(""+
 							getShiftLength(persistentState.getProperty("StartTime"),
-											persistentState.getProperty("EndTime")));
+										persistentState.getProperty("EndTime"))));
 					System.out.println(shiftDependencies);
         		}
 
@@ -169,8 +194,7 @@ public class Session extends EntityBase implements IView, IModel {
                 }
 			}
 
-        }
-
+    }
 
         //<-------------------------------------------------------still has tree code.... need to code for closing session
      private void UpdateSessionInDatabase()
@@ -364,6 +388,7 @@ public class Session extends EntityBase implements IView, IModel {
    		if(startHour > endHour){
    			endHour += 12;
    		}
+      System.out.println(endHour - startHour);
    		return endHour - startHour;
    	}
 

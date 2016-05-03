@@ -51,6 +51,7 @@ public class OpenSessionView extends View {
     private ComboBox scout1;
     private ComboBox scout2;
     private ComboBox scout3;
+    private int i =0;
     private TextField scout1Companion;
     private TextField scout2Companion;
     private TextField scout3Companion;
@@ -82,6 +83,8 @@ public class OpenSessionView extends View {
     private String selectScout;
     private String dateStamp;
     private String timeStamp;
+    private String startTime1;
+    private String date1;
 
 
     public OpenSessionView(IModel model) {
@@ -264,33 +267,46 @@ public class OpenSessionView extends View {
             	String scoutData2 = (String)scout2.getValue();
             	String scoutData3 = (String)scout3.getValue();
                 Properties props = new Properties();
+                Properties props2 = new Properties();
                 props.setProperty("Date", date.getText());
+                date1 = date.getText();
+                startTime1 = startTime.getText();
                 props.setProperty("StartTime", startTime.getText());
+                props2.setProperty("StartTime", startTime.getText());
                 props.setProperty("EndTime", endTime.getText());
+                props2.setProperty("EndTime", endTime.getText());
                 props.setProperty("StartCash", startCash.getText());
                 props.setProperty("Notes", notes.getText());
                 props.setProperty("Scout1", scoutData1.substring(0, scoutData1.indexOf(",")));
                 props.setProperty("Scout1Companion", scout1Companion.getText());
+                props2.setProperty("Scout1", scoutData1.substring(0, scoutData1.indexOf(",")));
+                props2.setProperty("Scout1Companion", scout1Companion.getText());
                 props.setProperty("Scout2", scoutData2.substring(0, scoutData2.indexOf(",")));
                 props.setProperty("Scout2Companion", scout2Companion.getText());
                 props.setProperty("Scout3", scoutData3.substring(0, scoutData3.indexOf(",")));
                 props.setProperty("Scout3Companion", scout3Companion.getText());
+                props2.setProperty("Scout2", scoutData2.substring(0, scoutData2.indexOf(",")));
+                props2.setProperty("Scout2Companion", scout2Companion.getText());
+                props2.setProperty("Scout3", scoutData3.substring(0, scoutData3.indexOf(",")));
+                props2.setProperty("Scout3Companion", scout3Companion.getText());
+                //props2.setProperty("SessionId",props.getProperty("SessionId"));
                 System.out.println(props);
+                System.out.println(props2);
                 try
                 {
                     myModel.stateChangeRequest("OpenSession", props);
+                    myModel.stateChangeRequest("OpenShift", props2);
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle(alertTitleSucceeded);
                     alert.setHeaderText(alertSubTitleSucceeded);
                     alert.setContentText(alertBodySucceeded);
                     alert.showAndWait();
-                    populateFields();
                 }
                 catch (Exception ex)
                 {
                     System.out.print("Error Opening Session");
                 }
-            }
+              }
         }
         else if (clickedBtn.getId().equals("2") == true)
         {
