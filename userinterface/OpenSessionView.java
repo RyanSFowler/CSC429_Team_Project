@@ -36,6 +36,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 
 public class OpenSessionView extends View {
@@ -53,7 +56,7 @@ public class OpenSessionView extends View {
     private TextField scout3Companion;
     protected Button cancel;
     protected Button submit;
-    
+
     private Locale locale = new Locale("en", "CA");
     private ResourceBundle buttons;
     private ResourceBundle titles;
@@ -65,11 +68,11 @@ public class OpenSessionView extends View {
     private String alertTitle;
     private String alertSubTitle;
     private String alertBody;
-    
+
     private String alertTitleSucceeded;
     private String alertSubTitleSucceeded;
     private String alertBodySucceeded;
-    
+
     private String description;
     private String sessionDate;
     private String startingTime;
@@ -77,8 +80,10 @@ public class OpenSessionView extends View {
     private String startingCash;
     private String companion;
     private String selectScout;
-    
-    
+    private String dateStamp;
+    private String timeStamp;
+
+
     public OpenSessionView(IModel model) {
         super(model, "OpenSessionView");
         Preferences prefs = Preferences.userNodeForPackage(OpenSessionView.class);
@@ -95,16 +100,18 @@ public class OpenSessionView extends View {
         titles = ResourceBundle.getBundle("TitlesBundle", locale);
         labels = ResourceBundle.getBundle("LabelsBundle", locale);
         alerts = ResourceBundle.getBundle("AlertsBundle", locale);
+        dateStamp = new SimpleDateFormat(labels.getString("dateFormat")).format(new Date());
+        timeStamp = new SimpleDateFormat(labels.getString("timeFormat")).format(new Date());
         refreshFormContents();
         displayWindow();
-        
+
     }
-    
-    
+
+
     public void displayWindow()
     {
         VBox container = new VBox(10);
-        container.setAlignment(Pos.CENTER);	
+        container.setAlignment(Pos.CENTER);
         container.setPadding(new Insets(15, 5, 5, 5));
         container.getChildren().add(createTitle());
         container.getChildren().add(createFormContent());
@@ -112,7 +119,7 @@ public class OpenSessionView extends View {
         populateFields();
         myModel.subscribe("LoginError", this);
     }
-    
+
     public Node createTitle()
     {
         HBox container = new HBox();
@@ -125,7 +132,7 @@ public class OpenSessionView extends View {
         container.getChildren().add(titleText);
         return container;
     }
-    
+
     private GridPane createFormContent()
     {
         GridPane grid = new GridPane();
@@ -155,7 +162,7 @@ public class OpenSessionView extends View {
         createButton(grid, cancel, cancelTitle, 0, 9, 2);
         return grid;
     }
-    
+
     private TextField createInput(GridPane grid, TextField textfield, String label, Integer pos)
     {
         Label fieldLabel = new Label(label);
@@ -165,7 +172,7 @@ public class OpenSessionView extends View {
         grid.add(textfield, 1, pos);
         return textfield;
     }
-    
+
     private TextField createInput(GridPane grid, TextField textfield, String label, Integer cPos, Integer rPos)
     {
         Label fieldLabel = new Label(label);
@@ -175,7 +182,7 @@ public class OpenSessionView extends View {
         grid.add(textfield, cPos, rPos);
         return textfield;
     }
-    
+
     private TextArea createInputTextArea(GridPane grid, TextArea textarea, String label, Integer pos)
     {
         Label Author = new Label(label);
@@ -188,7 +195,7 @@ public class OpenSessionView extends View {
         grid.add(textarea, 1, pos);
         return textarea;
     }
-    
+
     private void createButton(GridPane grid, Button button, String nameButton, Integer pos1, Integer pos2, Integer id)
     {
         button = new Button(nameButton);
@@ -204,7 +211,7 @@ public class OpenSessionView extends View {
         btnContainer.getChildren().add(button);
         grid.add(btnContainer, pos1, pos2);
     }
-    
+
     public void processAction(Event evt)
     {
         Object source = evt.getSource();
@@ -290,7 +297,7 @@ public class OpenSessionView extends View {
             myModel.stateChangeRequest("Done", null);
         }
     }
-    
+
     private void refreshFormContents()
     {
         submitTitle = buttons.getString("submitSession");
@@ -310,21 +317,21 @@ public class OpenSessionView extends View {
         alertSubTitleSucceeded = alerts.getString("OpenSessionSubTitleSucceeded");
         alertBodySucceeded = alerts.getString("OpenSessionBodySucceeded");
     }
-    
-    
+
+
     protected void populateFields()
     {
-        date.setText("");
-        startTime.setText("");
+        date.setText(dateStamp);
+        startTime.setText(timeStamp);
         endTime.setText("");
         startCash.setText("");
         notes.setText("");
     }
-    
+
     @Override
     public void updateState(String key, Object value) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
+
+
 }

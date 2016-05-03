@@ -31,6 +31,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 /**
  *
@@ -47,8 +50,11 @@ public class TransactionView extends View {
     private TextField custEmailField;
     private TextField dateField;
     private TextField timeField;
+    private DateFormat df;
+    private DateFormat tf;
     protected Button cancel;
     protected Button submit;
+    private Date dateobj = new Date();
 
     private Locale locale = new Locale("en", "CA");
     private ResourceBundle buttons;
@@ -67,11 +73,15 @@ public class TransactionView extends View {
     private String custEmailTitle;
     private String dateTitle;
     private String timeTitle;
-
+    private String cashString;
+    private String checkString;
+    private String dateStamp;
+    private String timeStamp;
     private String title;
     private String alertTitle;
     private String alertSubTitle;
     private String alertBody;
+    private String transactionTypeString;
 
     private String alertTitleSucceeded;
     private String alertSubTitleSucceeded;
@@ -96,6 +106,8 @@ public class TransactionView extends View {
         titles = ResourceBundle.getBundle("TitlesBundle", locale);
         labels = ResourceBundle.getBundle("LabelsBundle", locale);
         alerts = ResourceBundle.getBundle("AlertsBundle", locale);
+        timeStamp = new SimpleDateFormat(labels.getString("timeFormat")).format(new Date());
+        dateStamp = new SimpleDateFormat(labels.getString("dateFormat")).format(new Date());
         refreshFormContents();
         displayWindow();
 
@@ -142,7 +154,7 @@ public class TransactionView extends View {
 
         transTypeField =new ComboBox();
         transTypeField.getItems().addAll(
-          "Tree Sale"
+          transactionTypeString
         );
         transTypeField.setPromptText("Select Transaction Type");
         Label b = new Label(transTypeTitle);
@@ -153,8 +165,8 @@ public class TransactionView extends View {
         transAmountField = createInput(grid, transAmountField, transAmountTitle, 2);
         paymentField =new ComboBox();
         paymentField.getItems().addAll(
-          "Cash",
-          "Check"
+          cashString,
+          checkString
         );
         paymentField.setPromptText("Select Payment Method");
         Label a = new Label(paymentTitle);
@@ -275,7 +287,8 @@ public class TransactionView extends View {
     {
         submitTitle = buttons.getString("submitAddScout");
         cancelTitle = buttons.getString("cancelAddScout");
-
+        cashString =  labels.getString("cashString");
+        checkString = labels.getString("checkString");
         transTypeTitle = labels.getString("tranType");
         barcodeTitle = labels.getString("barcodeTree");
         transAmountTitle = labels.getString("transAmount");
@@ -285,6 +298,7 @@ public class TransactionView extends View {
         custEmailTitle = labels.getString("custEmail");
         dateTitle = labels.getString("date");
         timeTitle = labels.getString("time");
+        transactionTypeString = labels.getString("transactionTypeString");
 
 
         title = titles.getString("mainTitleTransaction");
@@ -306,9 +320,8 @@ public class TransactionView extends View {
       custNameField.setText("");
       custPhoneField.setText("");
       custEmailField.setText("");
-      dateField.setText("");
-      timeField.setText("");
-
+      dateField.setText(dateStamp);
+      timeField.setText(timeStamp);
     }
 
     @Override

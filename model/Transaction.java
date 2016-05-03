@@ -23,7 +23,7 @@ public class Transaction extends EntityBase implements IView, IModel {
      protected Stage myStage;
      protected TreeLotCoordinator myTreeLotCoordinator;
      protected Properties dependencies;
-     private static final String myTableName = "TRANSACTIOON";
+     private static final String myTableName = "TRANSACTION";
      private String updateStatusMessage = "";
 
 
@@ -32,9 +32,7 @@ public class Transaction extends EntityBase implements IView, IModel {
             myTreeLotCoordinator = l;
             persistentState = new Properties();
             setDependencies();
-            if (type == "Add") {
-                createTransactionView();
-            }
+            createTransactionView();
         }
         public Transaction(Properties props)
 	      {
