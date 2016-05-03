@@ -32,13 +32,13 @@ public class Transaction extends EntityBase implements IView, IModel {
             myTreeLotCoordinator = l;
             persistentState = new Properties();
             setDependencies();
-<<<<<<< HEAD
-            createTransactionView();
-=======
+
+//            createTransactionView();
+
             if (type == "Sell") {
                 createTransactionView();
             }
->>>>>>> origin/master
+
         }
         public Transaction(Properties props)
 	      {

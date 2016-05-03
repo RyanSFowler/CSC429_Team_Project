@@ -131,21 +131,21 @@ public class CloseSessionView extends View {
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
 
-<<<<<<< HEAD
+
         Label s=  createLabel(grid,cashTitle,0,0);
         Label s2=  createLabel(grid,(""+cashAmount),0,1);
         cashCount = createInput(grid, cashCount, cashCountTitle, 1);
         Label c=  createLabel(grid,checkTitle,2,0);
         Label c2=  createLabel(grid,(""+checkAmount),2,1);
         checkCount = createInput(grid, checkCount, checkCountTitle, 3);
-=======
-        Label s=  createLabel(grid,calculated,0,0);
-        Label s2=  createLabel(grid,cashAmount,0,1);
-        cashCount = createInput(grid, cashCount, counted, 1);
-        Label c=  createLabel(grid,checkcalculated,2,0);
-        Label c2=  createLabel(grid,checkAmount,2,1);
-        checkCount = createInput(grid, checkCount, checkcounted, 3);
->>>>>>> origin/master
+
+//        Label s=  createLabel(grid,calculated,0,0);
+//        Label s2=  createLabel(grid,cashAmount,0,1);
+//        cashCount = createInput(grid, cashCount, counted, 1);
+//        Label c=  createLabel(grid,checkcalculated,2,0);
+//        Label c2=  createLabel(grid,checkAmount,2,1);
+//        checkCount = createInput(grid, checkCount, checkcounted, 3);
+
         notes = createInputTextArea(grid, notes, notesTitle, 4);
         createButton(grid, submit, submitTitle, 1, 5, 1);
         createButton(grid, cancel, cancelTitle, 0, 5, 2);
