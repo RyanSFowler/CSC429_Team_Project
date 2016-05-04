@@ -27,7 +27,7 @@ public class Tree extends EntityBase implements IView, IModel {
      protected Stage myStage;
      protected TreeLotCoordinator myTreeLotCoordinator;
      protected Properties dependencies;
-     public Vector<ModifyTree > ModifyTree;
+     public Vector<String> ModifyTree;
      private static final String myTableName = "TREE";
      private String updateStatusMessage = "";
      public String ErrorUpdate = "";
@@ -98,7 +98,12 @@ public class Tree extends EntityBase implements IView, IModel {
 	{
             if (key.equals("Tree"))
 		return this;
-            else if (key.equals("ModifyTree")) {
+            return null;
+	}
+     
+     public Vector<String> getResultFromDB(String key)
+	{
+            if (key.equals("ModifyTree")) {
                 return ModifyTree;
             }
             return null;
@@ -106,33 +111,28 @@ public class Tree extends EntityBase implements IView, IModel {
      
      public void FindTreeInDatabase(String title)
 	{
-            System.out.println("Je rentre title:" + title);
             //ModifyTree.clear();
-            System.out.println("je passe");
 	    String query = "SELECT * FROM " + myTableName + " WHERE Barcode = " + title + ";";
-            System.out.println("Query:" + query);
 	    Vector<Properties> allDataRetrieved = getSelectQueryResult(query);
-            System.out.println("Vector:" + allDataRetrieved);
-	    try {
+	    try
+            {
 		if (allDataRetrieved != null)
-		    {
-			for (Properties p : allDataRetrieved)
-			    {
-                                System.out.println("FOR 1");
-				ModifyTree b = new ModifyTree(p);
-                                System.out.println("Avant");
-				ModifyTree.add(b);
-                                System.out.println("ModifyTreeTab1:" + ModifyTree);
-			    }
-                        System.out.println("ModifyTreeTab2:" + ModifyTree);
+		{
+                    for (Properties p : allDataRetrieved)
+            	    {
+                       // System.out.println("Res: " + p.toString());
+                        ModifyTree b = new ModifyTree(p);
+                        ModifyTree = b.getVector();
 		    }
+                    //System.out.println("Res: " + ModifyTree);
+                }
 		else
-		    {
-			throw new InvalidPrimaryKeyException("No Book matching for title "
+		{
+                    throw new InvalidPrimaryKeyException("No matching barcode for number: "
 							     + title + ".");
-		    }
-	    }catch (InvalidPrimaryKeyException e) {
-		System.err.println(e);
+		}
+	    } catch (InvalidPrimaryKeyException e) {
+		System.err.println("Error: " + e);
 	    }
 	}
      
@@ -156,7 +156,7 @@ public class Tree extends EntityBase implements IView, IModel {
                 if (value != null)
                 {
                    persistentState = (Properties) value;
-                   System.out.print("ModifyTree:" + persistentState.getProperty("Barcode"));
+                   //System.out.print("ModifyTree:" + persistentState.getProperty("Barcode"));
                    FindTreeInDatabase(persistentState.getProperty("Barcode"));
                 }
             }
@@ -264,10 +264,10 @@ public class Tree extends EntityBase implements IView, IModel {
      
    protected void initializeSchema(String tableName)
 	{
-            if (mySchema == null)
-            {
-                mySchema = getSchemaInfo(tableName);
-            }
+//            if (mySchema == null)
+//            {
+//                mySchema = getSchemaInfo(tableName);
+//            }
 	}
 
    public void updateState(String key, Object value)

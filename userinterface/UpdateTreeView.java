@@ -26,6 +26,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -74,6 +75,8 @@ public class UpdateTreeView extends View {
     private String alertTitleSucceeded;
     private String alertSubTitleSucceeded;
     private String alertBodySucceeded;
+    private TableColumn barcodeColumn;
+    private TableColumn NotesColumn;
     
     public UpdateTreeView(IModel model) {
         super(model, "UpdateTreeView");
@@ -131,20 +134,19 @@ public class UpdateTreeView extends View {
 	createInput2(grid, 0);
 
 	tableOfTree = new TableView<TreeVector>();
-	TableColumn barcodeColumn = new TableColumn("Barcode");
-	barcodeColumn.setMinWidth(100);
+	barcodeColumn = new TableColumn("Barcode");
+	barcodeColumn.setMinWidth(240);
 	barcodeColumn.setCellValueFactory(new PropertyValueFactory<Tree, String>("barcode"));
-	TableColumn NotesColumn = new TableColumn("Notes");
-	NotesColumn.setMinWidth(100);
+	NotesColumn = new TableColumn("Notes");
+	NotesColumn.setMinWidth(240);
 	NotesColumn.setCellValueFactory(new PropertyValueFactory<Tree, String>("notes"));
-	
 	tableOfTree.getColumns().addAll(barcodeColumn, NotesColumn);
 	ScrollPane scrollPane = new ScrollPane();
-	scrollPane.setPrefSize(520, 150);
+	scrollPane.setPrefSize(500, 150);
 	scrollPane.setContent(tableOfTree);
 
 	grid.add(scrollPane, 1, 1);
-
+        
 	createButton(grid, submit, submitTitle, 1, 4, 1);
 	createButton(grid, cancel, cancelTitle, 0, 4, 2);
 
@@ -227,24 +229,16 @@ public class UpdateTreeView extends View {
             {
                 Properties props = new Properties();
                 props.setProperty("Barcode", barcode.getText());
-                System.out.println("Props:" + props);
-                System.out.println("Barcode:" + barcode.getText());
-                //props.setProperty("Notes", notes.getText());
+               // props.setProperty("Notes", notes.getText());
                 try
                 {
-                    //myModel.stateChangeRequest("UpdateTree", props);
                     myModel.stateChangeRequest("ModifyTree", props);
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle(alertTitleSucceeded);
-                    alert.setHeaderText(alertSubTitleSucceeded);
-                    alert.setContentText(alertBodySucceeded);
-                    alert.showAndWait();
-                   // populateFields();
+                    populateFields();
                     
                 }
                 catch (Exception ex)
                 {
-                    System.out.print("Error UpdateTree2");
+                    System.out.print("An Error occured: " + ex);
                 }
             }
         }
@@ -261,12 +255,12 @@ public class UpdateTreeView extends View {
         barcodeTitle = labels.getString("barcodeTree");
         description = labels.getString("notes");
         title = titles.getString("mainTitleModifyTree");
-        alertTitle = alerts.getString("AddTreeTitle");
-        alertSubTitle = alerts.getString("AddTreeSubTitle");
-        alertBody = alerts.getString("ModifyTreeBody");
-        alertTitleSucceeded = alerts.getString("AddTreeTitleSucceeded");
-        alertSubTitleSucceeded = alerts.getString("AddTreeSubTitleSucceeded");
-        alertBodySucceeded = alerts.getString("UpdateTreeBodySucceeded");
+        alertTitle = alerts.getString("UpdateCheckTitle");
+        alertSubTitle = alerts.getString("UpdateCheckSubTitle");
+        alertBody = alerts.getString("UpdateCheckBody");
+        alertTitleSucceeded = alerts.getString("UpdateCheckTitleS");
+        alertSubTitleSucceeded = alerts.getString("UpdateCheckSubTitleS");
+        alertBodySucceeded = alerts.getString("UpdateCheckBodyS");
     }
     
     protected void getEntryTableModelValues()
@@ -275,19 +269,36 @@ public class UpdateTreeView extends View {
 	try
 	    {
 		Tree tree = (Tree)myModel.getState("Tree");
-		Vector entryList = (Vector)tree.getState("ModifyTree");
+		Vector entryList = (Vector)tree.getResultFromDB("ModifyTree");
 		Enumeration entries = entryList.elements();
-
-		while (entries.hasMoreElements() == true)
-		    {
-			ModifyTree nextTree = (ModifyTree)entries.nextElement();
-			Vector<String> view = nextTree.getVector();
-			TreeVector nextTableRowData = new TreeVector(view);
-			tableData.add(nextTableRowData);
-		    }
-		tableOfTree.setItems(tableData);
+                Vector<String> view = entryList;
+                TreeVector nextTableRowData = new TreeVector(view);
+                tableData.add(nextTableRowData);
+                tableOfTree.setItems(tableData);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle(alertTitleSucceeded);
+                alert.setHeaderText(alertSubTitleSucceeded);
+                alert.setContentText(alertBodySucceeded);
+                alert.showAndWait();
+                
+//                tableOfTree.setRowFactory( tv -> {
+//                TableRow<TreeVector> row = new TableRow<>();
+//                row.setOnMouseClicked(event -> {
+//                if (event.getClickCount() == 2 && (! row.isEmpty()) )
+//                {
+//                 TreeVector rowData = row.getItem();
+//                 System.out.println(rowData);
+//                }
+//                });
+//                 return row ;
+//                });
 	    }
 	catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle(alertTitle);
+                alert.setHeaderText(alertSubTitle);
+                alert.setContentText(alertBody);
+                alert.showAndWait();
 	}
     }
     

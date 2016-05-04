@@ -26,35 +26,34 @@ public class ModifyTree extends EntityBase implements IView, IModel{
             super(myTableName);
             setDependencies();
             setData(props);
-             System.out.println("je sors constructor");
 	}	
     
     public Vector<String> getVector()
 	{
 		Vector<String> v = new Vector<String>();
 
-		v.addElement(persistentState.getProperty("barcode"));
-		v.addElement(persistentState.getProperty("notes"));
+		v.addElement(persistentState.getProperty("Barcode"));
+		v.addElement(persistentState.getProperty("Notes"));
 		
 		return v;
 	}
     
     public void setData(Properties props)
         {
-                System.out.println("Je rentre setData:" + props);
                 persistentState = new Properties();
 		Enumeration allKeys = props.propertyNames();
 		while (allKeys.hasMoreElements() == true)
 		{
 			String nextKey = (String)allKeys.nextElement();
 			String nextValue = props.getProperty(nextKey);
-
+                        //System.out.print(nextKey + "   " + nextValue);
 			if (nextValue != null)
 			{
+                                //System.out.print(nextKey + "   " + nextValue);
 				persistentState.setProperty(nextKey, nextValue);
 			}
 		}
-                System.out.println("je sors setData");
+                //System.out.println("Res: " + persistentState);
         }
     
     private void setDependencies()
