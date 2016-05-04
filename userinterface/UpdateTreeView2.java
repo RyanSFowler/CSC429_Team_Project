@@ -188,6 +188,11 @@ public class UpdateTreeView2 extends View {
             }
             else
             {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle(alertTitleSucceeded);
+                alert.setHeaderText(alertSubTitleSucceeded);
+                alert.setContentText(alertBodySucceeded);
+                alert.showAndWait();
                 Properties props = new Properties();
                 props.setProperty("Notes", notes.getText());
                 try
@@ -213,12 +218,12 @@ public class UpdateTreeView2 extends View {
         barcodeTitle = labels.getString("barcodeTree");
         description = labels.getString("notes");
         title = titles.getString("mainTitleModifyTree");
-        alertTitle = alerts.getString("UpdateCheckTitle");
-        alertSubTitle = alerts.getString("UpdateCheckSubTitle");
-        alertBody = alerts.getString("UpdateCheckBody");
-        alertTitleSucceeded = alerts.getString("UpdateCheckTitleS");
-        alertSubTitleSucceeded = alerts.getString("UpdateCheckSubTitleS");
-        alertBodySucceeded = alerts.getString("UpdateCheckBodyS");
+        alertTitle = alerts.getString("AddTreeTitle");
+        alertSubTitle = alerts.getString("AddTreeSubTitle");
+        alertBody = alerts.getString("AddTreeBody");
+        alertTitleSucceeded = alerts.getString("AddTreeTitleSucceeded");
+        alertSubTitleSucceeded = alerts.getString("AddTreeSubTitleSucceeded");
+        alertBodySucceeded = alerts.getString("UpdateTreeBodySucceeded");
     }
     
     
