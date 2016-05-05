@@ -15,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import userinterface.UpdateTreeView2;
 import userinterface.View;
@@ -240,7 +241,7 @@ public class Tree extends EntityBase implements IView, IModel {
 		whereClause.setProperty("Barcode", persistentState.getProperty("Barcode"));
 		deletePersistentState(mySchema, whereClause);
 		updateStatusMessage = "Remove Tree  : " + persistentState.getProperty("Barcode") + " Remove successfully in database!";
-		System.out.println(updateStatusMessage);
+		//System.out.println(updateStatusMessage);
              }
                 else {
                       System.out.print("No match with :" + persistentState.getProperty("Barcode"));

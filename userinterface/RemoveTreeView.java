@@ -112,7 +112,7 @@ public class RemoveTreeView extends View {
 	// Error message area
 	container.getChildren().add(createStatusLog("                                            "));
 	getChildren().add(container);
-        populateFields();
+        //populateFields();
         myModel.subscribe("RemoveTreeViewError", this);
     }
 
@@ -141,6 +141,12 @@ public class RemoveTreeView extends View {
                             props.setProperty("Barcode", view.get(0));
                             props.setProperty("Notes", view.get(1));
                             myModel.stateChangeRequest("RemoveTree", props);
+                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                            alert.setTitle(alerts.getString("DeletedTree1"));
+                            alert.setHeaderText(alerts.getString("DeletedTree2"));
+                            alert.setContentText(alerts.getString("DeletedTree3"));
+                            alert.showAndWait();
+                            myModel.stateChangeRequest("Done", null);
                         }
                     });
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -150,6 +156,7 @@ public class RemoveTreeView extends View {
                     alert.showAndWait();
                 }
             catch (Exception e) {
+                System.out.print("Enter " + e);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle(alertTitle);
                 alert.setHeaderText(alertSubTitle);
@@ -310,12 +317,12 @@ public class RemoveTreeView extends View {
             cancelTitle = buttons.getString("cancelTree");
             barcodeTitle = labels.getString("barcodeTree");
             title = titles.getString("mainTitleRemoveTree");
-            alertTitle = alerts.getString("AddTreeTitle");
-            alertSubTitle = alerts.getString("AddTreeSubTitle");
+            alertTitle = alerts.getString("DeleteTreeTitle");
+            alertSubTitle = alerts.getString("DeleteTreeSubtitle");
             alertBody = alerts.getString("DeleteTreeBody");
-            alertTitleSucceeded = alerts.getString("AddTreeTitleSucceeded");
-            alertSubTitleSucceeded = alerts.getString("AddTreeSubTitleSucceeded");
-            alertBodySucceeded = alerts.getString("DeleteTreeBodySucceeded");
+            alertTitleSucceeded = alerts.getString("DeleteTreeTitleS");
+            alertSubTitleSucceeded = alerts.getString("DeleteTreeSubtitleS");
+            alertBodySucceeded = alerts.getString("DeleteTreeBodyS");
         }
 
         public void displayMessage(String message)
