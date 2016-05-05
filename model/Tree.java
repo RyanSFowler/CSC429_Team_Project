@@ -13,8 +13,10 @@ import java.util.Properties;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.prefs.Preferences;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import userinterface.UpdateTreeView2;
 import userinterface.View;
 import userinterface.ViewFactory;
 
@@ -184,6 +186,10 @@ public class Tree extends EntityBase implements IView, IModel {
                    //System.out.print("ModifyTree:" + persistentState.getProperty("Barcode"));
                    Barcode = persistentState.getProperty("Barcode");
                    Notes = persistentState.getProperty("Notes");
+                   Preferences prefs = Preferences.userNodeForPackage(UpdateTreeView2.class);
+                   prefs.put("notes", "");
+                   prefs.put("notes", Notes.toString());
+                   
                    createUpdateTree2View();
                 }
             }
