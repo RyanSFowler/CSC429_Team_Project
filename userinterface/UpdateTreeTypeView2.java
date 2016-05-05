@@ -6,10 +6,14 @@
 package userinterface;
 
 import impresario.IModel;
+import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.ResourceBundle;
+import java.util.Vector;
 import java.util.prefs.Preferences;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -20,8 +24,14 @@ import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -30,18 +40,25 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import model.Tree;
+import model.TreeVector;
+import model.ModifyTree;
+import model.TreeType;
+import model.TreeTypeVector;
 
+/**
+ *
+ * @author florianjousselin
+ */
+public class UpdateTreeTypeView2 extends View {
 
-public class UpdateTreeTypeView extends View {
-
-    private TextField barcodePrefix;
-    private TextField cost;
-    private TextField typeDescription;
-    private String costTitle;
-    private String typeDescriptionTitle;
+    private TextField barcode;
+    private TextArea notes;
     protected Button cancel;
     protected Button submit;
-
+    private Button searchButton;
+    private Button doneButton;
+    
     private Locale locale = new Locale("en", "CA");
     private ResourceBundle buttons;
     private ResourceBundle titles;
@@ -49,21 +66,25 @@ public class UpdateTreeTypeView extends View {
     private ResourceBundle alerts;
     private String cancelTitle;
     private String submitTitle;
-    private String barcodePrefixTitle;
+    private String barcodeTitle;
     private String title;
     private String alertTitle;
     private String alertSubTitle;
     private String alertBody;
-
+    private String description;
+    
+    private TableView<TreeTypeVector> tableOfTreeType;
+    
     private String alertTitleSucceeded;
     private String alertSubTitleSucceeded;
     private String alertBodySucceeded;
+    private TableColumn barcodePrefix;
+    private TableColumn typeDescription;
+    private TableColumn cost;
     
-     private Preferences prefs;
-
-    public UpdateTreeTypeView(IModel model) {
-        super(model, "UpdateTreeTypeView");
-        prefs = Preferences.userNodeForPackage(AddNewTreeTypeView.class);
+    public UpdateTreeTypeView2(IModel model) {
+        super(model, "UpdateTreeView2");
+        Preferences prefs = Preferences.userNodeForPackage(AddNewTreeView.class);
         String langage = prefs.get("langage", null);
         if (langage.toString().equals("en") == true)
         {
@@ -79,22 +100,20 @@ public class UpdateTreeTypeView extends View {
         alerts = ResourceBundle.getBundle("AlertsBundle", locale);
         refreshFormContents();
         displayWindow();
-
+        
     }
-
-
+    
+    
     public void displayWindow()
     {
         VBox container = new VBox(10);
-        container.setAlignment(Pos.CENTER);
+        container.setAlignment(Pos.CENTER);	
         container.setPadding(new Insets(15, 5, 5, 5));
         container.getChildren().add(createTitle());
 	container.getChildren().add(createFormContent());
 	getChildren().add(container);
-        populateFields();
-        myModel.subscribe("UpdateTreeTypeError", this);
     }
-
+    
     public Node createTitle()
     {
         HBox container = new HBox();
@@ -107,47 +126,65 @@ public class UpdateTreeTypeView extends View {
         container.getChildren().add(titleText);
         return container;
     }
-
+    
     private GridPane createFormContent()
-    {
+    {        
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
-        grid.setHgap(10);
+	grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
-        //barcodePrefix = createInput(grid, barcodePrefix, barcodePrefixTitle, 0);
-        cost = createInput(grid, cost, costTitle, 1);
-        typeDescription = createInput(grid, typeDescription, typeDescriptionTitle, 2);
-        createButton(grid, submit, submitTitle, 1, 4, 1);
-        createButton(grid, cancel, cancelTitle, 0, 4, 2);
-        return grid;
-    }
 
+	createInput2(grid, 0);
+
+	tableOfTreeType = new TableView<TreeTypeVector>();
+	barcodePrefix = new TableColumn("Barcode Prefix");
+	barcodePrefix.setMinWidth(240);
+	barcodePrefix.setCellValueFactory(new PropertyValueFactory<Tree, String>("barcode"));
+	typeDescription = new TableColumn("Type Description");
+	typeDescription.setMinWidth(240);
+	typeDescription.setCellValueFactory(new PropertyValueFactory<Tree, String>("description"));
+        cost = new TableColumn("Cost");
+	cost.setMinWidth(240);
+	cost.setCellValueFactory(new PropertyValueFactory<Tree, String>("cost"));
+        
+	tableOfTreeType.getColumns().addAll(barcodePrefix, typeDescription, cost);
+	ScrollPane scrollPane = new ScrollPane();
+	scrollPane.setPrefSize(500, 150);
+	scrollPane.setContent(tableOfTreeType);
+
+	grid.add(scrollPane, 1, 1);
+        
+	createButton(grid, submit, submitTitle, 1, 4, 1);
+	createButton(grid, cancel, cancelTitle, 0, 4, 2);
+
+
+        
+	return grid;
+        
+    }
+    
+    
+    private void createInput2(GridPane grid, Integer pos)
+    {
+	HBox hb = new HBox(10);
+	hb.setAlignment(Pos.CENTER);
+	hb.getChildren().add(new Label("Barcode:"));
+	barcode = new TextField();
+	hb.getChildren().add(barcode);
+	grid.add(hb, 1, pos);
+    }
+    
     private TextField createInput(GridPane grid, TextField textfield, String label, Integer pos)
     {
         Label Author = new Label(label);
         GridPane.setHalignment(Author, HPos.RIGHT);
         grid.add(Author, 0, pos);
         textfield = new TextField();
-        if (pos == 0) {
-            String notesText = prefs.get("BarcodePrefix", null);
-            System.out.println("Barcode:" + notesText);
-            textfield.setText(notesText);   
-        }
-        else if (pos == 1) {
-            String notesText = prefs.get("Cost", null);
-            System.out.println("Cost:" + notesText);
-            textfield.setText(notesText);   
-        }
-        else if (pos == 2) {
-            String notesText = prefs.get("TypeDescription", null);
-            System.out.println("TypeDescription:" + notesText);
-            textfield.setText(notesText);   
-        }
         grid.add(textfield, 1, pos);
         return textfield;
     }
-
+    
     private TextArea createInputTextArea(GridPane grid, TextArea textarea, String label, Integer pos)
     {
         Label Author = new Label(label);
@@ -160,7 +197,7 @@ public class UpdateTreeTypeView extends View {
         grid.add(textarea, 1, pos);
         return textarea;
     }
-
+    
     private void createButton(GridPane grid, Button button, String nameButton, Integer pos1, Integer pos2, Integer id)
     {
         button = new Button(nameButton);
@@ -176,22 +213,14 @@ public class UpdateTreeTypeView extends View {
         btnContainer.getChildren().add(button);
         grid.add(btnContainer, pos1, pos2);
     }
-
+    
     public void processAction(Event evt)
     {
         Object source = evt.getSource();
         Button clickedBtn = (Button) source;
         if (clickedBtn.getId().equals("1") == true)
         {
-            if (cost.getText().isEmpty() == true)
-            {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle(alertTitle);
-                alert.setHeaderText(alertSubTitle);
-                alert.setContentText(alertBody);
-                alert.showAndWait();
-            }
-            else if (typeDescription.getText().isEmpty() == true)
+            if (barcode.getText().isEmpty() == true)
             {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle(alertTitle);
@@ -202,23 +231,16 @@ public class UpdateTreeTypeView extends View {
             else
             {
                 Properties props = new Properties();
-              //  props.setProperty("BarcodePrefix", barcodePrefix.getText());
-                props.setProperty("Cost", cost.getText());
-                props.setProperty("TypeDescription", typeDescription.getText());
-
+                props.setProperty("Barcode", barcode.getText());
                 try
                 {
-                    myModel.stateChangeRequest("UpdateTreeType2", props);
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle(alertTitleSucceeded);
-                    alert.setHeaderText(alertSubTitleSucceeded);
-                    alert.setContentText(alertBodySucceeded);
-                    alert.showAndWait();
+                    myModel.stateChangeRequest("UpdateTreeType", props);
                     populateFields();
+                    
                 }
                 catch (Exception ex)
                 {
-                    System.out.print("Error UpdateTreeType");
+                    System.out.print("An Error occured: " + ex);
                 }
             }
         }
@@ -227,34 +249,70 @@ public class UpdateTreeTypeView extends View {
             myModel.stateChangeRequest("Done", null);
         }
     }
-
+    
     private void refreshFormContents()
     {
-        submitTitle = buttons.getString("submitModifyTreeType");
-        cancelTitle = buttons.getString("cancelTreeType");
-        barcodePrefixTitle = labels.getString("barcodePrefix");
-        costTitle = labels.getString("cost");
-        typeDescriptionTitle = labels.getString("typeDescription");
-        title = titles.getString("mainTitleModifyTreeType");
-        alertTitle = alerts.getString("UpdateTreeTypeTitle");
-        alertSubTitle = alerts.getString("UpdateTreeTypeSubTitle");
-        alertBody = alerts.getString("UpdateTreeTypeBody");
-        alertTitleSucceeded = alerts.getString("UpdateTreeTypeTitleSucceeded");
-        alertSubTitleSucceeded = alerts.getString("UpdateTreeTypeSubTitleSucceeded");
-        alertBodySucceeded = alerts.getString("UpdateTreeTypeBodySucceeded");
+        submitTitle = buttons.getString("submitModifyTree");
+        cancelTitle = buttons.getString("cancelTree");
+        barcodeTitle = labels.getString("barcodeTree");
+        description = labels.getString("notes");
+        title = titles.getString("mainTitleModifyTree");
+        alertTitle = alerts.getString("UpdateCheckTitle");
+        alertSubTitle = alerts.getString("UpdateCheckSubTitle");
+        alertBody = alerts.getString("UpdateCheckBody");
+        alertTitleSucceeded = alerts.getString("UpdateCheckTitleS");
+        alertSubTitleSucceeded = alerts.getString("UpdateCheckSubTitleS");
+        alertBodySucceeded = alerts.getString("UpdateCheckBodyS");
     }
-
+    
+    protected void getEntryTableModelValues()
+    {
+	ObservableList<TreeTypeVector> tableData = FXCollections.observableArrayList();
+	try
+	    {
+		TreeType tree = (TreeType)myModel.getState("TreeType");
+		Vector entryList = (Vector)tree.getResultFromDB("ModifyTreeType");
+                Enumeration entries = entryList.elements();
+                Vector<String> view = entryList;
+                TreeTypeVector nextTableRowData = new TreeTypeVector(view);
+                tableData.add(nextTableRowData);
+                tableOfTreeType.setItems(tableData);
+                tableOfTreeType.setEditable(true);
+                
+                tableOfTreeType.setOnMousePressed(new EventHandler<MouseEvent>() {
+                public void handle(MouseEvent me) {
+                        Properties props = new Properties();
+                        props.setProperty("BarcodePrefix", view.get(0));
+                        props.setProperty("TypeDescription", view.get(1));
+                        props.setProperty("Cost", view.get(2));
+                        myModel.stateChangeRequest("ModifyTreeType", props);
+                    }
+                });
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle(alertTitleSucceeded);
+                alert.setHeaderText(alertSubTitleSucceeded);
+                alert.setContentText(alertBodySucceeded);
+                alert.showAndWait();
+	    }
+	catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle(alertTitle);
+                alert.setHeaderText(alertSubTitle);
+                alert.setContentText(alertBody);
+                alert.showAndWait();
+	}
+    }
+    
     protected void populateFields()
     {
-        //barcodePrefix.setText("");
-        cost.setText("");
-        typeDescription.setText("");
+        barcode.setText("");
+        getEntryTableModelValues();
     }
-
+    
     @Override
     public void updateState(String key, Object value) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-
+    
+    
 }

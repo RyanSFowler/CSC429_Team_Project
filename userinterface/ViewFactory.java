@@ -47,7 +47,10 @@ public class ViewFactory {
 		{
 			return new UpdateTreeTypeView(model);
 		}
-
+                else if(viewName.equals("UpdateTreeTypeView2") == true)
+		{
+			return new UpdateTreeTypeView2(model);
+		}
 		else if(viewName.equals("OpenSessionView") == true)
 		{
 			return new OpenSessionView(model);
