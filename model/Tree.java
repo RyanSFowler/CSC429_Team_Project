@@ -176,6 +176,7 @@ public class Tree extends EntityBase implements IView, IModel {
                    persistentState = (Properties) value;
                    //System.out.print("ModifyTree:" + persistentState.getProperty("Barcode"));
                    FindTreeInDatabase(persistentState.getProperty("Barcode"));
+                   Barcode = persistentState.getProperty("Barcode");
                 }
             }
             else if (key.equals("ModifyTree2") == true)
@@ -228,6 +229,8 @@ public class Tree extends EntityBase implements IView, IModel {
         public void RemoveTree() {
             try
             {
+                persistentState.setProperty("Barcode", Barcode);
+                initializeSchema(myTableName);
                 if (persistentState.getProperty("Barcode") != null)
                 {
                 String query = "SELECT * FROM " + myTableName + " WHERE Barcode = '" + persistentState.getProperty("Barcode") + "' ;";
