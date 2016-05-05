@@ -54,7 +54,7 @@ public class UpdateTreeView extends View {
     protected Button submit;
     private Button searchButton;
     private Button doneButton;
-    
+
     private Locale locale = new Locale("en", "CA");
     private ResourceBundle buttons;
     private ResourceBundle titles;
@@ -68,13 +68,13 @@ public class UpdateTreeView extends View {
     private String alertSubTitle;
     private String alertBody;
     private String description;
-    
+
     private TableView<TreeVector> tableOfTree;
-    
+
     private String alertTitleSucceeded;
     private String alertSubTitleSucceeded;
     private String alertBodySucceeded;
-    
+
     public UpdateTreeView(IModel model) {
         super(model, "UpdateTreeView");
         Preferences prefs = Preferences.userNodeForPackage(AddNewTreeView.class);
@@ -93,20 +93,20 @@ public class UpdateTreeView extends View {
         alerts = ResourceBundle.getBundle("AlertsBundle", locale);
         refreshFormContents();
         displayWindow();
-        
+
     }
-    
-    
+
+
     public void displayWindow()
     {
         VBox container = new VBox(10);
-        container.setAlignment(Pos.CENTER);	
+        container.setAlignment(Pos.CENTER);
         container.setPadding(new Insets(15, 5, 5, 5));
         container.getChildren().add(createTitle());
-	container.getChildren().add(createFormContent());
-	getChildren().add(container);
+	      container.getChildren().add(createFormContent());
+	      getChildren().add(container);
     }
-    
+
     public Node createTitle()
     {
         HBox container = new HBox();
@@ -119,12 +119,12 @@ public class UpdateTreeView extends View {
         container.getChildren().add(titleText);
         return container;
     }
-    
+
     private GridPane createFormContent()
-    {        
+    {
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
-	grid.setHgap(10);
+	      grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
 
@@ -137,7 +137,7 @@ public class UpdateTreeView extends View {
 	TableColumn NotesColumn = new TableColumn("Notes");
 	NotesColumn.setMinWidth(100);
 	NotesColumn.setCellValueFactory(new PropertyValueFactory<Tree, String>("notes"));
-	
+
 	tableOfTree.getColumns().addAll(barcodeColumn, NotesColumn);
 	ScrollPane scrollPane = new ScrollPane();
 	scrollPane.setPrefSize(520, 150);
@@ -149,9 +149,9 @@ public class UpdateTreeView extends View {
 	createButton(grid, cancel, cancelTitle, 0, 4, 2);
 
 	return grid;
-        
+
     }
-    
+
     private void createInput2(GridPane grid, Integer pos)
     {
 	HBox hb = new HBox(10);
@@ -161,7 +161,7 @@ public class UpdateTreeView extends View {
 	hb.getChildren().add(barcode);
 	grid.add(hb, 1, pos);
     }
-    
+
     private TextField createInput(GridPane grid, TextField textfield, String label, Integer pos)
     {
         Label Author = new Label(label);
@@ -171,7 +171,7 @@ public class UpdateTreeView extends View {
         grid.add(textfield, 1, pos);
         return textfield;
     }
-    
+
     private TextArea createInputTextArea(GridPane grid, TextArea textarea, String label, Integer pos)
     {
         Label Author = new Label(label);
@@ -184,7 +184,7 @@ public class UpdateTreeView extends View {
         grid.add(textarea, 1, pos);
         return textarea;
     }
-    
+
     private void createButton(GridPane grid, Button button, String nameButton, Integer pos1, Integer pos2, Integer id)
     {
         button = new Button(nameButton);
@@ -200,7 +200,7 @@ public class UpdateTreeView extends View {
         btnContainer.getChildren().add(button);
         grid.add(btnContainer, pos1, pos2);
     }
-    
+
     public void processAction(Event evt)
     {
         Object source = evt.getSource();
@@ -240,7 +240,7 @@ public class UpdateTreeView extends View {
                     alert.setContentText(alertBodySucceeded);
                     alert.showAndWait();
                    // populateFields();
-                    
+
                 }
                 catch (Exception ex)
                 {
@@ -253,7 +253,7 @@ public class UpdateTreeView extends View {
             myModel.stateChangeRequest("Done", null);
         }
     }
-    
+
     private void refreshFormContents()
     {
         submitTitle = buttons.getString("submitModifyTree");
@@ -268,7 +268,7 @@ public class UpdateTreeView extends View {
         alertSubTitleSucceeded = alerts.getString("AddTreeSubTitleSucceeded");
         alertBodySucceeded = alerts.getString("UpdateTreeBodySucceeded");
     }
-    
+
     protected void getEntryTableModelValues()
     {
 	ObservableList<TreeVector> tableData = FXCollections.observableArrayList();
@@ -290,18 +290,18 @@ public class UpdateTreeView extends View {
 	catch (Exception e) {
 	}
     }
-    
+
     protected void populateFields()
     {
         barcode.setText("");
         //notes.setText("");
         getEntryTableModelValues();
     }
-    
+
     @Override
     public void updateState(String key, Object value) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
+
+
 }

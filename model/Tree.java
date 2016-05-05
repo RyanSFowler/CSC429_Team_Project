@@ -23,7 +23,7 @@ import userinterface.ViewFactory;
  * @author berghen
  */
 public class Tree extends EntityBase implements IView, IModel {
-    
+
      protected Stage myStage;
      protected TreeLotCoordinator myTreeLotCoordinator;
      protected Properties dependencies;
@@ -31,7 +31,7 @@ public class Tree extends EntityBase implements IView, IModel {
      private static final String myTableName = "TREE";
      private String updateStatusMessage = "";
      public String ErrorUpdate = "";
-     
+
      public Tree(TreeLotCoordinator l, String type) throws Exception {
             super(myTableName);
             myTreeLotCoordinator = l;
@@ -47,7 +47,7 @@ public class Tree extends EntityBase implements IView, IModel {
                 createRemoveTreeView();
             }
         }
-     
+
      public void createAddTreeView() {
             Scene currentScene = (Scene)myViews.get("AddNewTreeView");
 
@@ -58,9 +58,9 @@ public class Tree extends EntityBase implements IView, IModel {
                 currentScene.getStylesheets().add("styleSheet.css");
                 myViews.put("AddNewTreeView", currentScene);
             }
-            swapToView(currentScene);        
+            swapToView(currentScene);
         }
-     
+
      public void createRemoveTreeView() {
          //System.out.print("createRemoveTreeView");
             Scene currentScene = (Scene)myViews.get("RemoveTreeView");
@@ -72,9 +72,9 @@ public class Tree extends EntityBase implements IView, IModel {
                 currentScene.getStylesheets().add("styleSheet.css");
                 myViews.put("RemoveTreeView", currentScene);
             }
-            swapToView(currentScene);        
+            swapToView(currentScene);
         }
-     
+
      public void createUpdateTreeView() {
             Scene currentScene = (Scene)myViews.get("UpdateTreeView");
 
@@ -85,15 +85,15 @@ public class Tree extends EntityBase implements IView, IModel {
                 currentScene.getStylesheets().add("styleSheet.css");
                 myViews.put("UpdateTreeView", currentScene);
             }
-            swapToView(currentScene);        
+            swapToView(currentScene);
         }
-     
+
      public void setDependencies()
 	{
             dependencies = new Properties();
             myRegistry.setDependencies(dependencies);
 	}
-     
+
      public Object getState(String key)
 	{
             if (key.equals("Tree"))
@@ -103,7 +103,7 @@ public class Tree extends EntityBase implements IView, IModel {
             }
             return null;
 	}
-     
+
      public void FindTreeInDatabase(String title)
 	{
             System.out.println("Je rentre title:" + title);
@@ -135,7 +135,7 @@ public class Tree extends EntityBase implements IView, IModel {
 		System.err.println(e);
 	    }
 	}
-     
+
      public void stateChangeRequest(String key, Object value)
 	{
             if (key.equals("Done") == true)
@@ -176,9 +176,9 @@ public class Tree extends EntityBase implements IView, IModel {
                     RemoveTree();
                 }
             }
-            
+
 	}
-        
+
         public void RemoveTree() {
             try
             {
@@ -188,12 +188,12 @@ public class Tree extends EntityBase implements IView, IModel {
                 Vector<Properties> allDataRetrieved = getSelectQueryResult(query);
                 if (allDataRetrieved != null && allDataRetrieved.size() == 1) {
                 Properties whereClause = new Properties();
-		whereClause.setProperty("Barcode", persistentState.getProperty("Barcode"));
-		deletePersistentState(mySchema, whereClause);
-		updateStatusMessage = "Remove Tree  : " + persistentState.getProperty("Barcode") + " Remove successfully in database!";
-		System.out.println(updateStatusMessage);
+		            whereClause.setProperty("Barcode", persistentState.getProperty("Barcode"));
+		            deletePersistentState(mySchema, whereClause);
+		            updateStatusMessage = "Remove Tree  : " + persistentState.getProperty("Barcode") + " Remove successfully in database!";
+		            System.out.println(updateStatusMessage);
              }
-                else {
+            else {
                       System.out.print("No match with :" + persistentState.getProperty("Barcode"));
                     // Return an error (no barcode match)
                 }
@@ -209,7 +209,7 @@ public class Tree extends EntityBase implements IView, IModel {
             //updateStatusMessage = "Error in installing account data in database!";
         }
         }
-     
+
         public void insert() {
             //System.out.print("Insert Add Tree");
             dependencies = new Properties();
@@ -223,7 +223,7 @@ public class Tree extends EntityBase implements IView, IModel {
                 Logger.getLogger(Tree.class.getName()).log(Level.SEVERE, null, ex);
             }
 	}
-     
+
      private void UpdateTreeInDatabase()
      {
          try
@@ -257,11 +257,11 @@ public class Tree extends EntityBase implements IView, IModel {
             //updateStatusMessage = "Error in installing account data in database!";
         }
      }
-     
+
      public String getErrorUpdate() {
          return (ErrorUpdate);
      }
-     
+
    protected void initializeSchema(String tableName)
 	{
             if (mySchema == null)
@@ -276,5 +276,5 @@ public class Tree extends EntityBase implements IView, IModel {
 	}
 
 
-     
+
 }

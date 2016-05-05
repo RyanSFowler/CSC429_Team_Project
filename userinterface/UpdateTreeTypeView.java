@@ -5,11 +5,16 @@
  */
 package userinterface;
 
+
 import impresario.IModel;
+import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.ResourceBundle;
+import java.util.Vector;
 import java.util.prefs.Preferences;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -20,8 +25,12 @@ import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -30,6 +39,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import model.TreeType;
+import model.TreeTypeVector;
+//import model.ModifyTree;
 
 
 public class UpdateTreeTypeView extends View {
@@ -58,6 +70,8 @@ public class UpdateTreeTypeView extends View {
     private String alertTitleSucceeded;
     private String alertSubTitleSucceeded;
     private String alertBodySucceeded;
+
+    private TableView<TreeTypeVector> tableOfTreeType;
 
     public UpdateTreeTypeView(IModel model) {
         super(model, "UpdateTreeTypeView");
@@ -90,8 +104,8 @@ public class UpdateTreeTypeView extends View {
 	container.getChildren().add(createFormContent());
         //container.getChildren().add(createStatusLog("                                            "));
 	getChildren().add(container);
-        populateFields();
-        myModel.subscribe("UpdateTreeTypeError", this);
+        //populateFields();
+        //myModel.subscribe("UpdateTreeTypeError", this);
     }
 
     public Node createTitle()
@@ -114,14 +128,45 @@ public class UpdateTreeTypeView extends View {
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
-        barcodePrefix = createInput(grid, barcodePrefix, barcodePrefixTitle, 0);
-        cost = createInput(grid, cost, costTitle, 1);
-        typeDescription = createInput(grid, typeDescription, typeDescriptionTitle, 2);
+
+        createInput2(grid, 0);
+
+        tableOfTreeType = new TableView<TreeTypeVector>();
+
+        TableColumn barcodePrefixColumn = new TableColumn("BarcodePrefix");
+        barcodePrefixColumn.setMinWidth(100);
+        barcodePrefixColumn.setCellValueFactory(new PropertyValueFactory<TreeType, String>("barcodePrefix"));
+
+        TableColumn typeDescriptionColumn = new TableColumn("TypeDescription");
+        typeDescriptionColumn.setMinWidth(100);
+        typeDescriptionColumn.setCellValueFactory(new PropertyValueFactory<TreeType, String>("typeDescription"));
+
+        TableColumn costColumn = new TableColumn("Cost");
+        costColumn.setMinWidth(100);
+        costColumn.setCellValueFactory(new PropertyValueFactory<TreeType, String>("cost"));
+
+        // = createInput(grid, barcodePrefix, barcodePrefixTitle, 0);
+        //cost = createInput(grid, cost, costTitle, 1);
+      //  typeDescription = createInput(grid, typeDescription, typeDescriptionTitle, 2);
+      tableOfTreeType.getColumns().addAll(barcodePrefixColumn, typeDescriptionColumn, costColumn);
+      ScrollPane scrollPane = new ScrollPane();
+      scrollPane.setPrefSize(520, 150);
+      scrollPane.setContent(tableOfTreeType);
+
+      grid.add(scrollPane,1,1);
         createButton(grid, submit, submitTitle, 1, 4, 1);
         createButton(grid, cancel, cancelTitle, 0, 4, 2);
         return grid;
     }
-
+    private void createInput2(GridPane grid, Integer pos)
+    {
+    HBox hb = new HBox(10);
+    hb.setAlignment(Pos.CENTER);
+    hb.getChildren().add(new Label("Barcode Prefix:"));
+    barcodePrefix = new TextField();
+    hb.getChildren().add(barcodePrefix);
+    grid.add(hb, 1, pos);
+    }
     private TextField createInput(GridPane grid, TextField textfield, String label, Integer pos)
     {
         Label Author = new Label(label);

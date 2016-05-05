@@ -21,6 +21,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -30,6 +34,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import model.ScoutVector;
+import model.Scout;
+//import model.ModifyScout;
 
 
 public class UpdateScoutView extends View {
@@ -61,6 +68,8 @@ public class UpdateScoutView extends View {
     private String alertTitle;
     private String alertSubTitle;
     private String alertBody;
+
+    private TableView<ScoutVector> tableOfScouts;
 
     private String alertTitleSucceeded;
     private String alertSubTitleSucceeded;
@@ -94,11 +103,11 @@ public class UpdateScoutView extends View {
         container.setAlignment(Pos.CENTER);
         container.setPadding(new Insets(15, 5, 5, 5));
         container.getChildren().add(createTitle());
-	container.getChildren().add(createFormContent());
+	      container.getChildren().add(createFormContent());
         //container.getChildren().add(createStatusLog("                                            "));
-	getChildren().add(container);
-        populateFields();
-        myModel.subscribe("UpdateScoutError", this);
+	      getChildren().add(container);
+        //populateFields();
+        //myModel.subscribe("UpdateScoutError", this);
     }
 
     public Node createTitle()
@@ -122,15 +131,62 @@ public class UpdateScoutView extends View {
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
 
+        createInput2(grid,0);
+
+        tableOfScouts = new TableView<ScoutVector>();
+
+        TableColumn firstNameColumn = new TableColumn("FirstName");
+        firstNameColumn.setMinWidth(100);
+        firstNameColumn.setCellValueFactory(new PropertyValueFactory<Scout, String>("firstName"));
+
+        TableColumn lastNameColumn = new TableColumn("LastName");
+        lastNameColumn.setMinWidth(100);
+        lastNameColumn.setCellValueFactory(new PropertyValueFactory<Scout, String>("lastName"));
+
+        TableColumn middleInitialColumn = new TableColumn("MiddleInitial");
+        middleInitialColumn.setMinWidth(100);
+        middleInitialColumn.setCellValueFactory(new PropertyValueFactory<Scout, String>("middleInitial"));
+
+        TableColumn dateOfBirthColumn = new TableColumn("DateOfBirth");
+        dateOfBirthColumn.setMinWidth(100);
+        dateOfBirthColumn.setCellValueFactory(new PropertyValueFactory<Scout, String>("dateOfBirth"));
+
+        TableColumn phoneNumberColumn = new TableColumn("PhoneNumber");
+        phoneNumberColumn.setMinWidth(100);
+        phoneNumberColumn.setCellValueFactory(new PropertyValueFactory<Scout, String>("phoneNumber"));
+
+        TableColumn emailColumn = new TableColumn("Email");
+        emailColumn.setMinWidth(100);
+        emailColumn.setCellValueFactory(new PropertyValueFactory<Scout, String>("email"));
+
+        tableOfScouts.getColumns().addAll(firstNameColumn, lastNameColumn, middleInitialColumn, dateOfBirthColumn,
+                                          phoneNumberColumn, emailColumn);
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setPrefSize(520, 150);
+        scrollPane.setContent(tableOfScouts);
+
+        /*
         firstNameField = createInput(grid, firstNameField, firstNameTitle, 0);
         middleInitialField = createInput(grid, middleInitialField, middleTitle, 1);
         lastNameField = createInput(grid, lastNameField, lastNameTitle, 2);
         dobField = createInput(grid, dobField, dobTitle, 3);
         phoneNumField = createInput(grid, phoneNumField, phoneTitle, 4);
         emailField = createInput(grid, emailField, emailTitle, 5);
+        */
+        grid.add(scrollPane, 1, 1);
         createButton(grid, submit, submitTitle, 1, 6, 1);
         createButton(grid, cancel, cancelTitle, 0, 6, 2);
         return grid;
+    }
+
+    private void createInput2(GridPane grid, Integer pos)
+    {
+	HBox hb = new HBox(10);
+	hb.setAlignment(Pos.CENTER);
+	hb.getChildren().add(new Label("First Name:"));
+	firstNameField = new TextField();
+	hb.getChildren().add(firstNameField);
+	grid.add(hb, 1, pos);
     }
 
     private TextField createInput(GridPane grid, TextField textfield, String label, Integer pos)
@@ -247,7 +303,7 @@ public class UpdateScoutView extends View {
         alertBodySucceeded = alerts.getString("ModifyScoutBodySucceeded");
     }
 
-    protected void populateFields()
+    protected void populateFields()//currently not being used
     {
       firstNameField.setText("");
       lastNameField.setText("");
