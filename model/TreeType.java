@@ -147,6 +147,7 @@ public class TreeType extends EntityBase implements IView, IModel {
                 {
                    persistentState = (Properties) value;
                    FindTreeTypeInDatabase(persistentState.getProperty("Barcode"));
+                   //System.out.print("RESULT: " + persistentState);
                    Barcode = persistentState.getProperty("Barcode");
                 }
             }

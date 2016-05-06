@@ -81,10 +81,11 @@ public class UpdateTreeTypeView2 extends View {
     private TableColumn barcodePrefix;
     private TableColumn typeDescription;
     private TableColumn cost;
+    private Preferences prefs;
     
     public UpdateTreeTypeView2(IModel model) {
         super(model, "UpdateTreeView2");
-        Preferences prefs = Preferences.userNodeForPackage(AddNewTreeView.class);
+        prefs = Preferences.userNodeForPackage(AddNewTreeView.class);
         String langage = prefs.get("langage", null);
         if (langage.toString().equals("en") == true)
         {
@@ -170,7 +171,7 @@ public class UpdateTreeTypeView2 extends View {
 	HBox hb = new HBox(10);
 	hb.setAlignment(Pos.CENTER);
 	hb.getChildren().add(new Label("Barcode:"));
-	barcode = new TextField();
+        barcode = new TextField();
 	hb.getChildren().add(barcode);
 	grid.add(hb, 1, pos);
     }
