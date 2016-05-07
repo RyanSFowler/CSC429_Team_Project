@@ -63,7 +63,7 @@ public class UpdateTreeTypeView extends View {
 
     public UpdateTreeTypeView(IModel model) {
         super(model, "UpdateTreeTypeView");
-        prefs = Preferences.userNodeForPackage(AddNewTreeView.class);
+        prefs = Preferences.userNodeForPackage(AddNewTreeTypeView.class);
         String langage = prefs.get("langage", null);
         if (langage.toString().equals("en") == true)
         {
@@ -91,7 +91,7 @@ public class UpdateTreeTypeView extends View {
         container.getChildren().add(createTitle());
 	container.getChildren().add(createFormContent());
 	getChildren().add(container);
-        //populateFields();
+        populateFields();
         myModel.subscribe("UpdateTreeTypeError", this);
     }
 
@@ -118,9 +118,6 @@ public class UpdateTreeTypeView extends View {
         //barcodePrefix = createInput(grid, barcodePrefix, barcodePrefixTitle, 0);
         cost = createInput(grid, cost, costTitle, 1);
         typeDescription = createInput(grid, typeDescription, typeDescriptionTitle, 2);
-        //System.out.print(prefs.get("TypeDescription", null));
-        
-        
         createButton(grid, submit, submitTitle, 1, 4, 1);
         createButton(grid, cancel, cancelTitle, 0, 4, 2);
         return grid;
@@ -133,20 +130,19 @@ public class UpdateTreeTypeView extends View {
         grid.add(Author, 0, pos);
         textfield = new TextField();
         if (pos == 0) {
-            String notesText1 = prefs.get("BarcodePrefix", null);
-            System.out.println("Barcode:" + notesText1);
-            textfield.setText(notesText1);   
+            String notesText = prefs.get("BarcodePrefix", null);
+            System.out.println("Barcode:" + notesText);
+            textfield.setText(notesText);   
         }
         else if (pos == 1) {
-            String notesText2 = prefs.get("Cost", null);
-            //cost.setText(notesText);
-            System.out.println("Cost:" + notesText2);
-            textfield.setText(notesText2);   
+            String notesText = prefs.get("Cost", null);
+            System.out.println("Cost:" + notesText);
+            textfield.setText(notesText);   
         }
         else if (pos == 2) {
-            String notesText3 = prefs.get("TypeDescription", null);
-            System.out.println("TypeDescription:" + notesText3);
-            textfield.setText(notesText3);
+            String notesText = prefs.get("TypeDescription", null);
+            System.out.println("TypeDescription:" + notesText);
+            textfield.setText(notesText);   
         }
         grid.add(textfield, 1, pos);
         return textfield;

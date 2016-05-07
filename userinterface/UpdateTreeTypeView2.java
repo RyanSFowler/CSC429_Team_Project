@@ -58,7 +58,7 @@ public class UpdateTreeTypeView2 extends View {
     protected Button submit;
     private Button searchButton;
     private Button doneButton;
-    
+
     private Locale locale = new Locale("en", "CA");
     private ResourceBundle buttons;
     private ResourceBundle titles;
@@ -72,20 +72,19 @@ public class UpdateTreeTypeView2 extends View {
     private String alertSubTitle;
     private String alertBody;
     private String description;
-    
+
     private TableView<TreeTypeVector> tableOfTreeType;
-    
+
     private String alertTitleSucceeded;
     private String alertSubTitleSucceeded;
     private String alertBodySucceeded;
     private TableColumn barcodePrefix;
     private TableColumn typeDescription;
     private TableColumn cost;
-    private Preferences prefs;
-    
+
     public UpdateTreeTypeView2(IModel model) {
         super(model, "UpdateTreeView2");
-        prefs = Preferences.userNodeForPackage(AddNewTreeView.class);
+        Preferences prefs = Preferences.userNodeForPackage(AddNewTreeView.class);
         String langage = prefs.get("langage", null);
         if (langage.toString().equals("en") == true)
         {
@@ -101,20 +100,20 @@ public class UpdateTreeTypeView2 extends View {
         alerts = ResourceBundle.getBundle("AlertsBundle", locale);
         refreshFormContents();
         displayWindow();
-        
+
     }
-    
-    
+
+
     public void displayWindow()
     {
         VBox container = new VBox(10);
-        container.setAlignment(Pos.CENTER);	
+        container.setAlignment(Pos.CENTER);
         container.setPadding(new Insets(15, 5, 5, 5));
         container.getChildren().add(createTitle());
 	container.getChildren().add(createFormContent());
 	getChildren().add(container);
     }
-    
+
     public Node createTitle()
     {
         HBox container = new HBox();
@@ -127,9 +126,9 @@ public class UpdateTreeTypeView2 extends View {
         container.getChildren().add(titleText);
         return container;
     }
-    
+
     private GridPane createFormContent()
-    {        
+    {
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
 	grid.setHgap(10);
@@ -148,34 +147,34 @@ public class UpdateTreeTypeView2 extends View {
         cost = new TableColumn("Cost");
 	cost.setMinWidth(240);
 	cost.setCellValueFactory(new PropertyValueFactory<Tree, String>("cost"));
-        
+
 	tableOfTreeType.getColumns().addAll(barcodePrefix, typeDescription, cost);
 	ScrollPane scrollPane = new ScrollPane();
 	scrollPane.setPrefSize(500, 150);
 	scrollPane.setContent(tableOfTreeType);
 
 	grid.add(scrollPane, 1, 1);
-        
+
 	createButton(grid, submit, submitTitle, 1, 4, 1);
 	createButton(grid, cancel, cancelTitle, 0, 4, 2);
 
 
-        
+
 	return grid;
-        
+
     }
-    
-    
+
+
     private void createInput2(GridPane grid, Integer pos)
     {
 	HBox hb = new HBox(10);
 	hb.setAlignment(Pos.CENTER);
 	hb.getChildren().add(new Label("Barcode:"));
-        barcode = new TextField();
+	barcode = new TextField();
 	hb.getChildren().add(barcode);
 	grid.add(hb, 1, pos);
     }
-    
+
     private TextField createInput(GridPane grid, TextField textfield, String label, Integer pos)
     {
         Label Author = new Label(label);
@@ -185,7 +184,7 @@ public class UpdateTreeTypeView2 extends View {
         grid.add(textfield, 1, pos);
         return textfield;
     }
-    
+
     private TextArea createInputTextArea(GridPane grid, TextArea textarea, String label, Integer pos)
     {
         Label Author = new Label(label);
@@ -198,7 +197,7 @@ public class UpdateTreeTypeView2 extends View {
         grid.add(textarea, 1, pos);
         return textarea;
     }
-    
+
     private void createButton(GridPane grid, Button button, String nameButton, Integer pos1, Integer pos2, Integer id)
     {
         button = new Button(nameButton);
@@ -214,7 +213,7 @@ public class UpdateTreeTypeView2 extends View {
         btnContainer.getChildren().add(button);
         grid.add(btnContainer, pos1, pos2);
     }
-    
+
     public void processAction(Event evt)
     {
         Object source = evt.getSource();
@@ -237,7 +236,7 @@ public class UpdateTreeTypeView2 extends View {
                 {
                     myModel.stateChangeRequest("UpdateTreeType", props);
                     populateFields();
-                    
+
                 }
                 catch (Exception ex)
                 {
@@ -250,7 +249,7 @@ public class UpdateTreeTypeView2 extends View {
             myModel.stateChangeRequest("Done", null);
         }
     }
-    
+
     private void refreshFormContents()
     {
         submitTitle = buttons.getString("submitModifyTree");
@@ -265,7 +264,7 @@ public class UpdateTreeTypeView2 extends View {
         alertSubTitleSucceeded = alerts.getString("UpdateCheckSubTitleS");
         alertBodySucceeded = alerts.getString("UpdateCheckBodyS");
     }
-    
+
     protected void getEntryTableModelValues()
     {
 	ObservableList<TreeTypeVector> tableData = FXCollections.observableArrayList();
@@ -279,7 +278,7 @@ public class UpdateTreeTypeView2 extends View {
                 tableData.add(nextTableRowData);
                 tableOfTreeType.setItems(tableData);
                 tableOfTreeType.setEditable(true);
-                
+
                 tableOfTreeType.setOnMousePressed(new EventHandler<MouseEvent>() {
                 public void handle(MouseEvent me) {
                         Properties props = new Properties();
@@ -303,17 +302,17 @@ public class UpdateTreeTypeView2 extends View {
                 alert.showAndWait();
 	}
     }
-    
+
     protected void populateFields()
     {
         barcode.setText("");
         getEntryTableModelValues();
     }
-    
+
     @Override
     public void updateState(String key, Object value) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
+
+
 }
