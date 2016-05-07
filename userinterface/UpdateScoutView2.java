@@ -76,6 +76,8 @@ public class UpdateScoutView2 extends View {
   private String emailTitle;
   private String statusTitle;//change
   private String mI;
+  private String activeWord;
+  private String inactiveWord;
 
   private String title;
   private String alertTitle;
@@ -163,9 +165,8 @@ public class UpdateScoutView2 extends View {
         hb.getChildren().add(new Label(firstNameTitle));
         firstNameField = new TextField();
 
-        String firstText = prefs.get("firstName", null);
-        firstNameField.setText(firstText);
-
+    //    String firstText = prefs.get( ,null);
+      //  firstNameField.setText(firstText);
         hb.getChildren().add(firstNameField);
         grid.add(hb, 1, pos);
     }
@@ -176,8 +177,8 @@ public class UpdateScoutView2 extends View {
         hb.getChildren().add(new Label(middleTitle));
         middleInitialField = new TextField();
 
-        String middleText = prefs.get("middleInitial", null);
-        middleInitialField.setText(middleText);
+      //  String middleText = prefs.get("middleInitial", null);
+        //middleInitialField.setText(middleText);
 
         hb.getChildren().add(middleInitialField);
         grid.add(hb, 1, pos);
@@ -189,8 +190,8 @@ public class UpdateScoutView2 extends View {
         hb.getChildren().add(new Label(lastNameTitle));
         lastNameField = new TextField();
 
-        String lastNameText = prefs.get("lastName", null);
-        lastNameField.setText(lastNameText);
+        //tring lastNameText = prefs.get("lastName", null);
+      //  lastNameField.setText(lastNameText);
 
         hb.getChildren().add(lastNameField);
         grid.add(hb, 1, pos);
@@ -202,8 +203,8 @@ public class UpdateScoutView2 extends View {
         hb.getChildren().add(new Label(dobTitle));
         dobField = new TextField();
 
-        String dobText = prefs.get("dateOfBirth", null);
-        dobField.setText(dobText);
+        //String dobText = prefs.get("dateOfBirth", null);
+        //dobField.setText(dobText);
 
         hb.getChildren().add(dobField);
         grid.add(hb, 1, pos);
@@ -215,8 +216,8 @@ public class UpdateScoutView2 extends View {
         hb.getChildren().add(new Label(phoneTitle));
         phoneNumField = new TextField();
 
-        String phoneText = prefs.get("phoneNumber", null);
-        dobField.setText(phoneText);
+      //  String phoneText = prefs.get("phoneNumber", null);
+      //  dobField.setText(phoneText);
 
         hb.getChildren().add(phoneNumField);
         grid.add(hb, 1, pos);
@@ -228,8 +229,8 @@ public class UpdateScoutView2 extends View {
         hb.getChildren().add(new Label(emailTitle));
         emailField = new TextField();
 
-        String emailText = prefs.get("email", null);
-        dobField.setText(emailText);
+      //  String emailText = prefs.get("email", null);
+      //  emailField.setText("");
 
         hb.getChildren().add(emailField);
         grid.add(hb, 1, pos);
@@ -242,8 +243,8 @@ public class UpdateScoutView2 extends View {
         statusField = new ComboBox();
 
         statusField.getItems().addAll(
-          "Active",
-          "Inactive"//Change
+          activeWord,
+        inactiveWord//Change
         );
         statusField.setPromptText(selectStatus);
         hb.getChildren().add(statusField);
@@ -253,6 +254,7 @@ public class UpdateScoutView2 extends View {
     }
     private GridPane createFormContent()
     {
+        System.out.println("perfs:"+ prefs.toString());
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
 	grid.setHgap(10);
@@ -266,11 +268,7 @@ public class UpdateScoutView2 extends View {
   createInput6(grid,4);
   createInput7(grid,5);
   createInput8(grid,6);
-//  lastNameField = createInput(grid, lastNameField, lastNameTitle, 2);
-  //dobField = createInput(grid, dobField, dobTitle, 3);
-//  phoneNumField = createInput(grid, phoneNumField, phoneTitle, 4);
-  //emailField = createInput(grid, emailField, emailTitle, 5);
-//  statusField = createInput(grid, statusField, statusTitle, 6);
+
 
 
 	createButton(grid, submit, submitTitle, 1, 7, 1);
@@ -375,6 +373,8 @@ public class UpdateScoutView2 extends View {
         alertSubTitleSucceeded = alerts.getString("ModifyScoutSubTitleSucceeded");
         alertBodySucceeded = alerts.getString("ModifyScoutBodySucceeded");
         selectStatus = buttons.getString("SelectStatus");
+        activeWord = labels.getString("Active");
+        inactiveWord = labels.getString("Inactive");
     }
 
 
