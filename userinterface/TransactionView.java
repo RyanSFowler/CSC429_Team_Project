@@ -6,10 +6,12 @@
 package userinterface;
 
 import impresario.IModel;
+
 import java.util.Locale;
 import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
+
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -22,15 +24,19 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+
 import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -54,6 +60,7 @@ public class TransactionView extends View {
     private DateFormat tf;
     protected Button cancel;
     protected Button submit;
+    protected Button tree;
     private Date dateobj = new Date();
 
     private Locale locale = new Locale("en", "CA");
@@ -154,7 +161,7 @@ public class TransactionView extends View {
         grid.setPadding(new Insets(25, 25, 25, 25));
 
 
-        transTypeField =new ComboBox();
+        /*transTypeField =new ComboBox();
         transTypeField.getItems().addAll(
           transactionTypeString
         );
@@ -162,8 +169,10 @@ public class TransactionView extends View {
         Label b = new Label(transTypeTitle);
         GridPane.setHalignment(b, HPos.RIGHT);
         grid.add(b,0,0);
-        grid.add(transTypeField,1,0);
-        barcodeField = createInput(grid, barcodeField, barcodeTitle, 1);
+        grid.add(transTypeField,1,0);*/
+        //barcodeField = createInput(grid, barcodeField, barcodeTitle, 1);
+        barcodeField = createInput(grid, barcodeField, barcodeTitle, 0);
+        createButton(grid, tree, "get price", 2, 0, 0); 
         transAmountField = createInput(grid, transAmountField, transAmountTitle, 2);
         paymentField =new ComboBox();
         paymentField.getItems().addAll(
@@ -182,6 +191,15 @@ public class TransactionView extends View {
         timeField = createInput(grid, timeField, timeTitle, 8);
         createButton(grid, submit, submitTitle, 1, 9, 1);
         createButton(grid, cancel, cancelTitle, 0, 9, 2);
+        
+        Line line = new Line(0, 0, 550, 0);
+        GridPane.setHalignment(line, HPos.CENTER);
+        ColumnConstraints columnConstraints = new ColumnConstraints();
+        columnConstraints.setFillWidth(true);
+        columnConstraints.setHgrow(Priority.ALWAYS);
+        grid.getColumnConstraints().add(columnConstraints);
+        grid.add(line, 0, 1, 3, 1);
+        
         return grid;
     }
 
@@ -229,6 +247,35 @@ public class TransactionView extends View {
         int sessionId = 0;
         Object source = evt.getSource();
         Button clickedBtn = (Button) source;
+        if (clickedBtn.getId().equals("0") == true)
+        {
+          if(sessionId != -1){
+
+            if ((barcodeField.getText().isEmpty()))
+            {
+            	//<--------------------------------------------------------------------change to proper alerts
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle(alertTitle);
+                alert.setHeaderText(alertSubTitle);
+                alert.setContentText(alertBody);
+                alert.showAndWait();
+            }
+            else
+            {
+                Properties props = new Properties();
+                props.setProperty("Barcode", barcodeField.getText());
+                try
+                {
+                    myModel.stateChangeRequest("SearchBarcode", props);
+                    transAmountField.setText((String)(myModel.getState("SearchBarcode")));
+                }
+                catch (Exception ex)
+                {
+                    System.out.print("Error Searching Barcode");
+                }
+            }
+          }
+        }
         if (clickedBtn.getId().equals("1") == true)
         {
           if(sessionId != -1){

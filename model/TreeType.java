@@ -8,12 +8,14 @@ package model;
 import exception.InvalidPrimaryKeyException;
 import impresario.IModel;
 import impresario.IView;
+
 import java.sql.SQLException;
 import java.util.Properties;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
+
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import userinterface.UpdateTreeView2;
@@ -32,6 +34,7 @@ public class TreeType extends EntityBase implements IView, IModel {
      public String Barcode;
      public String TypeDescription;
      public String Cost;
+     public String price = "";
 
      public TreeType(TreeLotCoordinator l, String type) throws Exception {
             super(myTableName);
@@ -47,6 +50,12 @@ public class TreeType extends EntityBase implements IView, IModel {
             }
 
         }
+     
+     public TreeType() throws Exception {
+         super(myTableName);
+         persistentState = new Properties();
+         setDependencies();
+     }
 
      public void createAddTreeTypeView() {
             Scene currentScene = (Scene)myViews.get("AddNewTreeTypeView");
@@ -185,6 +194,15 @@ public class TreeType extends EntityBase implements IView, IModel {
                     insert();
                 }
             }
+            else if (key.equals("SearchBarcode") == true)
+            {
+                if (value != null)
+                {
+                    persistentState = (Properties) value;
+                    String prefix = persistentState.getProperty("BarcodePrefix");
+                    price = findPrice(prefix);
+                }
+            }
 	}
 
 
@@ -239,6 +257,19 @@ public class TreeType extends EntityBase implements IView, IModel {
             //updateStatusMessage = "Error in installing account data in database!";
         }
      }
+     
+     public String findPrice(String prefix){
+      	String query = "SELECT * FROM " + myTableName + " WHERE BarcodePrefix = '" + prefix + "';";
+  		System.out.println(query);
+  		Vector<Properties> allDataRetrieved = getSelectQueryResult(query);
+  		System.out.println(allDataRetrieved);
+  		if (allDataRetrieved != null)
+  		{
+  				Properties tree = (Properties)allDataRetrieved.elementAt(0);
+  				return tree.getProperty("Cost");
+  		}
+  		else{return "";}
+      }
 
    protected void initializeSchema(String tableName)
 	{

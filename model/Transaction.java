@@ -5,13 +5,18 @@
  */
 package model;
 import java.util.Enumeration;
+
 import impresario.IModel;
 import impresario.IView;
+
 import java.sql.SQLException;
 import java.util.Properties;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.omg.CORBA.Current;
+
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import userinterface.View;
@@ -25,6 +30,7 @@ public class Transaction extends EntityBase implements IView, IModel {
      protected Properties dependencies;
      private static final String myTableName = "TRANSACTION";
      private String updateStatusMessage = "";
+     private String treeBarcode, treeTypePrice, date, time;
 
 
      public Transaction(TreeLotCoordinator l, String type) throws Exception {
@@ -87,6 +93,9 @@ public class Transaction extends EntityBase implements IView, IModel {
 	{
             if (key.equals("Transaction"))
 		          return this;
+            if(key.equals("SearchBarcode")){
+            	return (String)treeTypePrice;
+            }
             return null;
 	}
 
@@ -105,15 +114,23 @@ public class Transaction extends EntityBase implements IView, IModel {
                     insert();
                 }
             }
-
-            /*else if (key.equals("RemoveScout") == true)
+            else if (key.equals("SearchBarcode") == true)
             {
                 if (value != null)
                 {
-                    persistentState = (Properties) value;
-                    RemoveScoutInDatabase();
+                    persistentState = (Properties) value;  
+                    treeBarcode = persistentState.getProperty("Barcode");
+                    TreeType treeType = null;
+					try {
+						treeType = new TreeType();
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+            		treeTypePrice = treeType.findPrice(treeBarcode.substring(0,2));
+                    System.out.println(treeTypePrice);
                 }
-            }*/
+            }
 
 	}
 
@@ -153,6 +170,8 @@ public class Transaction extends EntityBase implements IView, IModel {
                 Logger.getLogger(Tree.class.getName()).log(Level.SEVERE, null, ex);
             }
 	}
+        
+        
    protected void initializeSchema(String tableName)
 	{
             if (mySchema == null)
