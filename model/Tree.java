@@ -8,12 +8,14 @@ package model;
 import exception.InvalidPrimaryKeyException;
 import impresario.IModel;
 import impresario.IView;
+
 import java.sql.SQLException;
 import java.util.Properties;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
+
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
@@ -36,6 +38,7 @@ public class Tree extends EntityBase implements IView, IModel {
      public String ErrorUpdate = "";
      public String Barcode;
      public String Notes;
+     public boolean existsTree;
 
      public Tree(TreeLotCoordinator l, String type) throws Exception {
             super(myTableName);
@@ -52,6 +55,12 @@ public class Tree extends EntityBase implements IView, IModel {
                 createRemoveTreeView();
             }
         }
+     
+     public Tree() throws Exception {
+         super(myTableName);
+         persistentState = new Properties();
+         setDependencies();
+     }
 
      public void createAddTreeView() {
             Scene currentScene = (Scene)myViews.get("AddNewTreeView");
@@ -139,6 +148,7 @@ public class Tree extends EntityBase implements IView, IModel {
             {
 		if (allDataRetrieved != null)
 		{
+			existsTree = true;
                     for (Properties p : allDataRetrieved)
             	    {
                         ModifyTree b = new ModifyTree(p);
@@ -147,6 +157,7 @@ public class Tree extends EntityBase implements IView, IModel {
                 }
 		else
 		{
+			existsTree = false;
                     throw new InvalidPrimaryKeyException("No matching barcode for number: "
 							     + title + ".");
 		}
@@ -154,6 +165,21 @@ public class Tree extends EntityBase implements IView, IModel {
 		System.err.println("Error: " + e);
 	    }
 	}
+     
+     public boolean findAvailableTree(String title)
+ 	{
+ 	    String query = "SELECT * FROM " + myTableName + " WHERE (Barcode = " + title + ") AND (Status = Available);";
+ 	    Vector<Properties> allDataRetrieved = getSelectQueryResult(query);
+ 		if (allDataRetrieved != null)
+ 		{
+ 			existsTree = true;
+        }
+ 		else
+ 		{
+ 			existsTree = false;
+ 		}
+ 		return existsTree;
+ 	}
 
      public void stateChangeRequest(String key, Object value)
 	{
@@ -265,6 +291,7 @@ public class Tree extends EntityBase implements IView, IModel {
             dependencies = new Properties();
             dependencies.put("Barcode", persistentState.getProperty("Barcode"));
             dependencies.put("Notes", persistentState.getProperty("Notes"));
+            dependencies.put("Status", "Available");
             //System.out.print("dependencies:" + dependencies);
             try {
                 int i = insertAutoIncrementalPersistentState(this.mySchema, dependencies);

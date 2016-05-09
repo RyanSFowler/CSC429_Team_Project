@@ -31,6 +31,7 @@ public class Transaction extends EntityBase implements IView, IModel {
      private static final String myTableName = "TRANSACTION";
      private String updateStatusMessage = "";
      private String treeBarcode, treeTypePrice, date, time;
+     private boolean existsTree;
 
 
      public Transaction(TreeLotCoordinator l, String type) throws Exception {
@@ -96,6 +97,9 @@ public class Transaction extends EntityBase implements IView, IModel {
             if(key.equals("SearchBarcode")){
             	return (String)treeTypePrice;
             }
+            if(key.equals("TreeAvailable")){
+            	return (boolean)existsTree;
+            }
             return null;
 	}
 
@@ -120,18 +124,16 @@ public class Transaction extends EntityBase implements IView, IModel {
                 {
                     persistentState = (Properties) value;  
                     treeBarcode = persistentState.getProperty("Barcode");
-                    TreeType treeType = null;
-					try {
-						treeType = new TreeType();
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-            		treeTypePrice = treeType.findPrice(treeBarcode.substring(0,2));
-                    System.out.println(treeTypePrice);
+	                    TreeType treeType = null;
+						try {
+							treeType = new TreeType();
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+	            		treeTypePrice = treeType.findPrice(treeBarcode.substring(0,2));
                 }
             }
-
 	}
 
   /*
@@ -167,7 +169,7 @@ public class Transaction extends EntityBase implements IView, IModel {
             try {
                 int i = insertAutoIncrementalPersistentState(this.mySchema, dependencies);
             } catch (SQLException ex) {
-                Logger.getLogger(Tree.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Transaction.class.getName()).log(Level.SEVERE, null, ex);
             }
 	}
         

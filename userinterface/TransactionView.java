@@ -253,11 +253,10 @@ public class TransactionView extends View {
 
             if ((barcodeField.getText().isEmpty()))
             {
-            	//<--------------------------------------------------------------------change to proper alerts
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle(alertTitle);
-                alert.setHeaderText(alertSubTitle);
-                alert.setContentText(alertBody);
+                alert.setTitle(alerts.getString("SearchBarcodeTransactionTitle"));
+                alert.setHeaderText(alerts.getString("SearchBarcodeTransactionSubTitle"));
+                alert.setContentText(alerts.getString("SearchBarcodeTransactionBody"));
                 alert.showAndWait();
             }
             else
@@ -310,7 +309,6 @@ public class TransactionView extends View {
                 props.setProperty("TransactionTime", timeField.getText());
                 try
                 {
-
                     myModel.stateChangeRequest("Add", props);
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle(alertTitleSucceeded);
