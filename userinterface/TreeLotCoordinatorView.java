@@ -532,7 +532,6 @@ public class TreeLotCoordinatorView extends View
 	}
 
 
-
 	//---------------------------------------------------------
 	public void updateState(String key, Object value)
 	{

@@ -270,6 +270,19 @@ public class TreeType extends EntityBase implements IView, IModel {
   		}
   		else{return "";}
       }
+     
+     public int findTreeTypeId(String prefix){
+       	String query = "SELECT Id FROM " + myTableName + " WHERE BarcodePrefix = '" + prefix + "';";
+   		System.out.println(query);
+   		Vector<Properties> allDataRetrieved = getSelectQueryResult(query);
+   		System.out.println(allDataRetrieved);
+   		if (allDataRetrieved != null)
+   		{
+   				Properties tree = (Properties)allDataRetrieved.elementAt(0);
+   				return Integer.parseInt(tree.getProperty("Id"));
+   		}
+   		else{return 0;}
+       }
 
    protected void initializeSchema(String tableName)
 	{

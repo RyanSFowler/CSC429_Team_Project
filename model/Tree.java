@@ -10,6 +10,8 @@ import impresario.IModel;
 import impresario.IView;
 
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Properties;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -39,6 +41,9 @@ public class Tree extends EntityBase implements IView, IModel {
      public String Barcode;
      public String Notes;
      public boolean existsTree;
+     public TreeType tt = new TreeType();
+     private int ttId;
+     private String dateStamp;
 
      public Tree(TreeLotCoordinator l, String type) throws Exception {
             super(myTableName);
@@ -237,6 +242,9 @@ public class Tree extends EntityBase implements IView, IModel {
                 if (value != null)
                 {
                     persistentState = (Properties) value;
+                	String prefix = (persistentState.getProperty("Barcode")).substring(0,2);
+                	ttId = tt.findTreeTypeId(prefix);
+                	persistentState.put("Id", ttId);
                     insert();
                 }
             }
@@ -259,8 +267,6 @@ public class Tree extends EntityBase implements IView, IModel {
                     try {
 						updatePersistentState(mySchema, persistentState, whereClause);
 					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
 					}
                 }
             }
@@ -310,6 +316,8 @@ public class Tree extends EntityBase implements IView, IModel {
             dependencies.put("Barcode", persistentState.getProperty("Barcode"));
             dependencies.put("Notes", persistentState.getProperty("Notes"));
             dependencies.put("Status", "Available");
+            dependencies.put("DateStatusUpdated", persistentState.getProperty("Id"));
+            dependencies.put("DateStatusUpdated", persistentState.getProperty("DateStatusUpdated"));
             //System.out.print("dependencies:" + dependencies);
             try {
                 int i = insertAutoIncrementalPersistentState(this.mySchema, dependencies);

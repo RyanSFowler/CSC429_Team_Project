@@ -6,10 +6,14 @@
 package userinterface;
 
 import impresario.IModel;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
+
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -60,6 +64,7 @@ public class AddNewTreeView extends View {
     private String alertBodySucceeded;
     
     private String description;
+    private String dateStamp;
     
     
     public AddNewTreeView(IModel model) {
@@ -78,6 +83,7 @@ public class AddNewTreeView extends View {
         titles = ResourceBundle.getBundle("TitlesBundle", locale);
         labels = ResourceBundle.getBundle("LabelsBundle", locale);
         alerts = ResourceBundle.getBundle("AlertsBundle", locale);
+        dateStamp = new SimpleDateFormat(labels.getString("dateFormat")).format(new Date());
         refreshFormContents();
         displayWindow();
         
@@ -191,6 +197,7 @@ public class AddNewTreeView extends View {
                 Properties props = new Properties();
                 props.setProperty("Barcode", barcode.getText());
                 props.setProperty("Notes", notes.getText());
+                props.setProperty("DateStatusUpdated", dateStamp);
                 try
                 {
                     myModel.stateChangeRequest("AddNewTree", props);
