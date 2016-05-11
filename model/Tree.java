@@ -124,7 +124,9 @@ public class Tree extends EntityBase implements IView, IModel {
      public Object getState(String key)
 	{
             if (key.equals("Tree"))
-		return this;
+            	return this;/*
+            if(key.equals("Exist"))
+            	return (boolean) existsTree;*/
             return null;
 	}
 
@@ -168,7 +170,7 @@ public class Tree extends EntityBase implements IView, IModel {
      
      public boolean findAvailableTree(String title)
  	{
- 	    String query = "SELECT * FROM " + myTableName + " WHERE (Barcode = " + title + ") AND (Status = Available);";
+ 	    String query = "SELECT * FROM " + myTableName + " WHERE (Barcode = '" + title + "') AND (Status = 'Available');";
  	    Vector<Properties> allDataRetrieved = getSelectQueryResult(query);
  		if (allDataRetrieved != null)
  		{
@@ -244,6 +246,22 @@ public class Tree extends EntityBase implements IView, IModel {
                 {
                     persistentState = (Properties) value;
                     RemoveTree();
+                }
+            }
+            else if (key.equals("Sold") == true)
+            {
+                if (value != null)
+                {
+                    persistentState = (Properties) value;
+                    persistentState.setProperty("Status", "Sold");
+                    Properties whereClause = new Properties();
+                    whereClause.setProperty("Barcode", persistentState.getProperty("Barcode"));
+                    try {
+						updatePersistentState(mySchema, persistentState, whereClause);
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
                 }
             }
 

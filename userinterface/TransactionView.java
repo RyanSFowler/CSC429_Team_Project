@@ -160,17 +160,6 @@ public class TransactionView extends View {
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
 
-
-        /*transTypeField =new ComboBox();
-        transTypeField.getItems().addAll(
-          transactionTypeString
-        );
-        transTypeField.setPromptText(selectType);
-        Label b = new Label(transTypeTitle);
-        GridPane.setHalignment(b, HPos.RIGHT);
-        grid.add(b,0,0);
-        grid.add(transTypeField,1,0);*/
-        //barcodeField = createInput(grid, barcodeField, barcodeTitle, 1);
         barcodeField = createInput(grid, barcodeField, barcodeTitle, 0);
         createButton(grid, tree, "get price", 2, 0, 0); 
         transAmountField = createInput(grid, transAmountField, transAmountTitle, 2);
@@ -293,12 +282,11 @@ public class TransactionView extends View {
             else
             {
                 String sessionString = ""+ sessionId;
-                System.out.println(sessionString+ "\n"+(String)transTypeField.getValue().toString()+"\n"+ barcodeField.getText()+ "\n"+ transAmountField.getText());
+                System.out.println(sessionString+ "\n"+ barcodeField.getText()+ "\n"+ transAmountField.getText());
                 System.out.println((String)paymentField.getValue().toString()+ "\n"+ custNameField.getText()+ "\n"+ custPhoneField.getText()+ "\n"+custEmailField.getText());
                 System.out.println(dateField.getText() + "\n"+timeField.getText());
                 Properties props = new Properties();
                 props.setProperty("SessionId", sessionString);
-                props.setProperty("TransactionType",(String)transTypeField.getValue().toString());
                 props.setProperty("Barcode", barcodeField.getText());
                 props.setProperty("TransactionAmount", transAmountField.getText());
                 props.setProperty("PaymentMethod", (String)paymentField.getValue().toString());
@@ -315,7 +303,7 @@ public class TransactionView extends View {
                     alert.setHeaderText(alertSubTitleSucceeded);
                     alert.setContentText(alertBodySucceeded);
                     alert.showAndWait();
-                    //populateFields();
+                    populateFields();
                 }
                 catch (Exception ex)
                 {
@@ -372,6 +360,7 @@ public class TransactionView extends View {
       custEmailField.setText("");
       dateField.setText(dateStamp);
       timeField.setText(timeStamp);
+      paymentField.setPromptText(selectPayment);
     }
 
     @Override

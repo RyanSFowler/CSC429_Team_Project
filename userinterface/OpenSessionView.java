@@ -338,7 +338,8 @@ public class OpenSessionView extends View {
     protected void populateFields()
     {
         date.setText(dateStamp);
-        startTime.setText(timeStamp);
+        //startTime.setText(timeStamp);
+        startTime.setText("");
         endTime.setText("");
         startCash.setText("");
         notes.setText("");

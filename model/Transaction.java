@@ -124,6 +124,15 @@ public class Transaction extends EntityBase implements IView, IModel {
                 {
                     persistentState = (Properties) value;  
                     treeBarcode = persistentState.getProperty("Barcode");
+                    Tree tree = null;
+					try {
+						tree = new Tree();
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+                    existsTree = tree.findAvailableTree(treeBarcode);
+                    if(existsTree){
 	                    TreeType treeType = null;
 						try {
 							treeType = new TreeType();
@@ -132,6 +141,7 @@ public class Transaction extends EntityBase implements IView, IModel {
 							e.printStackTrace();
 						}
 	            		treeTypePrice = treeType.findPrice(treeBarcode.substring(0,2));
+                    }
                 }
             }
 	}
@@ -156,7 +166,7 @@ public class Transaction extends EntityBase implements IView, IModel {
             //System.out.print("Insert Add Tree");
             dependencies = new Properties();
             dependencies.put("SessionId", persistentState.getProperty("SessionId"));
-            dependencies.put("TransactionType", persistentState.getProperty("TransactionType"));
+            //dependencies.put("TransactionType", persistentState.getProperty("TransactionType"));
             dependencies.put("Barcode", persistentState.getProperty("Barcode"));
             dependencies.put("TransactionAmount", persistentState.getProperty("TransactionAmount"));
             dependencies.put("PaymentMethod", persistentState.getProperty("PaymentMethod"));
@@ -168,6 +178,16 @@ public class Transaction extends EntityBase implements IView, IModel {
             System.out.print("dependencies:" + dependencies);
             try {
                 int i = insertAutoIncrementalPersistentState(this.mySchema, dependencies);
+                try {
+					Tree tree = new Tree();
+					Properties treeDependencies = new Properties();
+					treeDependencies.put("Status", "Sold");
+					treeDependencies.put("Barcode", persistentState.getProperty("Barcode"));
+					tree.stateChangeRequest("Sold", treeDependencies);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             } catch (SQLException ex) {
                 Logger.getLogger(Transaction.class.getName()).log(Level.SEVERE, null, ex);
             }
