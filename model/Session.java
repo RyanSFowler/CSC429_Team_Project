@@ -52,6 +52,12 @@ public class Session extends EntityBase implements IView, IModel {
                 createCloseSessionView();
             }
         }
+     
+     public Session(){
+         super(myTableName);
+         persistentState = new Properties();
+         setDependencies();
+     }
 
      public void createOpenSessionView() {
             Scene currentScene = (Scene)myViews.get("OpenSessionView");
@@ -207,15 +213,15 @@ public class Session extends EntityBase implements IView, IModel {
                 System.out.print("Query:" + query);
                 Vector<Properties> allDataRetrieved = getSelectQueryResult(query);
                 if (allDataRetrieved != null && allDataRetrieved.size() == 1) {
-                Properties whereClause = new Properties();
-		whereClause.setProperty("Barcode", persistentState.getProperty("Barcode"));
-		updatePersistentState(mySchema, persistentState, whereClause);
-		updateStatusMessage = "Add New Tree  : " + persistentState.getProperty("Barcode") + " Add successfully in database!";
-		System.out.println(updateStatusMessage);
-             }
-                else {
-                    // Return an error (no barcode match)
+	                Properties whereClause = new Properties();
+					whereClause.setProperty("Barcode", persistentState.getProperty("Barcode"));
+					updatePersistentState(mySchema, persistentState, whereClause);
+					updateStatusMessage = "Add New Tree  : " + persistentState.getProperty("Barcode") + " Add successfully in database!";
+					System.out.println(updateStatusMessage);
                 }
+	            else {
+	                // Return an error (no barcode match)
+	            }
             }
             else
             {
@@ -223,7 +229,7 @@ public class Session extends EntityBase implements IView, IModel {
             }
         }
         catch (SQLException ex)
-	{
+         {
             // Return a SQL Error
             //updateStatusMessage = "Error in installing account data in database!";
         }
@@ -346,7 +352,7 @@ public class Session extends EntityBase implements IView, IModel {
    public boolean checkForOpenShift()
 	{
 	   boolean isEmptyTable = true;
-	   String query = "SELECT * FROM SESSION LIMIT 1;";
+	   String query = "SELECT * FROM SESSION";
 		Vector<Properties> allDataRetrieved = getSelectQueryResult(query);
 		if (allDataRetrieved != null){
 			isEmptyTable = false;
@@ -357,29 +363,8 @@ public class Session extends EntityBase implements IView, IModel {
 		if (allDataRetrieved != null || isEmptyTable)
 		{
 			return true;
-			/*allScouts = FXCollections.observableArrayList();
-
-			for (int cnt = 0; cnt < allDataRetrieved.size(); cnt++)
-			{
-				Properties nextScoutData = (Properties)allDataRetrieved.elementAt(cnt);
-				String scoutId = (String)nextScoutData.getProperty("ScoutId");
-				String firstName = (String)nextScoutData.getProperty("FirstName");
-				String lastName = (String)nextScoutData.getProperty("LastName");
-				String scoutInfo = scoutId + ", " + lastName + ", " + firstName;
-				allScouts.add(scoutInfo);
-
-				//Scout scout = new Scout(nextScoutData);
-
-				if (scout != null)
-				{
-					addScout(scout);
-				}
-			}
-
-		}*/
 		}
 		return false;
-		//return allScouts;
 	}
 
    	private int getShiftLength(String startTime, String endTime){
@@ -388,7 +373,7 @@ public class Session extends EntityBase implements IView, IModel {
    		if(startHour > endHour){
    			endHour += 12;
    		}
-      System.out.println(endHour - startHour);
+   		System.out.println(endHour - startHour);
    		return endHour - startHour;
    	}
 

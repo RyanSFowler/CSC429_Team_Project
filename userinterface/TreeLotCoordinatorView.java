@@ -514,9 +514,20 @@ public class TreeLotCoordinatorView extends View
 			//removeTreeTypeButton.setVisible(vis);
 		}
 		else if(buttonSet.equals("sales")){
-			openShiftButton.setVisible(vis);
-			closeShiftButton.setVisible(vis);
-			recordSaleButton.setVisible(vis);
+			if(vis){
+				if(!(boolean)myModel.getState("OpenSession")){
+					openShiftButton.setVisible(vis);
+				}
+				else{
+					closeShiftButton.setVisible(vis);
+				}
+				recordSaleButton.setVisible(vis);
+			}
+			else{
+				recordSaleButton.setVisible(vis);
+				closeShiftButton.setVisible(vis);
+				openShiftButton.setVisible(vis);
+			}
 		}
 	}
 

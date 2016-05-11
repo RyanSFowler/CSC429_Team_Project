@@ -35,6 +35,8 @@ public class TreeLotCoordinator implements IView, IModel
 	// GUI Components
 	private Hashtable<String, Scene> myViews;
 	private Stage myStage;
+	private Session checkSession = new Session();
+	private boolean openSession;
 
 	// constructor for this class
 	//----------------------------------------------------------
@@ -83,11 +85,11 @@ public class TreeLotCoordinator implements IView, IModel
 	//----------------------------------------------------------
 	public Object getState(String key)
 	{
-		/*if (key.equals("TransactionError") == true)
+		if (key.equals("OpenSession") == true)
 		{
-			return transactionErrorMessage;
+			return (boolean)checkForOpenSession();
 		}
-		else
+		/*else
 		if (key.equals("Name") == true)
 		{
 			if (myAccountHolder != null)
@@ -247,6 +249,11 @@ public class TreeLotCoordinator implements IView, IModel
 	public void transactionDone()
 	{
 		createAndShowTreeLotCoordinatorView();
+	}
+	
+	public boolean checkForOpenSession(){
+		//checkSession = new Session();
+		return checkSession.checkForOpenShift();
 	}
 
 }
