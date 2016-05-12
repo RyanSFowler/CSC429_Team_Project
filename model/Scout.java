@@ -288,10 +288,12 @@ public class Scout extends EntityBase implements IView, IModel {
                 {
                    persistentState = (Properties) value;
 
-                  ScoutId = persistentState.getProperty("ScoutId");
+                 ScoutId = persistentState.getProperty("ScoutId");
+
                   FirstName= persistentState.getProperty("FirstName");
                   MiddleInitial= persistentState.getProperty("MiddleInitial");
                   LastName= persistentState.getProperty("LastName");
+                  System.out.println("LastName"+ LastName);
                   DateOfBirth= persistentState.getProperty("DateOfBirth");
                   PhoneNumber= persistentState.getProperty("PhoneNumber");
                   Email= persistentState.getProperty("Email");
@@ -307,7 +309,7 @@ public class Scout extends EntityBase implements IView, IModel {
                   prefs.put("status", "");
                   prefs.put("status", Status.toString());*/
 
-
+                  RemoveScoutInDatabase();
                    createRemoveScoutView2();
                 }
             }
@@ -315,13 +317,24 @@ public class Scout extends EntityBase implements IView, IModel {
             {
                 if (value != null)
                 {
-                   persistentState = (Properties) value;
-                   RemoveScoutInDatabase();
-                   myTreeLotCoordinator.createAndShowTreeLotCoordinatorView();
-                }
-            }
+                  System.out.println("HERE 1");
+                  persistentState = (Properties) value;
 
-	}
+                  System.out.println("HERE 2:" + LastName);
+                  persistentState.setProperty("Status", "Inactive");
+                  System.out.println("HERE 3:"+ Status);
+                  Properties whereClause = new Properties();
+                  whereClause.setProperty(LastName, persistentState.getProperty("LastName"));
+                  System.out.println("HERE 4");
+                  try {
+                          updatePersistentState(mySchema, persistentState, whereClause);
+                          System.out.println("HERE 5");
+                        } catch (SQLException e) {
+                      }
+              }
+               myTreeLotCoordinator.createAndShowTreeLotCoordinatorView();
+            }
+}
   public String getFirstName(){
     return FirstName;
   }
@@ -412,6 +425,7 @@ public class Scout extends EntityBase implements IView, IModel {
 private void UpdateScoutInDatabase()
   {
     String first = persistentState.getProperty("FirstName");
+    String middle = persistentState.getProperty("MiddleInitial");
     String last =  persistentState.getProperty("LastName");
       try
 {
@@ -448,6 +462,7 @@ private void UpdateScoutInDatabase()
   {
     String first = persistentState.getProperty("FirstName");
     String last =  persistentState.getProperty("LastName");
+
       try
 {
          if (first != null && last != null)
@@ -459,9 +474,9 @@ private void UpdateScoutInDatabase()
              System.out.println(allDataRetrieved);
              if (allDataRetrieved != null ) {//&& allDataRetrieved.size() == 1
              Properties whereClause = new Properties();
-             whereClause.setProperty(persistentState.getProperty("Status"), "Inactive");
+             whereClause.setProperty("LastName", persistentState.getProperty("LastName"));
              updatePersistentState(mySchema, persistentState, whereClause);
-             updateStatusMessage = "Remove scout : " + persistentState.getProperty("LastName") + " removed successfully in database!";
+             updateStatusMessage = "Remove scout : " + persistentState.getProperty("LastName") + "";
              System.out.println(updateStatusMessage);
           }
              else {

@@ -204,16 +204,17 @@ public class RemoveScoutView2 extends View {
                 alert.setContentText(alertBodySucceeded);
                 alert.showAndWait();
                 Properties props = new Properties();
-                /*props.setProperty("FirstName", firstNameField.getText());
-                props.setProperty("MiddleInitial", middleInitialField.getText());
-                props.setProperty("LastName", lastNameField.getText());
-                props.setProperty("DateOfBirth", dobField.getText());
-                props.setProperty("PhoneNumber", phoneNumField.getText());
-                props.setProperty("Email", emailField.getText());*/
+              /*  props.setProperty("ScoutId",(Scout)getScoutId());
+                props.setProperty("FirstName",FirstName);
+                props.setProperty("MiddleInitial", MiddleInitial);
+                props.setProperty("LastName", LastName);
+                props.setProperty("DateOfBirth", DateOfBirth);
+                props.setProperty("PhoneNumber", PhoneNumber);
+                props.setProperty("Email", Email);*/
                 props.setProperty("Status", "Inactive");
                 try
                 {
-                    myModel.stateChangeRequest("RemoveScout3", props);
+                    myModel.stateChangeRequest("RemoveScout3", null);
                 }
                 catch (Exception ex)
                 {

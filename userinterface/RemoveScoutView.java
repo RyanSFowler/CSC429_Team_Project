@@ -308,7 +308,7 @@ getChildren().add(container);
                         props.setProperty("ScoutId", view.get(0));
                         props.setProperty("FirstName", view.get(1));
                         props.setProperty("MiddleInitial", view.get(2));
-                        props.setProperty("LastName", view.get(2));
+                        props.setProperty("LastName", view.get(3));
                         props.setProperty("DateOfBirth", view.get(4));
                         props.setProperty("PhoneNumber", view.get(5));
                         props.setProperty("Email", view.get(6));

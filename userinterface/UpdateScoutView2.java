@@ -165,8 +165,8 @@ public class UpdateScoutView2 extends View {
         hb.getChildren().add(new Label(firstNameTitle));
         firstNameField = new TextField();
 
-    //    String firstText = prefs.get( ,null);
-      //  firstNameField.setText(firstText);
+        //String firstText = prefs.get(firstNameTitle ,null);
+        //firstNameField.setText(firstText);
         hb.getChildren().add(firstNameField);
         grid.add(hb, 1, pos);
     }
@@ -353,7 +353,6 @@ public class UpdateScoutView2 extends View {
             myModel.stateChangeRequest("Done", null);
         }
     }
-
     private void refreshFormContents()
     {
         submitTitle = buttons.getString("submitModifyTree");
