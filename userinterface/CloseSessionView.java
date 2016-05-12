@@ -13,7 +13,6 @@ import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
 
 import model.Session;
-
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -300,10 +299,12 @@ public class CloseSessionView extends View {
         cancelTitle = buttons.getString("cancelTree");
         notesTitle = labels.getString("notes");
         title = titles.getString("mainTitleCloseSession");
-        cashCountTitle = labels.getString("cashCount");
-        checkCountTitle= labels.getString("checkCount");
-        cashTitle= labels.getString("cash");
-        checkTitle= labels.getString("check");
+        cashCountTitle = labels.getString("Counted");
+        checkCountTitle= labels.getString("CheckCounted");
+
+        cashTitle= labels.getString("cashString");
+        checkTitle= labels.getString("checkString");
+        
         //NEED TO FIX ALERTS
         alertTitle = alerts.getString("AddTreeTitle");
         alertSubTitle = alerts.getString("AddTreeSubTitle");

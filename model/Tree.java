@@ -244,7 +244,7 @@ public class Tree extends EntityBase implements IView, IModel {
                     persistentState = (Properties) value;
                 	String prefix = (persistentState.getProperty("Barcode")).substring(0,2);
                 	ttId = tt.findTreeTypeId(prefix);
-                	persistentState.put("Id", ttId);
+                	persistentState.setProperty("Id", ""+ttId);
                     insert();
                 }
             }
@@ -316,7 +316,7 @@ public class Tree extends EntityBase implements IView, IModel {
             dependencies.put("Barcode", persistentState.getProperty("Barcode"));
             dependencies.put("Notes", persistentState.getProperty("Notes"));
             dependencies.put("Status", "Available");
-            dependencies.put("DateStatusUpdated", persistentState.getProperty("Id"));
+            dependencies.put("TreeType", persistentState.getProperty("Id"));
             dependencies.put("DateStatusUpdated", persistentState.getProperty("DateStatusUpdated"));
             //System.out.print("dependencies:" + dependencies);
             try {

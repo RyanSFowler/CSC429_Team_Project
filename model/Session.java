@@ -110,7 +110,7 @@ public class Session extends EntityBase implements IView, IModel {
                 if (value != null)
                 {
                 	persistentState = (Properties) value;
-                	if(checkForOpenShift()){
+                	if(!checkForOpenShift()){
                     System.out.println("Before insert");
                 		insert();
                 	}
@@ -356,16 +356,31 @@ public class Session extends EntityBase implements IView, IModel {
 		Vector<Properties> allDataRetrieved = getSelectQueryResult(query);
 		if (allDataRetrieved != null){
 			isEmptyTable = false;
+			System.out.println("the session table is not empty");
 		}
-		query = "SELECT Id FROM SESSION WHERE EndingCash IS NULL;";
+		query = "SELECT * FROM SESSION WHERE (EndingCash IS NOT NULL);";
 		allDataRetrieved = getSelectQueryResult(query);
-
-		if (allDataRetrieved != null || isEmptyTable)
+		if (allDataRetrieved == null || isEmptyTable)
 		{
+			System.out.println("there is an open shift");
 			return true;
 		}
+		System.out.println("at least i made it here");
 		return false;
 	}
+   
+   public int findSessionId(){
+      	String query = "SELECT Id FROM " + myTableName + " WHERE EndingCash IS NULL;";
+  		System.out.println(query);
+  		Vector<Properties> allDataRetrieved = getSelectQueryResult(query);
+  		System.out.println(allDataRetrieved);
+  		if (allDataRetrieved != null)
+  		{
+  				Properties session = (Properties)allDataRetrieved.elementAt(0);
+  				return Integer.parseInt(session.getProperty("Id"));
+  		}
+  		else{return 0;}
+      }
 
    	private int getShiftLength(String startTime, String endTime){
    		int startHour = Integer.parseInt(startTime.substring(0, startTime.indexOf(":")));

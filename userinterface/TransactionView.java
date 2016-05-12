@@ -41,6 +41,8 @@ import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
+import model.Session;
+
 /**
  *
  * @author florianjousselin
@@ -97,6 +99,8 @@ public class TransactionView extends View {
     private String description;
     private String selectPayment;
     private String selectType;
+    
+    private Session thisSession;
 
 
     public TransactionView(IModel model) {
@@ -161,7 +165,7 @@ public class TransactionView extends View {
         grid.setPadding(new Insets(25, 25, 25, 25));
 
         barcodeField = createInput(grid, barcodeField, barcodeTitle, 0);
-        createButton(grid, tree, "get price", 2, 0, 0); 
+        createButton(grid, tree, "search", 2, 0, 0); 
         transAmountField = createInput(grid, transAmountField, transAmountTitle, 2);
         paymentField =new ComboBox();
         paymentField.getItems().addAll(
@@ -233,7 +237,8 @@ public class TransactionView extends View {
 
     public void processAction(Event evt)
     {
-        int sessionId = 0;
+    	thisSession = new Session();
+        int sessionId = thisSession.findSessionId();
         Object source = evt.getSource();
         Button clickedBtn = (Button) source;
         if (clickedBtn.getId().equals("0") == true)
