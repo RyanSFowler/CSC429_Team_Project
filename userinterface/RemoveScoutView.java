@@ -43,7 +43,6 @@ import javafx.scene.text.TextAlignment;
 
 import model.Scout;
 import model.ScoutVector;
-import model.ModifyScout;
 import model.RemoveScout;
 
 
@@ -71,6 +70,7 @@ public class RemoveScoutView extends View {
     private String dobTitle;
     private String phoneTitle;
     private String emailTitle;
+    private String statusTitle;
 
     private String title;
     private String alertTitle;
@@ -141,56 +141,43 @@ getChildren().add(container);
 
         tableOfScouts = new TableView<ScoutVector>();
 
-        TableColumn scoutIDColumn = new TableColumn("scoutId") ;
-        scoutIDColumn.setMinWidth(240);
-        scoutIDColumn.setCellValueFactory(
-                  new PropertyValueFactory<ScoutTableModel, String>("ScoutId"));
-
-        TableColumn firstNameColumn = new TableColumn("firstName") ;
-        firstNameColumn.setMinWidth(240);
+        TableColumn firstNameColumn = new TableColumn(firstNameTitle) ;
+        firstNameColumn.setMinWidth(100);
         firstNameColumn.setCellValueFactory(
             new PropertyValueFactory<ScoutTableModel, String>("FirstName"));
 
-        /*TableColumn middleInitialColumn = new TableColumn("middleInitial") ;
+      TableColumn middleInitialColumn = new TableColumn(middleTitle) ;
         middleInitialColumn.setMinWidth(100);
         middleInitialColumn.setCellValueFactory(
-            new PropertyValueFactory<ScoutTableModel, String>("MiddleInitial"));*/
+            new PropertyValueFactory<ScoutTableModel, String>("MiddleInitial"));
 
-        TableColumn lastNameColumn = new TableColumn("lastName") ;
+        TableColumn lastNameColumn = new TableColumn(lastNameTitle) ;
         lastNameColumn.setMinWidth(100);
         lastNameColumn.setCellValueFactory(
             new PropertyValueFactory<ScoutTableModel, String>("LastName"));
 
-      /*  TableColumn dateOfBirthColumn = new TableColumn("dateOfBirth") ;
-        dateOfBirthColumn.setMinWidth(100);
+        TableColumn dateOfBirthColumn = new TableColumn(dobTitle) ;
+        dateOfBirthColumn.setMinWidth(200);
         dateOfBirthColumn.setCellValueFactory(
             new PropertyValueFactory<ScoutTableModel, String>("DateOfBirth"));
 
-        TableColumn phoneNumberColumn = new TableColumn("phoneNumber") ;
-        phoneNumberColumn.setMinWidth(100);
+        TableColumn phoneNumberColumn = new TableColumn(phoneTitle) ;
+        phoneNumberColumn.setMinWidth(200);
         phoneNumberColumn.setCellValueFactory(
                   new PropertyValueFactory<ScoutTableModel, String>("PhoneNumber"));
 
-              TableColumn emailColumn = new TableColumn("email") ;
-        emailColumn.setMinWidth(100);
+              TableColumn emailColumn = new TableColumn(emailTitle) ;
+        emailColumn.setMinWidth(200);
         emailColumn.setCellValueFactory(
                   new PropertyValueFactory<ScoutTableModel, String>("Email"));
 
-        TableColumn statusColumn = new TableColumn("status") ;
+        TableColumn statusColumn = new TableColumn(statusTitle) ;
         statusColumn.setMinWidth(100);
         statusColumn.setCellValueFactory(
                   new PropertyValueFactory<ScoutTableModel, String>("Status"));
 
-        TableColumn dateStatusUpdatedColumn = new TableColumn("dateStatusUpdated") ;
-        dateStatusUpdatedColumn.setMinWidth(100);
-        dateStatusUpdatedColumn.setCellValueFactory(
-                  new PropertyValueFactory<ScoutTableModel, String>("DateStatusUpdated"));
 
-        tableOfScouts.getColumns().addAll(scoutIDColumn,
-                  firstNameColumn,  middleInitialColumn,lastNameColumn, dateOfBirthColumn, phoneNumberColumn, emailColumn, statusColumn, dateStatusUpdatedColumn);*/
-
-        tableOfScouts.getColumns().addAll(scoutIDColumn, firstNameColumn, lastNameColumn);
-
+        tableOfScouts.getColumns().addAll(firstNameColumn,  middleInitialColumn,lastNameColumn, dateOfBirthColumn, phoneNumberColumn, emailColumn, statusColumn);
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setPrefSize(500, 150);
         scrollPane.setContent(tableOfScouts);
@@ -281,21 +268,22 @@ getChildren().add(container);
 
     private void refreshFormContents()
     {
-        submitTitle = buttons.getString("submitModifyTree");
+        submitTitle = buttons.getString("search");
         cancelTitle = buttons.getString("cancelAddScout");
         firstNameTitle = labels.getString("firstName");
         lastNameTitle = labels.getString("lastName");
-        middleTitle = labels.getString("middle");
+        middleTitle = labels.getString("middleB");
         dobTitle = labels.getString("dateOfBirth");
+        statusTitle= labels.getString("status");
         phoneTitle = labels.getString("phone");
         emailTitle = labels.getString("email");
-        title = titles.getString("mainTitleModifyScout");
-        alertTitle = alerts.getString("ModifyScoutTitle");
-        alertSubTitle = alerts.getString("ModifyScoutSubTitle");
-        alertBody = alerts.getString("ModifyScoutBody");
-        alertTitleSucceeded = alerts.getString("ModifyScoutTitleSucceeded");
-        alertSubTitleSucceeded = alerts.getString("ModifyScoutSubTitleSucceeded");
-        alertBodySucceeded = alerts.getString("ModifyScoutBodySucceeded");
+        title = titles.getString("mainTitleRemoveScout");
+        alertTitle = alerts.getString("RemoveScoutTitle");
+        alertSubTitle = alerts.getString("RemoveScoutSubTitle");
+        alertBody = alerts.getString("RemoveScoutBody");
+        alertTitleSucceeded = alerts.getString("RemoveScoutTitleSucceeded");
+        alertSubTitleSucceeded = alerts.getString("RemoveScoutSubTitleSucceeded");
+        alertBodySucceeded = alerts.getString("ScoutFoundBodySucceeded");
     }
     protected void getEntryTableModelValues()
     {
@@ -320,13 +308,13 @@ getChildren().add(container);
                         props.setProperty("ScoutId", view.get(0));
                         props.setProperty("FirstName", view.get(1));
                         props.setProperty("MiddleInitial", view.get(2));
-                        props.setProperty("LastName", view.get(3));
+                        props.setProperty("LastName", view.get(2));
                         props.setProperty("DateOfBirth", view.get(4));
                         props.setProperty("PhoneNumber", view.get(5));
                         props.setProperty("Email", view.get(6));
-                        props.setProperty("Status", view.get(7));
-                        props.setProperty("DateStatusUpdated", view.get(8));
-                        myModel.stateChangeRequest("ModifyScout2", props);
+                        props.setProperty("Status", "Inactive");
+                      //  props.setProperty("DateStatusUpdated", view.get(8));
+                        myModel.stateChangeRequest("RemoveScout2", props);
                     }
                 });
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);

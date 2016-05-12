@@ -268,7 +268,7 @@ getChildren().add(container);
 
     private void refreshFormContents()
     {
-        submitTitle = buttons.getString("submitModifyTree");
+        submitTitle = buttons.getString("search");
         cancelTitle = buttons.getString("cancelAddScout");
         firstNameTitle = labels.getString("firstName");
         lastNameTitle = labels.getString("lastName");
@@ -283,7 +283,7 @@ getChildren().add(container);
         alertBody = alerts.getString("ModifyScoutBody");
         alertTitleSucceeded = alerts.getString("ModifyScoutTitleSucceeded");
         alertSubTitleSucceeded = alerts.getString("ModifyScoutSubTitleSucceeded");
-        alertBodySucceeded = alerts.getString("ModifyScoutBodySucceeded");
+        alertBodySucceeded = alerts.getString("ScoutFoundBodySucceeded");
     }
     protected void getEntryTableModelValues()
     {

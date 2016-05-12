@@ -30,10 +30,15 @@ public class RemoveScout extends EntityBase implements IView, IModel{
 
     public Vector<String> getVector()
 	{
-		Vector<String> v = new Vector<String>();
+    Vector<String> v = new Vector<String>();
     v.addElement(persistentState.getProperty("ScoutId"));
 		v.addElement(persistentState.getProperty("FirstName"));
+    v.addElement(persistentState.getProperty("MiddleInitial"));
 		v.addElement(persistentState.getProperty("LastName"));
+    v.addElement(persistentState.getProperty("DateOfBirth"));
+    v.addElement(persistentState.getProperty("Email"));
+		v.addElement(persistentState.getProperty("PhoneNumber"));
+    v.addElement(persistentState.getProperty("Status"));
 
 		return v;
 	}

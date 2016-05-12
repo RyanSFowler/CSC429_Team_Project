@@ -67,7 +67,8 @@ public class RemoveScoutView2 extends View {
   private String dobTitle;
   private String phoneTitle;
   private String emailTitle;
-  private String statusTitle= "Status";//change
+  private String rs;
+  private String statusTitle;//change
   private String mI;
 
   private String title;
@@ -149,9 +150,8 @@ public class RemoveScoutView2 extends View {
   phoneNumField = createInput(grid, phoneNumField, phoneTitle, 4);
   emailField = createInput(grid, emailField, emailTitle, 5);
   statusField = createInput(grid, statusField, statusTitle, 6);*/
-  Label Author = new Label("Remove Scout?");
-  GridPane.setHalignment(Author, HPos.RIGHT);
-  grid.add(Author, 0, 1);
+  Label Author = new Label(rs);
+  grid.add(Author,1,1);
   /*Scout s= new Scout();
   String f = s.getFirstName();
   String l = s.getLastName();
@@ -161,7 +161,7 @@ public class RemoveScoutView2 extends View {
   grid.add(a, 0, 2);*/
 
 
-	createButton(grid, submit, submitTitle, 1, 7, 1);
+	createButton(grid, submit, submitTitle, 2, 7, 1);
 	createButton(grid, cancel, cancelTitle, 0, 7, 2);
 
 
@@ -228,16 +228,17 @@ public class RemoveScoutView2 extends View {
 
     private void refreshFormContents()
     {
-        submitTitle = buttons.getString("submitModifyTree");
+        submitTitle = buttons.getString("submitRemoveScout");
         cancelTitle = buttons.getString("cancelTree");
+        rs = labels.getString("rm");
 
         title = titles.getString("mainTitleModifyScout");
-        alertTitle = alerts.getString("AddTreeTitle");
-        alertSubTitle = alerts.getString("AddTreeSubTitle");
-        alertBody = alerts.getString("AddTreeBody");
-        alertTitleSucceeded = alerts.getString("AddTreeTitleSucceeded");
-        alertSubTitleSucceeded = alerts.getString("AddTreeSubTitleSucceeded");
-        alertBodySucceeded = alerts.getString("UpdateTreeBodySucceeded");
+        alertTitle = alerts.getString("RemoveScoutTitle");
+        alertSubTitle = alerts.getString("RemoveScoutSubTitle");
+        alertBody = alerts.getString("RemoveScoutBody");
+        alertTitleSucceeded = alerts.getString("RemoveScoutTitleSucceeded");
+        alertSubTitleSucceeded = alerts.getString("RemoveScoutSubTitleSucceeded");
+        alertBodySucceeded = alerts.getString("RemoveScoutBodySucceeded");
     }
 
 

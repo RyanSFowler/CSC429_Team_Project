@@ -288,22 +288,24 @@ public class Scout extends EntityBase implements IView, IModel {
                 {
                    persistentState = (Properties) value;
 
-                   ScoutId = persistentState.getProperty("ScoutId");
-                   FirstName= persistentState.getProperty("FirstName");
-                  // MiddleInitial= persistentState.getProperty("MiddleInitial");
-                   LastName= persistentState.getProperty("LastName");
-                   Status = "Inactive";
-                  // DateOfBirth= persistentState.getProperty("DateOfBirth");
-                  // PhoneNumber= persistentState.getProperty("PhoneNumber");
-                  // Email= persistentState.getProperty("Email");
-                  // Status= persistentState.getProperty("Status");
-                  Preferences prefs = Preferences.userNodeForPackage(RemoveScoutView2.class);
+                  ScoutId = persistentState.getProperty("ScoutId");
+                  FirstName= persistentState.getProperty("FirstName");
+                  MiddleInitial= persistentState.getProperty("MiddleInitial");
+                  LastName= persistentState.getProperty("LastName");
+                  DateOfBirth= persistentState.getProperty("DateOfBirth");
+                  PhoneNumber= persistentState.getProperty("PhoneNumber");
+                  Email= persistentState.getProperty("Email");
+                  Status= persistentState.getProperty("Status");
+                  System.out.println("STATUS:"+ Status);
+                  /*Preferences prefs = Preferences.userNodeForPackage(RemoveScoutView2.class);
                   prefs.put("scoutId", "");
                   prefs.put("scoutId", ScoutId.toString());
                   prefs.put("firstName", "");
                   prefs.put("firstName", FirstName.toString());
                   prefs.put("lastName", "");
                   prefs.put("lastName", LastName.toString());
+                  prefs.put("status", "");
+                  prefs.put("status", Status.toString());*/
 
 
                    createRemoveScoutView2();
@@ -452,11 +454,12 @@ private void UpdateScoutInDatabase()
          {
              String query = "SELECT * FROM " + myTableName + " WHERE ((FirstName LIKE '" + first +	"') AND (LastName LIKE '" + last + "'));";
              System.out.print("Query:" + query);
+
              Vector<Properties> allDataRetrieved = getSelectQueryResult(query);
              System.out.println(allDataRetrieved);
              if (allDataRetrieved != null ) {//&& allDataRetrieved.size() == 1
              Properties whereClause = new Properties();
-             whereClause.setProperty("LastName", persistentState.getProperty("LastName"));
+             whereClause.setProperty(persistentState.getProperty("Status"), "Inactive");
              updatePersistentState(mySchema, persistentState, whereClause);
              updateStatusMessage = "Remove scout : " + persistentState.getProperty("LastName") + " removed successfully in database!";
              System.out.println(updateStatusMessage);
