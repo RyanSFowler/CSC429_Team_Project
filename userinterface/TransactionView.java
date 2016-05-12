@@ -87,6 +87,7 @@ public class TransactionView extends View {
     private String dateStamp;
     private String timeStamp;
     private String title;
+    private String search;
     private String alertTitle;
     private String alertSubTitle;
     private String alertBody;
@@ -165,7 +166,7 @@ public class TransactionView extends View {
         grid.setPadding(new Insets(25, 25, 25, 25));
 
         barcodeField = createInput(grid, barcodeField, barcodeTitle, 0);
-        createButton(grid, tree, "search", 2, 0, 0); 
+        createButton(grid, tree, search, 2, 0, 0); 
         transAmountField = createInput(grid, transAmountField, transAmountTitle, 2);
         paymentField =new ComboBox();
         paymentField.getItems().addAll(
@@ -327,6 +328,7 @@ public class TransactionView extends View {
     {
         submitTitle = buttons.getString("submitAddScout");
         cancelTitle = buttons.getString("cancelAddScout");
+        search = buttons.getString("search");
         cashString =  labels.getString("cashString");
         checkString = labels.getString("checkString");
         transTypeTitle = labels.getString("tranType");

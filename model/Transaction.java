@@ -54,6 +54,12 @@ public class Transaction extends EntityBase implements IView, IModel {
 		        setDependencies();
 		        setData(props);
 	      }
+        
+        public Transaction(){
+            super(myTableName);
+            persistentState = new Properties();
+            setDependencies();
+        }
         //-----------------------------------------------------------------------------------
 	      public void setData(Properties props)
 	      {
@@ -192,6 +198,19 @@ public class Transaction extends EntityBase implements IView, IModel {
                 Logger.getLogger(Transaction.class.getName()).log(Level.SEVERE, null, ex);
             }
 	}
+        
+        /*public int findCashTotal(){
+          	String query = "SELECT SUM(TransactionAmount) AS Total FROM " + myTableName + " WHERE PaymentMethod = 'Cash';";
+      		System.out.println(query);
+      		Vector<Properties> allDataRetrieved = getSelectQueryResult(query);
+      		System.out.println(allDataRetrieved);
+      		if (allDataRetrieved != null)
+      		{
+      				Properties session = (Properties)allDataRetrieved.elementAt(0);
+      				session.getProperty("Total");
+      		}
+      		else{return 0;}
+          }*/
         
         
    protected void initializeSchema(String tableName)

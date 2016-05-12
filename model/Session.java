@@ -38,6 +38,7 @@ public class Session extends EntityBase implements IView, IModel {
      private ObservableList allScouts;
      private Properties shiftDependencies;
      private String sessionIdString="";
+     Transaction trans;
 
 
      public Session(TreeLotCoordinator l, String type) throws Exception {
@@ -95,6 +96,17 @@ public class Session extends EntityBase implements IView, IModel {
 	{
             if (key.equals("Session"))
             	return this;
+            if(key.equals("TotalCash")){
+            	trans = new Transaction();
+            	 
+            	return 1;
+            }
+            
+            if(key.equals("TotalCheck")){
+            	trans = new Transaction();
+            	return 1;
+            }
+            	
             return null;
 	}
 
@@ -392,5 +404,6 @@ public class Session extends EntityBase implements IView, IModel {
    		return endHour - startHour;
    	}
 
+   	
 
 }

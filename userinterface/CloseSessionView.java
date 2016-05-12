@@ -130,6 +130,8 @@ public class CloseSessionView extends View {
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
 
+        //cashAmount = (int)myModel.getState("TotalCash");
+        //checkAmount = (int)myModel.getState("TotalCheck");
 
         Label s=  createLabel(grid,cashTitle,0,0);
         Label s2=  createLabel(grid,(""+cashAmount),0,1);

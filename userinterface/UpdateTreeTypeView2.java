@@ -254,9 +254,9 @@ public class UpdateTreeTypeView2 extends View {
     {
         submitTitle = buttons.getString("submitModifyTree");
         cancelTitle = buttons.getString("cancelTree");
-        barcodeTitle = labels.getString("barcodeTree");
+        barcodeTitle = labels.getString("barcodePrefix");
         description = labels.getString("notes");
-        title = titles.getString("mainTitleModifyTree");
+        title = titles.getString("mainTitleModifyTreeType");
         alertTitle = alerts.getString("UpdateCheckTitle");
         alertSubTitle = alerts.getString("UpdateCheckSubTitle");
         alertBody = alerts.getString("UpdateCheckBody");
